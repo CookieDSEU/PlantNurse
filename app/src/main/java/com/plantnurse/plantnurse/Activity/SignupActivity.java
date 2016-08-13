@@ -3,6 +3,8 @@ package com.plantnurse.plantnurse.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +28,23 @@ import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.SignupResponse;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 
 public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseAction {
 
-    private List<String> list_pro = new ArrayList<String>();
-    private List<String> list_sh = new ArrayList<String>();
-    private List<String> list_hb = new ArrayList<String>();
-    private List<String> list_gd = new ArrayList<String>();
-    private List<String> list_sx = new ArrayList<String>();
-    private List<String> list_js = new ArrayList<String>();
+
+    private List<String> provinceid, provincename;
+    private List<String> cityid, cityname;
+    private List<String> areaid, areaname;
     private List<String> list_career = new ArrayList<String>();
-
-    private ArrayAdapter<String> adapter_pro;
-    private ArrayAdapter<String> adapter_city;
     private ArrayAdapter<String> adapter_career;
-
+    private String citycode;
+    private String citycode_name;
+    private CityCodeDB citycodedb = null;
+    private SQLiteDatabase db = null;
     private Button button;
     private TextView text_id;
     private TextView text_pwd;
@@ -63,6 +64,17 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     @Override
     public int initLocalData() {
         loginParams = new HashMap<>();
+        provinceid = new ArrayList<String>();
+        provincename = new ArrayList<String>();
+        cityid = new ArrayList<String>();
+        cityname = new ArrayList<String>();
+        areaid = new ArrayList<String>();
+        areaname = new ArrayList<String>();
+        citycodedb = new CityCodeDB(SignupActivity.this);
+        db = citycodedb.getDatabase("data.db");
+        list_career.add("学生");
+        list_career.add("上班族");
+        list_career.add("居家人士");
         return 0;
     }
 
@@ -71,41 +83,12 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         button = (Button) findViewById(R.id.button_over);
         text_id = (TextView) findViewById(R.id.editText_id);
         text_pwd = (TextView) findViewById(R.id.editText_pwd);
-
         spinner_pro = (Spinner) findViewById(R.id.spinner_province);
         spinner_city = (Spinner) findViewById(R.id.spinner_city);
         spinner_career = (Spinner) findViewById(R.id.spinner_career);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("正在注册...");
 
-        //省份
-        list_pro.add("上海市");
-        list_pro.add("湖北省");
-        list_pro.add("广东省");
-        list_pro.add("山西省");
-        list_pro.add("江苏省");
-        //城市
-        list_sh.add("上海市");
-
-        list_hb.add("武汉市");
-        list_hb.add("黄石市");
-        list_hb.add("荆州市");
-
-        list_gd.add("汕头市");
-        list_gd.add("广州市");
-        list_gd.add("东莞市");
-
-        list_sx.add("阳泉市");
-        list_sx.add("太原市");
-        list_sx.add("晋城市");
-
-        list_js.add("南京市");
-        list_js.add("无锡市");
-        list_js.add("苏州市");
-
-        list_career.add("学生");
-        list_career.add("上班族");
-        list_career.add("居家人士");
     }
 
 
@@ -129,26 +112,10 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     public void initController() {
         id = text_id.getText().toString();//获取id
         pwd = text_pwd.getText().toString();//获取pwd
+        initProvinceSpinner(db);
 
-        //将可选内容与ArrayAdapter连接起来
-        adapter_pro = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_pro);
-        //为适配器设置下拉列表下拉时的菜单样式。
-        adapter_pro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //将适配器添加到下拉列表上
-        spinner_pro.setAdapter(adapter_pro);
 
-        //为下拉列表设置各种事件的响应，这个事响应菜单被选中
-        spinner_pro.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                province = adapter_pro.getItem(arg2);//获得省份
-                selectCity(arg2);
-                arg0.setVisibility(View.VISIBLE);
-            }
 
-            public void onNothingSelected(AdapterView<?> arg0) {
-                arg0.setVisibility(View.VISIBLE);
-            }
-        });
 
         adapter_career = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_career);
         adapter_career.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -201,38 +168,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     }
 
 
-    public void selectCity(int loc_id) {
-        switch (loc_id) {
-            case 0:
-                adapter_city = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_sh);
-                break;
-            case 1:
-                adapter_city = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_hb);
-                break;
-            case 2:
-                adapter_city = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_gd);
-                break;
-            case 3:
-                adapter_city = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_sx);
-                break;
-            case 4:
-                adapter_city = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_js);
-                break;
-        }
-        adapter_city.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_city.setAdapter(adapter_city);
-        spinner_city.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                city = adapter_city.getItem(arg2);//获得城市
-                arg0.setVisibility(View.VISIBLE);
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                arg0.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
     @Override
     public void onLoadingNetworkData() {
 
@@ -248,6 +183,88 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         return R.layout.activity_register;
     }
 
+    void initProvinceSpinner(SQLiteDatabase database) {
+        Cursor provincecursor = citycodedb.getAllProvince(database);
+
+        if (provincecursor != null) {
+            provinceid.clear();
+            provincename.clear();
+            if (provincecursor.moveToFirst()) {
+                do {
+                    String province_id = provincecursor
+                            .getString(provincecursor.getColumnIndex("id"));
+                    String province_name = provincecursor
+                            .getString(provincecursor.getColumnIndex("name"));
+                    provinceid.add(province_id);
+                    provincename.add(province_name);
+                } while (provincecursor.moveToNext());
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignupActivity.this,
+                android.R.layout.simple_spinner_item,
+                provincename);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_pro.setAdapter(adapter);
+
+        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View v,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                province =arg0.getItemAtPosition(position).toString();
+                initCitySpinner(db, provinceid.get(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        };
+
+        spinner_pro.setOnItemSelectedListener(listener);
+    }
+    void initCitySpinner(SQLiteDatabase database, String provinceid) {
+        Cursor citycursor = citycodedb.getCity(database, provinceid);
+        if (citycursor != null) {
+            cityid.clear();
+            cityname.clear();
+            if (citycursor.moveToFirst()) {
+                do {
+                    String city_id = citycursor.getString(citycursor
+                            .getColumnIndex("id"));
+                    String city_name = citycursor.getString(citycursor
+                            .getColumnIndex("name"));
+                    String province = citycursor.getString(citycursor
+                            .getColumnIndex("p_id"));
+                    cityid.add(city_id);
+                    cityname.add(city_name);
+                } while (citycursor.moveToNext());
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignupActivity.this,
+                android.R.layout.simple_spinner_item,
+                cityname);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_city.setAdapter(adapter);
+
+        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View v,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                city=arg0.getItemAtPosition(position).toString();
+                //initAreaSpinner(db, cityid.get(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        };
+        spinner_city.setOnItemSelectedListener(listener);
+    }
 
     public void signup() {
         progressDialog.show();
