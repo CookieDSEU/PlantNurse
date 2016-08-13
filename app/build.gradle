@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "com.plantnurse.plantnurse"
@@ -32,16 +32,17 @@ dependencies {
     compile project(':ksimplelibrary')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-   // compile 'com.google.android.gms:play-services:8.3.0'
- //   compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    // compile 'com.google.android.gms:play-services:8.3.0'
+    //   compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    compile 'com.android.support:support-v4:24.0.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     //  compile 'com.android.support:appcompat-v7:24.0.0'
     // compile 'com.android.support:cardview-v7:24.0.0'
     // compile 'com.android.support:support-v4:24.0.0'
-    // compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
     //compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:design:22.2.0'
-    compile 'com.android.support:cardview-v7:22.2.0'
+   // compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:design:24.1.1'
 }

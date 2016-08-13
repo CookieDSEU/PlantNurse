@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".Activity.AboutActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            android:hardwareAccelerated="false">
+            android:hardwareAccelerated="true">
 
         </activity>
 
