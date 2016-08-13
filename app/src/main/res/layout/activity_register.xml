@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup2"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.11" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.50"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="用户名:"
+                android:textSize="20sp"
+                android:id="@+id/textView_id"
+                android:textColor="#000000"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.05" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/editText_id"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.77"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="密码:"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:id="@+id/textView_pwd"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.11" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/editText_pwd"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.73"
+                android:inputType="textPassword"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:text="省份:"
+                android:textSize="20sp"
+                android:id="@+id/textView_loc"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.27" />
+            <Spinner
+                android:layout_width="178dp"
+                android:layout_height="40dp"
+                android:id="@+id/spinner_province"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.32" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:weightSum="1"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:text="城市:"
+                android:textSize="20sp"
+                android:id="@+id/textView_city"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.27" />
+            <Spinner
+                android:layout_width="178dp"
+                android:layout_height="40dp"
+                android:id="@+id/spinner_city"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.32" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="11dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:text="职业:"
+                android:textSize="20sp"
+                android:id="@+id/textView_career"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.27" />
+            <Spinner
+                android:layout_width="178dp"
+                android:layout_height="40dp"
+                android:id="@+id/spinner_career"
+                android:background="@drawable/editlayout"
+
+                android:layout_weight="0.32" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+        android:text="完成"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:background="@drawable/btnstyle2"
+        android:id="@+id/button_over"
+        android:layout_gravity="center_horizontal" /><![CDATA[
+
+    0.11" />
+
+]]>
+</LinearLayout>

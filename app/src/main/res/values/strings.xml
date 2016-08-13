@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PlantNurse</string>
+    <string name="can_not_find_version_name">找不到版本号</string>
+    <string name="app_html">https://github.com/CookieDSEU/PlantNurse</string>
+    <string name="alipay">1633470001@qq.com</string>
+    <string name="share_txt">欢迎使用“PlantNurse”</string>
+    <string name="share_app">分享-PlantNurse</string>
+    <string name="open_source">• 就看天气github.com/xcc3641/SeeWeather\n• KSimpleLibrary: github.com/kot32go/KSimpleLibrary\n• 和风天气提供数据支持\n• 高德定位提供位置定位服务</string>
+    <string name="aboutContent">东南大学软件学院大三实训作品\n本APP由Eason_Tao（71114315）构想并提出，在暑假期间与好友Cookie_D（71114324）完成了构架工作并于实训期间成立小组，与组员韩雪琛（71114302），陈钰璇（71114307），尹志超（71114328）共同完成开发任务，历时一个月。</string>
+</resources>

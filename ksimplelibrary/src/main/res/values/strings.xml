@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KSimpleLibrary</string>
+    <string name="kdrawer_open">打开</string>
+    <string name="kdrawer_close">关闭</string>
+</resources>
