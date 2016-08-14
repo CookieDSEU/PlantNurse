@@ -2,6 +2,11 @@ package com.plantnurse.plantnurse.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
+import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +28,7 @@ import java.util.HashMap;
 
 
 public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction{
-
+    private Toolbar toolbar;
     private Button button_signup;
     private Button button_login;
     private ProgressDialog progressDialog;
@@ -44,6 +49,22 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         text2=  (TextView) view.findViewById(R.id.pwd);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("正在登录...");
+        toolbar =(Toolbar)findViewById(R.id.signin_toolbar);
+        toolbar.setTitle("登录");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -63,15 +84,14 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         });
 
-        button_login.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v)
-            {
+        button_login.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 progressDialog.show();
-                String username=text.getText().toString();
-                String password=text2.getText().toString();
+                String username = text.getText().toString();
+                String password = text2.getText().toString();
                 loginParams.put("userName", username);
                 loginParams.put("password", password);
-                SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getApplicationContext(),
+                SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
                         LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
                     @Override
                     public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -105,6 +125,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         });
 
     }
+
 
     @Override
     public void onLoadingNetworkData() {

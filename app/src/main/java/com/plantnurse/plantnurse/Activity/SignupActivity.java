@@ -5,7 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,7 +38,7 @@ import com.plantnurse.plantnurse.utils.ToastUtil;
 
 public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseAction {
 
-
+    private Toolbar toolbar;
     private List<String> provinceid, provincename;
     private List<String> cityid, cityname;
     private List<String> areaid, areaname;
@@ -88,6 +91,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_career = (Spinner) findViewById(R.id.spinner_career);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("正在注册...");
+        toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
+        toolbar.setTitle("注册");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -295,5 +303,16 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

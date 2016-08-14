@@ -20,15 +20,15 @@ import com.plantnurse.plantnurse.utils.Util;
  * Created by Cookie_D on 2016/8/12.
  */
 public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseAction {
-    Toolbar toolbar;
-    CollapsingToolbarLayout toolbarLayout;
-    TextView tvVersion;
-    Button btCode;
-    Button btBlog;
-    Button btPay;
-    Button btShare;
-    Button btUpdate;
-    Button btBug;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout toolbarLayout;
+    private TextView tvVersion;
+    private Button btCode;
+    private Button btBlog;
+    private Button btPay;
+    private Button btShare;
+    private Button btUpdate;
+    private Button btBug;
 
     @Override
     public int initLocalData() {
@@ -123,5 +123,16 @@ public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseActio
         intent.setAction(Intent.ACTION_VIEW);           //指定Action
         intent.setData(uri);                            //设置Uri
         startActivity(intent);        //启动Activity
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
