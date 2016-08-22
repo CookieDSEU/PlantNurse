@@ -60,7 +60,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private String province;
     private String city;
     private String career;
-
+    //test
     private ProgressDialog progressDialog;
     private HashMap<String, String> loginParams;
 
