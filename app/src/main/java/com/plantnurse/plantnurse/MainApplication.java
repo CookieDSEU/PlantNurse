@@ -40,14 +40,8 @@ public class MainApplication extends KSimpleApplication  {
         String token = usermodel.gettoken();
         HashMap<String, String> loginParams = new HashMap<>();
         /*从缓存中取出用户名密码并放入*/
-        if (username != null) {
             loginParams.put("userName", username);
             loginParams.put("token", token);
-        }
-        else{
-            loginParams.put("userName", "blank");
-            loginParams.put("token", "blank");
-        }
             return new LoginTask(getTaskTag(), this,
                     LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
                 @Override

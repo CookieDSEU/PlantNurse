@@ -172,7 +172,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
     @Override
     public void onLoadingNetworkData() {
-        SimpleTaskManager.startNewTask(getSimpleApplicationContext().getLoginTask());
+        //SimpleTaskManager.startNewTask(getSimpleApplicationContext().getLoginTask());
 
     }
 
