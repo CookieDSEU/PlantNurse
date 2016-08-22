@@ -17,75 +17,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_3">
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/logo2"
-            android:layout_marginBottom="51dp"
-            android:layout_above="@+id/username_layout"
-            android:layout_centerHorizontal="true" />
+        android:background="@drawable/login_10">
+        <!--<ImageView-->
+            <!--android:layout_width="140dp"-->
+            <!--android:layout_height="140dp"-->
+            <!--android:id="@+id/imageView"-->
+            <!--android:src="@drawable/logo2"-->
+            <!--android:layout_marginBottom="51dp"-->
+            <!--android:layout_above="@+id/username_layout"-->
+            <!--android:layout_centerHorizontal="true" />-->
 
         <LinearLayout
             android:id="@+id/username_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="left|center_vertical"
-                android:src="@drawable/user2"
-                android:visibility="visible" />
-
-            <EditText
-                android:id="@+id/userID"
-                android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:hint="请输入您的用户名"
-                android:background="@drawable/editlayout"
-                android:paddingEnd="60dp"
-                android:maxLength="20"
-                android:paddingStart="55dp"
-                android:layout_gravity="center">
-            </EditText>
             <!--android:background="#FFFFFF"-->
 
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/usercode_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/username_layout"
-            android:layout_marginTop="6dp"
-            android:gravity="center" >
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_gravity="left|center_vertical"
-                android:background="@drawable/pwd2"
-                android:visibility="visible" />
-            <EditText
-                android:id="@+id/pwd"
-                android:background="@drawable/editlayout"
-                android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:hint="请输入您的密码"
-                android:inputType="textPassword"
-                android:paddingEnd="60dp"
-                android:maxLength="20"
-                android:paddingStart="55dp"
-                android:layout_gravity="center">
-             </EditText>
-
-    </LinearLayout>
 
         <Button
             android:layout_width="120dp"
@@ -96,31 +50,79 @@
             android:background="@drawable/btnstyle1"
             android:textColor="#ffffff"
             android:textSize="25sp"
-            android:layout_marginTop="31dp"
-            android:layout_below="@+id/usercode_layout"
-            android:layout_centerHorizontal="true" />
-            <!--android:background="#a2c6e6"-->
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="80dp"
-            android:textSize="20sp"
-            android:layout_height="wrap_content"
-            android:text="注册"
-            android:id="@+id/register_button"
-            android:layout_alignParentBottom="true"
-            android:textColor="#ffffff"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignTop="@+id/username_layout"
+            android:layout_alignLeft="@+id/pwd"
+            android:layout_alignStart="@+id/pwd" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="80dp"
-            android:textSize="20sp"
-            android:layout_height="wrap_content"
-            android:text="问题"
-            android:id="@+id/question_button"
-            android:layout_alignTop="@+id/register_button"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:textSize="25sp"
+            android:background="@drawable/btnstyle1"
+            android:text="注册"
+
+            android:id="@+id/register_button"
             android:textColor="#ffffff"
-            android:layout_alignParentStart="true" />
+            android:allowUndo="false"
+            android:layout_alignTop="@+id/username_layout"
+            android:layout_alignRight="@+id/pwd"
+            android:layout_alignEnd="@+id/pwd" />
+
+
+        <EditText
+            android:id="@+id/userID"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:hint="请输入您的用户名"
+            android:background="@drawable/editlayout"
+            android:paddingEnd="60dp"
+            android:maxLength="20"
+            android:paddingStart="55dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="26dp"
+            android:layout_above="@+id/pwd"
+            android:layout_centerHorizontal="true">
+        </EditText>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/user2"
+            android:visibility="visible"
+            android:id="@+id/imageView"
+            android:layout_alignBottom="@+id/userID"
+            android:layout_toLeftOf="@+id/userID"
+            android:layout_toStartOf="@+id/userID" />
+
+        <EditText
+            android:id="@+id/pwd"
+            android:background="@drawable/editlayout"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:hint="请输入您的密码"
+            android:inputType="textPassword"
+            android:paddingEnd="60dp"
+            android:maxLength="20"
+            android:paddingStart="55dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="29dp"
+            android:layout_above="@+id/login_button"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView">
+         </EditText>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/pwd2"
+            android:visibility="visible"
+            android:id="@+id/imageView2"
+            android:layout_alignBottom="@+id/pwd"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView" />
 
 
     </RelativeLayout>
