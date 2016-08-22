@@ -14,12 +14,14 @@ import android.widget.Toast;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.cache.ACache;
+import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
 import com.plantnurse.plantnurse.utils.ToastUtil;
@@ -31,8 +33,6 @@ public class MainActivity extends KTabActivity implements IBaseAction{
     private List<Fragment> fragmentList=new ArrayList<>();
     private android.support.v7.widget.Toolbar toolbar;
     private DrawerLayout drawer;
-    private ACache mCache;
-    private String checkLogin;
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
@@ -59,8 +59,6 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
     @Override
     public void initView(ViewGroup view) {
-
-        mCache = ACache.get(MainActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar.setTitleTextColor(0xffffffff);
         }
@@ -72,9 +70,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
             @Override
             public void onClick(View v) {
                 //判断当前是否登录
-                mCache = ACache.get(MainActivity.this);
-                checkLogin=mCache.getAsString("userName");
-                if (checkLogin!=null) {
+                if (getSimpleApplicationContext().isLogined()) {
 
                     Toast.makeText(MainActivity.this, "已登录,查看并修改用户信息", Toast.LENGTH_SHORT).show();
 
@@ -97,19 +93,14 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                 .addDrawerSubItem(null, "注销", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mCache = ACache.get(MainActivity.this);
-                        checkLogin = mCache.getAsString("userName");
-                        if (checkLogin == null) {
+                        if (!getSimpleApplicationContext().isLogined()) {
                             Toast.makeText(MainActivity.this, "你还没有登录", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         getSimpleApplicationContext().logout();
 
-                        mCache.remove("userName");
-                        mCache.remove("token");
-                        checkLogin = mCache.getAsString("userName");
 
-                        if (checkLogin == null) {
+                        if (!getSimpleApplicationContext().isLogined()) {
                             Toast.makeText(MainActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
                             /*刷新界面*/
                             finish();
@@ -122,9 +113,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                     @Override
                     public void onClick(View v) {
                         //判断当前是否登录
-                        mCache = ACache.get(MainActivity.this);
-                        checkLogin=mCache.getAsString("userName");
-                        if (checkLogin!=null) {
+                        if (getSimpleApplicationContext().isLogined()) {
 
                             Toast.makeText(MainActivity.this, "你已经注册过了！", Toast.LENGTH_SHORT).show();
 
@@ -149,10 +138,9 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                     @Override
                     public void onDrawerOpened(View kDrawerView) {
                         //打开了侧滑菜单
-                        mCache = ACache.get(MainActivity.this);
-                        checkLogin=mCache.getAsString("userName");
-                        if (checkLogin!=null) {
-                            header.changeNickName(checkLogin);
+                        if (getSimpleApplicationContext().isLogined()) {
+                            UserInfo userInfo=(UserInfo)PreferenceManager.getLocalUserModel();
+                            header.changeNickName(userInfo.getuserName());
                             header.changeAvatorURL(Constants.AVATAR_URL);
                             header.changeIntroduction("正式用户");
                         }else{
@@ -184,7 +172,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
     @Override
     public void onLoadingNetworkData() {
-        SimpleTaskManager.startNewTask(getSimpleApplicationContext().getLoginTask());
+        //SimpleTaskManager.startNewTask(getSimpleApplicationContext().getLoginTask());
 
     }
 
