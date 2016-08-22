@@ -101,19 +101,19 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
 
     //软键盘返回键实现页面跳转
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent intent = new Intent();
-            intent.setClass(SignupActivity.this, SigninActivity.class);
-            SignupActivity.this.startActivity(intent);
-            SignupActivity.this.finish();
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+//            Intent intent = new Intent();
+//            intent.setClass(SignupActivity.this, SigninActivity.class);
+//            SignupActivity.this.startActivity(intent);
+//            SignupActivity.this.finish();
+//            return false;
+//        } else {
+//            return super.onKeyDown(keyCode, event);
+//        }
+//
+//    }
 
 
     @Override
