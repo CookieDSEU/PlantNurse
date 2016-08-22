@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.kot32.ksimplelibrary.KSimpleApplication;
 import com.kot32.ksimplelibrary.cache.ACache;
+import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.LoginTask;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
@@ -12,6 +13,7 @@ import com.kot32.ksimplelibrary.model.response.BaseResponse;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Network.LoginResponse;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 
 import java.util.HashMap;
@@ -33,9 +35,9 @@ public class MainApplication extends KSimpleApplication  {
 
     @Override
     public SimpleTask getLoginTask() {
-        mCache = ACache.get(this);/*检查缓存中是否有用户名密码*/
-        String username = mCache.getAsString("userName");
-        String token = mCache.getAsString("token");
+        UserInfo usermodel=(UserInfo)getUserModel();
+        String username = usermodel.getuserName();
+        String token = usermodel.gettoken();
         HashMap<String, String> loginParams = new HashMap<>();
         /*从缓存中取出用户名密码并放入*/
         if (username != null) {
@@ -53,9 +55,15 @@ public class MainApplication extends KSimpleApplication  {
                     LoginResponse loginResponse = (LoginResponse) baseResponse;
                     if (loginResponse.getresponseCode() == 1) {
                     /*自动登录后主动刷新缓存*/
-                        mCache.put("userName", loginResponse.getuserName(), 7 * ACache.TIME_DAY);
-                        mCache.put("token", loginResponse.gettoken(), 7 * ACache.TIME_DAY);
                         Toast.makeText(getApplicationContext(), "自动登录成功", Toast.LENGTH_SHORT).show();
+                        UserInfo ui=new UserInfo();
+                        ui.setuserName(loginResponse.getuserName());
+                        ui.setProvince(loginResponse.getprovince());
+                        ui.setcareer(loginResponse.getcareer());
+                        ui.setcity(loginResponse.getcity());
+                        ui.settoken(loginResponse.gettoken());
+                        PreferenceManager.setLocalUserModel(ui);
+                        setUserModel(ui);
                         return true;
                     }
                     return false;
@@ -80,5 +88,4 @@ public class MainApplication extends KSimpleApplication  {
         return mAppContext;
     }
 
-    //pull test 2
 }

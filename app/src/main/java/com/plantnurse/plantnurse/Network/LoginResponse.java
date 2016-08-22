@@ -12,4 +12,7 @@ public class LoginResponse extends BaseResponse {
     }
     public String getuserName() {return userInfo.getuserName();}
     public String gettoken() {return userInfo.gettoken();}
+    public String getcity(){return userInfo.getcity();}
+    public String getcareer(){return userInfo.getcareer();}
+    public String getprovince(){return userInfo.getprovince();}
 }

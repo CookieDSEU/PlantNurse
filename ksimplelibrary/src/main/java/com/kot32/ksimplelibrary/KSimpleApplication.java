@@ -80,7 +80,7 @@ public abstract class KSimpleApplication extends Application {
             Log.e("警告", "本地加载用户数据文件失败");
             onInitLocalUserModelFailed();
         } else {
-            SimpleTaskManager.startNewTask(getLoginTask());
+            //SimpleTaskManager.startNewTask(getLoginTask());
         }
 
         Fresco.initialize(this);
