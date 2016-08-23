@@ -21,7 +21,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initView(ViewGroup view) {
-        temp=(TextView) view.findViewById(R.id.textView_park);
+
     }
 
     @Override
