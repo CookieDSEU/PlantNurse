@@ -16,11 +16,13 @@ import android.widget.Toast;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.cache.ACache;
+import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
@@ -98,9 +100,14 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                         LoginResponse loginResponse = (LoginResponse) result.resultObject;
                         if (loginResponse.getresponseCode() == 1) {
                             ToastUtil.showLong("登录成功");
-                            ACache mCache = ACache.get(SigninActivity.this);
-                            mCache.put("userName", loginResponse.getuserName(), 7 * ACache.TIME_DAY);
-                            mCache.put("token", loginResponse.gettoken(), 7 * ACache.TIME_DAY);
+                            UserInfo ui=new UserInfo();
+                            ui.setuserName(loginResponse.getuserName());
+                            ui.setProvince(loginResponse.getprovince());
+                            ui.setcareer(loginResponse.getcareer());
+                            ui.setcity(loginResponse.getcity());
+                            ui.settoken(loginResponse.gettoken());
+                            PreferenceManager.setLocalUserModel(ui);
+                            getSimpleApplicationContext().setUserModel(ui);
                             finish();
                             progressDialog.dismiss();
                         } else if (loginResponse.getresponseCode() == 0) {

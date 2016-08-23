@@ -65,6 +65,10 @@ public class PreferenceManager {
         checkIfNull();
         cache.put(KEY_LOCAL_USER_MODEL, userModel, DEFAULT_SAVE_TIME);
     }
+    public static void deleteLocalUserModel(){
+        checkIfNull();
+        cache.remove(KEY_LOCAL_USER_MODEL);
+    }
 
     private static void checkIfNull() {
         if (systemUtil == null || cache == null) {

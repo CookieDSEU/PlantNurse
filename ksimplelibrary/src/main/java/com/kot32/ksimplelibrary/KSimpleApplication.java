@@ -93,7 +93,8 @@ public abstract class KSimpleApplication extends Application {
     //注销
     public void logout() {
         userModel = null;
-        PreferenceManager.setLocalUserModel(new BaseUserModel(){});
+        //PreferenceManager.setLocalUserModel(new BaseUserModel(){});
+        PreferenceManager.deleteLocalUserModel();
     }
 
 }
