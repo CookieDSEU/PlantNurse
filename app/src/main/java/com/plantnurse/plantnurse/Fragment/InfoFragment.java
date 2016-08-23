@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.plantnurse.plantnurse.R;
 
 /**
  * Created by Eason_Tao on 2016/8/22.
@@ -37,6 +38,6 @@ public class InfoFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public int getContentLayoutID() {
-        return 0;
+        return R.layout.activity_login;
     }
 }
