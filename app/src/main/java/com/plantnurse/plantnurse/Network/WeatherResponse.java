@@ -1,6 +1,7 @@
 package com.plantnurse.plantnurse.Network;
 
 import com.google.gson.annotations.SerializedName;
+import com.kot32.ksimplelibrary.model.domain.BaseUserModel;
 import com.kot32.ksimplelibrary.model.response.BaseResponse;
 import java.io.Serializable;
 import java.util.List;

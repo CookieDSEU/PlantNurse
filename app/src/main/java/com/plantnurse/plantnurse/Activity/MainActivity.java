@@ -15,18 +15,26 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
+import com.plantnurse.plantnurse.Fragment.InfoFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
+import com.plantnurse.plantnurse.Network.WeatherAPI;
+import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
 import com.plantnurse.plantnurse.utils.ToastUtil;
+import com.plantnurse.plantnurse.utils.WeatherManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends KTabActivity implements IBaseAction{
@@ -36,8 +44,8 @@ public class MainActivity extends KTabActivity implements IBaseAction{
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
-        fragmentList.add(new  ParkFragment());
-        fragmentList.add(new  ParkFragment());
+        fragmentList.add(new InfoFragment());
+        fragmentList.add(new InfoFragment());
         return fragmentList;
     }
 
@@ -72,7 +80,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                 //判断当前是否登录
                 if (getSimpleApplicationContext().isLogined()) {
 
-                    Toast.makeText(MainActivity.this, "已登录,查看并修改用户信息", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShort("已登录,查看并修改用户信息");
 
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
@@ -94,18 +102,18 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                     @Override
                     public void onClick(View v) {
                         if (!getSimpleApplicationContext().isLogined()) {
-                            Toast.makeText(MainActivity.this, "你还没有登录", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showShort("你还没有登录");
                             return;
                         }
                         getSimpleApplicationContext().logout();
 
 
                         if (!getSimpleApplicationContext().isLogined()) {
-                            Toast.makeText(MainActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showShort("注销成功");
                             /*刷新界面*/
                             finish();
                             Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            startActivityForResult(intent, 1);
+                            startActivity(intent);
                         }
                     }
                 })
@@ -115,7 +123,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                         //判断当前是否登录
                         if (getSimpleApplicationContext().isLogined()) {
 
-                            Toast.makeText(MainActivity.this, "你已经注册过了！", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showShort("你已经注册过了！");
 
                         } else {
                             Intent intent = new Intent(MainActivity.this, SignupActivity.class);
@@ -172,8 +180,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
     @Override
     public void onLoadingNetworkData() {
-        //SimpleTaskManager.startNewTask(getSimpleApplicationContext().getLoginTask());
-
+        getWeatherInfo();
     }
 
     @Override
@@ -199,4 +206,47 @@ public class MainActivity extends KTabActivity implements IBaseAction{
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWeatherInfo();
+    }
+    public void getWeatherInfo(){
+        HashMap<String, String> params = new HashMap<String, String>();
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+            params.put("key", Constants.WEATHER_KEY);
+            params.put("city", userInfo.getcity());
+        }
+        else{
+            params.put("key", Constants.WEATHER_KEY);
+            params.put("city","北京");
+
+        }
+
+            SimpleTaskManager.startNewTask(new NetworkTask(
+                    getTaskTag(),
+                    getSimpleApplicationContext(),
+                    WeatherAPI.class,
+                    params,
+                    Constants.WEATHER_API_URL,
+                    NetworkTask.GET) {
+                @Override
+                public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                    WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
+                    WeatherResponse weatherInfo = weatherAPI.response.get(0);
+                    WeatherManager.setWeatherInfo(weatherInfo);
+                }
+
+                @Override
+                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                }
+            });
+
+
+    }
+
+
 }
