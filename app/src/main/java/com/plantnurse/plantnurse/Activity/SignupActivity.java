@@ -282,6 +282,8 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
                     finish();
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    startActivity(intent);
                     progressDialog.dismiss();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");

@@ -85,6 +85,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
                     startActivity(intent);
+                    finish();
                     if (drawer != null) {
                         drawer.closeDrawers();
                     }
@@ -127,7 +128,8 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
                         } else {
                             Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                            startActivityForResult(intent, 1);
+                            startActivity(intent);
+                            finish();
                             if (drawer != null) {
                                 drawer.closeDrawers();
                             }
@@ -210,7 +212,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
     @Override
     protected void onResume() {
         super.onResume();
-        getWeatherInfo();
+       // getWeatherInfo();
     }
     public void getWeatherInfo(){
         HashMap<String, String> params = new HashMap<String, String>();
