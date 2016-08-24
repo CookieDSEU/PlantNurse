@@ -21,14 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.50"
-        android:background="@drawable/signup2"
+        android:background="@drawable/signup_5"
         android:weightSum="1">
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="88dp"
+        android:layout_height="33dp"
         android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.11" />
+        android:layout_gravity="center_horizontal" />
 
 
 
@@ -196,15 +195,10 @@
             android:text="完成"
             android:textColor="#ffffff"
             android:textSize="25sp"
-            android:background="@drawable/btnstyle2"
+            android:background="@drawable/btnstyle1"
             android:id="@+id/button_over"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp" /><![CDATA[
-
-    0.11" />
-
-]]>
-
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 
 

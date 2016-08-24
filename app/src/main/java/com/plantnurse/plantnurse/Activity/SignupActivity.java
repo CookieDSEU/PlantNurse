@@ -25,12 +25,14 @@ import android.widget.Toast;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.cache.ACache;
+import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.SignupResponse;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
@@ -44,8 +46,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private List<String> areaid, areaname;
     private List<String> list_career = new ArrayList<String>();
     private ArrayAdapter<String> adapter_career;
-    private String citycode;
-    private String citycode_name;
     private CityCodeDB citycodedb = null;
     private SQLiteDatabase db = null;
     private Button button;
@@ -99,21 +99,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     }
 
-
-    //软键盘返回键实现页面跳转
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent intent = new Intent();
-            intent.setClass(SignupActivity.this, SigninActivity.class);
-            SignupActivity.this.startActivity(intent);
-            SignupActivity.this.finish();
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-
-    }
 
 
     @Override
@@ -288,10 +273,17 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 SignupResponse signupResponse = (SignupResponse) result.resultObject;
                 if (signupResponse.getresponseCode() == 1) {
                     ToastUtil.showShort("注册成功");
-                    ACache mCache = ACache.get(SignupActivity.this);
-                    mCache.put("userName", signupResponse.getuserName(), 7 * ACache.TIME_DAY);
-                    mCache.put("token", signupResponse.gettoken(), 7 * ACache.TIME_DAY);
+                    UserInfo ui=new UserInfo();
+                    ui.setuserName(id);
+                    ui.setProvince(pwd);
+                    ui.setcareer(career);
+                    ui.setcity(city);
+                    ui.settoken(signupResponse.gettoken());
+                    PreferenceManager.setLocalUserModel(ui);
+                    getSimpleApplicationContext().setUserModel(ui);
                     finish();
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    startActivity(intent);
                     progressDialog.dismiss();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");
