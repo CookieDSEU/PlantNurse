@@ -109,6 +109,8 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                             PreferenceManager.setLocalUserModel(ui);
                             getSimpleApplicationContext().setUserModel(ui);
                             finish();
+                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                            startActivity(intent);
                             progressDialog.dismiss();
                         } else if (loginResponse.getresponseCode() == 0) {
                             ToastUtil.showShort("登录失败：请先注册");
