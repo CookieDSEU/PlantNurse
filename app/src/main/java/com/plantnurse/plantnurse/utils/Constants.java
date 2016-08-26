@@ -8,5 +8,5 @@ public class Constants {
     public static final String WEATHER_API_URL="https://api.heweather.com/x3/weather";
     public static final String SIGNIN_URL="http://www.plantnurse.top/login.php";
     public static final String SIGNUP_URL="http://www.plantnurse.top/signup.php";
-    public static final String AVATAR_URL="http://www.plantnurse.top/avatar/avatar.png";
+    public static final String AVATAR_URL="http://www.plantnurse.top/avatar/avatar.php";
 }

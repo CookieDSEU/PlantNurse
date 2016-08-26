@@ -79,8 +79,10 @@ public class MainActivity extends KTabActivity implements IBaseAction{
             public void onClick(View v) {
                 //判断当前是否登录
                 if (getSimpleApplicationContext().isLogined()) {
-
-                    ToastUtil.showShort("已登录,查看并修改用户信息");
+                    //关闭drawer
+                    drawer.closeDrawer(GravityCompat.START);
+                    //跳转到“我的”fragement
+                    getContainer().setCurrentItem(2);
 
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
@@ -151,7 +153,8 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                         if (getSimpleApplicationContext().isLogined()) {
                             UserInfo userInfo=(UserInfo)PreferenceManager.getLocalUserModel();
                             header.changeNickName(userInfo.getuserName());
-                            header.changeAvatorURL(Constants.AVATAR_URL);
+                            String temp=Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+                            header.changeAvatorURL(temp);
                             header.changeIntroduction("正式用户");
                         }else{
                             header.changeNickName("未登录");
