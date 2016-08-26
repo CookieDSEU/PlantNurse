@@ -26,13 +26,13 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/ava_imv"
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:id="@+id/ava_img"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:clickable="true"
-                        android:scaleType="fitXY"
+
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/avatar" />
 
                     <TextView

@@ -21,6 +21,7 @@ import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
+import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
@@ -32,7 +33,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private String urlpath;			// 图片本地路径
     private String resultStr = "";	// 服务端返回结果集
     private static ProgressDialog pd;// 等待进度圈
-    private ImageView avatarview;
+    private CircleImg avatarview;
     private TextView usnview;
     private MainApplication mApp;
     private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
@@ -78,7 +79,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                 }
                 break;
             case REQUESTCODE_TAKE:// 调用相机拍照
-                File temp = new File(Environment.getExternalStorageDirectory() + "/avatar/" + IMAGE_FILE_NAME);
+                File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                 startPhotoZoom(Uri.fromFile(temp));
                 break;
             case REQUESTCODE_CUTTING:// 取得裁剪后的图片
@@ -132,7 +133,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     @Override
     public void initView(ViewGroup view) {
 
-        avatarview=(ImageView)view.findViewById(R.id.ava_imv);
+        avatarview=(CircleImg) view.findViewById(R.id.ava_img);
         usnview=(TextView)view.findViewById(R.id.usn_txv);
     }
 
