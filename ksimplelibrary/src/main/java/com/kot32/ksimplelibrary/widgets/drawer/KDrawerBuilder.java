@@ -266,7 +266,7 @@ public class KDrawerBuilder {
         title.setTextColor(textColor);
         title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         title.getPaint().setFakeBoldText(true);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, mItemDefaultHeight / 3.5f);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mItemDefaultHeight / 10f);
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mItemDefaultHeight);
         titleParams.setMargins(50, 0, 0, 0);
 
