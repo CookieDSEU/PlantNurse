@@ -4,17 +4,26 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.FloatEvaluator;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.kot32.ksimplelibrary.R;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.util.tools.DisplayUtil;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 /**
  * Created by kot32 on 15/10/18.
@@ -73,9 +82,40 @@ public abstract class KSplashActivity extends KSimpleBaseActivityImpl {
         });
 
         objectAnimator.start();
-
+           /* create by Heloise
+            在进入程序之前，先判断是否联网
+            为联网则弹出AlertDialog提示尚未联网
+            程序退出
+           */
+        if(getLocalIpAddress()==null){
+            AlertDialog waringDialog=new AlertDialog.Builder(this).setTitle
+                    ("Warning").setMessage("糟糕，没有网了！").setNegativeButton
+                    (R.string.kdrawer_close, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    }).create();
+            waringDialog.show();
+        }
     }
-
+    //判断是否联网，ip地址为空则尚未联网
+    public String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress().toString();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e("网络未连接",ex.toString());
+        }
+        return null;
+    }
 
     abstract public void init();
 
