@@ -9,20 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
-import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
-import com.plantnurse.plantnurse.Fragment.InfoFragment;
+import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
@@ -44,8 +41,8 @@ public class MainActivity extends KTabActivity implements IBaseAction{
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
-        fragmentList.add(new InfoFragment());
-        fragmentList.add(new InfoFragment());
+        fragmentList.add(new MyFragment());
+        fragmentList.add(new MyFragment());
         return fragmentList;
     }
 
@@ -139,13 +136,13 @@ public class MainActivity extends KTabActivity implements IBaseAction{
                     }
                 })
                 .addDrawerDivider(Color.parseColor("#f1f2f1"))
-                .addDrawerSubItem("", "关于本软件", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.ic_about, "关于本软件", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
                     }
                 })
-                .addDrawerSubItem("", "检查更新", null, null)
+                .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, null)
                 .withDrawerAction(new KDrawerBuilder.DrawerAction() {
                     @Override
                     public void onDrawerOpened(View kDrawerView) {
