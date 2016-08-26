@@ -45,6 +45,9 @@ public abstract class KTabActivity extends KSimpleBaseActivityImpl implements IB
         init();
     }
 
+    public KNoScrollViewPager getContainer(){
+        return container;
+    }
     private void init() {
 
         fragmentList = getFragmentList();

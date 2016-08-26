@@ -49,7 +49,6 @@ public class MainApplication extends KSimpleApplication  {
                     LoginResponse loginResponse = (LoginResponse) baseResponse;
                     if (loginResponse.getresponseCode() == 1) {
                     /*自动登录后主动刷新缓存*/
-                        Toast.makeText(getApplicationContext(), "自动登录成功", Toast.LENGTH_SHORT).show();
                         UserInfo ui=new UserInfo();
                         ui.setuserName(loginResponse.getuserName());
                         ui.setProvince(loginResponse.getprovince());
