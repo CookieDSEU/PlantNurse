@@ -18,10 +18,11 @@ import com.plantnurse.plantnurse.utils.Constants;
 
 import java.util.HashMap;
 
-
+/**
+ * Created by Cookie_D on 2016/8/13.
+ */
 public class MainApplication extends KSimpleApplication  {
 
-    private ACache mCache;
     public static Context mAppContext = null;
     @Override
     public void initLocalPreference(HashMap<String, ?> dataMap) {

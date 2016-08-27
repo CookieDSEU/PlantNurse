@@ -1,7 +1,5 @@
 package com.plantnurse.plantnurse.Fragment;
 
-import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,9 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.WeatherManager;
 
-import java.sql.Wrapper;
-
-
+/**
+ * Created by Eason_Tao on 2016/8/26.
+ */
 public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
     //view
     private TextView text_Tmp;

@@ -3,7 +3,9 @@ package com.plantnurse.plantnurse.Network;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.kot32.ksimplelibrary.model.response.BaseResponse;
 
-
+/**
+ * Created by Cookie_D on 2016/8/13.
+ */
 public class LoginResponse extends BaseResponse {
     private int responseCode;
     private UserInfo userInfo;
