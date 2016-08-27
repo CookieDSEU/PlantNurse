@@ -2,7 +2,9 @@ package com.plantnurse.plantnurse.model;
 
 import com.kot32.ksimplelibrary.model.domain.BaseUserModel;
 
-
+/**
+ * Created by Eason_Tao on 2016/8/12.
+ */
 public class UserInfo implements BaseUserModel {
     private String userName;
     private String province;

@@ -2,8 +2,6 @@ package com.plantnurse.plantnurse.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -11,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
-import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
@@ -28,7 +24,9 @@ import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.util.HashMap;
 
-
+/**
+ * Created by Cookie_D on 2016/8/12.
+ */
 public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction{
     private Toolbar toolbar;
     private Button button_signup;

@@ -28,7 +28,9 @@ import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.Util;
 
 import java.io.File;
-
+/**
+ * Created by Cookie_D on 2016/8/26.
+ */
 public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private String urlpath;			// 图片本地路径
     private String resultStr = "";	// 服务端返回结果集
