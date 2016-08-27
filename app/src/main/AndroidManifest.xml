@@ -20,6 +20,10 @@
 
 
         </activity>
+        <activity android:name=".Activity.AddplantActivity">
+
+
+        </activity>
         <activity android:name=".Activity.SignupActivity"
             android:windowSoftInputMode="adjustResize|stateHidden">
 
