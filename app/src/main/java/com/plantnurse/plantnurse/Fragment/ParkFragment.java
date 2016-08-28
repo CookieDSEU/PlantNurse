@@ -1,5 +1,6 @@
 package com.plantnurse.plantnurse.Fragment;
 
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import com.plantnurse.plantnurse.utils.ListDialog;
 import com.plantnurse.plantnurse.utils.WeatherAdapter;
 import com.plantnurse.plantnurse.utils.WeatherManager;
 
+
 import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +44,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
+
+/**
+ * Created by Eason_Tao on 2016/8/26.
+ */
 
 public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
     //view
