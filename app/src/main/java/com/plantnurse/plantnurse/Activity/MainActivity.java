@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
+import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
@@ -199,6 +200,8 @@ public class MainActivity extends KTabActivity implements IBaseAction{
         vg.addView(toolbar, 0);
         return vg;
     }
+
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -252,6 +255,7 @@ public class MainActivity extends KTabActivity implements IBaseAction{
 
 
     }
+
 
 
 }
