@@ -106,9 +106,11 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                             ui.settoken(loginResponse.gettoken());
                             PreferenceManager.setLocalUserModel(ui);
                             getSimpleApplicationContext().setUserModel(ui);
+                            Intent in=getIntent();
+                            setResult(RESULT_OK,in);
+//                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+//                            startActivity(intent);
                             finish();
-                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-                            startActivity(intent);
                             progressDialog.dismiss();
                         } else if (loginResponse.getresponseCode() == 0) {
                             ToastUtil.showShort("登录失败：请先注册");
@@ -147,5 +149,12 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     @Override
     public int getContentLayoutID() {
         return R.layout.activity_login;
+    }
+
+    //按返回键，返回MainActivity界面,关闭当前页面
+    public void onBackPressed() {
+       Intent in=getIntent();
+        setResult(RESULT_OK,in);
+        finish();
     }
 }
