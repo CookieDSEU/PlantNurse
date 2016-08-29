@@ -126,8 +126,13 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_career.setSelection(1);
         spinner_career.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                career = adapter_career.getItem(arg2);//获得职业
-                arg0.setVisibility(View.VISIBLE);
+                if(arg2==-1){
+                    spinner_career.setSelection(0);
+                }
+                else {
+                    career = adapter_career.getItem(arg2);//获得职业
+                    arg0.setVisibility(View.VISIBLE);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -219,8 +224,13 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                province =arg0.getItemAtPosition(position).toString();
-                initCitySpinner(db, provinceid.get(position).toString());
+                if(position==-1){
+                    spinner_pro.setSelection(0);
+                }
+                else {
+                    province = arg0.getItemAtPosition(position).toString();
+                    initCitySpinner(db, provinceid.get(position).toString());
+                }
             }
 
             @Override
@@ -265,8 +275,13 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                city=arg0.getItemAtPosition(position).toString();
-                //initAreaSpinner(db, cityid.get(position).toString());
+                if(position==-1){
+                    spinner_city.setSelection(0);
+                }
+                else {
+                    city = arg0.getItemAtPosition(position).toString();
+                    //initAreaSpinner(db, cityid.get(position).toString());
+                }
             }
 
             @Override
