@@ -24,6 +24,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden">
 
         </activity>
+        <activity android:name=".Activity.AddClockActivity"></activity>
         <activity android:name=".Activity.AboutActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:hardwareAccelerated="true">

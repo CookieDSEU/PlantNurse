@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@drawable/bg_test1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="556dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:background="@drawable/bg_chooseplant"
+                android:layout_weight="0.20">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="94dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="1dp">
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/button_plant1"
+                            android:background="@drawable/clock_clock"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp" />
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/button_plant2"
+                            android:background="@drawable/leaficon"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_margin="10dp" />
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/button_plant3"
+                            android:background="@drawable/leaficon"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/button_plant4"
+                            android:background="@drawable/leaficon"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="10dp"/>
+
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/button_plant5"
+                            android:background="@drawable/leaficon"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="10dp"/>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="0.15"
+                android:background="@drawable/bg_choosetime">
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numberPicker_AMPM"
+                    android:layout_weight="1"
+                    android:layout_marginRight="20dp"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="55dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numberPicker_hour"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_marginBottom="10dp" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numberPicker_minute"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="55dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_chooserepeat"
+                android:layout_marginTop="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="100dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/everyday1"
+                        android:id="@+id/image_everyday"
+                        android:layout_marginLeft="110dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.00"
+                        android:background="@drawable/view_everyday_click"
+                        android:clickable="true" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/weekend1"
+                        android:id="@+id/image_weekend"
+                        android:layout_weight="0.00"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/button_other"
+                android:background="@drawable/button_other_click"
+                android:layout_marginTop="30dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/button_ok"
+                android:layout_weight="0.79"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button_ok_click"
+                android:layout_marginBottom="50dp" />
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</LinearLayout>

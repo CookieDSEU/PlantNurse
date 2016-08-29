@@ -281,9 +281,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     ui.settoken(signupResponse.gettoken());
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
+                   // Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                   // startActivity(intent);
+                    Intent in=getIntent();
+                    setResult(RESULT_OK,in);
                     finish();
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(intent);
                     progressDialog.dismiss();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");
@@ -306,5 +308,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+//按返回键，跳转回MainActivity界面
+    public void onBackPressed() {
+        Intent in=getIntent();
+        setResult(RESULT_CANCELED,in);
+        finish();
     }
 }
