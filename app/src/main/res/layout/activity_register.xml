@@ -45,7 +45,7 @@
                 android:id="@+id/textView_id"
                 android:textColor="#000000"
                 android:paddingStart="40dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="right"
                 android:paddingTop="5dp"
                 android:layout_weight="0.05" />
 
@@ -80,7 +80,7 @@
                 android:textSize="20sp"
                 android:id="@+id/textView_pwd"
                 android:paddingStart="40dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="right"
                 android:paddingTop="5dp"
                 android:layout_weight="0.11" />
 
@@ -93,6 +93,42 @@
                 android:inputType="textPassword"
                 />
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewrepeat"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="确认密码:"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:id="@+id/textView_pwdrepeat"
+
+                android:paddingStart="0dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.11" />
+
+            <EditText
+                android:layout_width="10dp"
+                android:layout_height="40dp"
+                android:id="@+id/editText_pwdrepeat"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.73"
+                android:inputType="textPassword"
+                />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
