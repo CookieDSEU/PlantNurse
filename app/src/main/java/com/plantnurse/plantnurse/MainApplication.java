@@ -1,8 +1,6 @@
 package com.plantnurse.plantnurse;
-
 import android.content.Context;
 import android.widget.Toast;
-
 import com.kot32.ksimplelibrary.KSimpleApplication;
 import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
@@ -11,11 +9,9 @@ import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.model.response.BaseResponse;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
-import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
-
 import java.util.HashMap;
 
 /**
@@ -24,6 +20,7 @@ import java.util.HashMap;
 public class MainApplication extends KSimpleApplication  {
 
     public static Context mAppContext = null;
+
     @Override
     public void initLocalPreference(HashMap<String, ?> dataMap) {
 
@@ -34,6 +31,7 @@ public class MainApplication extends KSimpleApplication  {
 
     }
 
+    //继承自SimpleTaskApplication，登录方法
     @Override
     public SimpleTask getLoginTask() {
         UserInfo usermodel=(UserInfo)getUserModel();
@@ -47,6 +45,7 @@ public class MainApplication extends KSimpleApplication  {
                     LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
                 @Override
                 public boolean isLoginSucceed(BaseResponse baseResponse) {
+                    /*自动登录成功后*/
                     LoginResponse loginResponse = (LoginResponse) baseResponse;
                     if (loginResponse.getresponseCode() == 1) {
                     /*自动登录后主动刷新缓存*/
@@ -65,19 +64,18 @@ public class MainApplication extends KSimpleApplication  {
 
                 @Override
                 public void onConnectFailed(NetworkExecutor.NetworkResult result) {
-
+                       Toast.makeText(getApplicationContext(),"自动登录失败",Toast.LENGTH_LONG).show();
                 }
 
             };
-
-
     }
 
     @Override
     public void startInit() {
-
+        //获取应用的上下文
         mAppContext = getApplicationContext();
     }
+
     public static Context getmAppContext() {
         return mAppContext;
     }

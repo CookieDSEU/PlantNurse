@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:id="@+id/linear1">
+
+    //create bu Heloise
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:background="@color/Indigo_color_teal">
+
+            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            app:srcCompat="@drawable/clock_clock"
+            android:id="@+id/imageView3"
+                android:background="@color/Indigo_color_teal" />
+
+            <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+
+            android:padding="10.0dip"
+            android:singleLine="true"
+            android:text="我的闹钟"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:text="+"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:id="@+id/button_addclock"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="45sp"
+            android:background="@drawable/addclock_button_click"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
+</LinearLayout>
