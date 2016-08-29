@@ -32,7 +32,8 @@
 
 
         </activity>
-        <activity android:name=".Activity.AddClockActivity"></activity>
+        <activity android:name=".Activity.AddClockActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
