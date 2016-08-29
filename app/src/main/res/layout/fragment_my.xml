@@ -124,7 +124,7 @@
                         android:shrinkColumns="0"
                         android:stretchColumns="0">
                         <TableRow
-                            android:id="@+id/more_page_row0"
+                            android:id="@+id/city"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -152,7 +152,7 @@
                                 android:src="@drawable/ic_arrow" />
                         </TableRow>
                         <TableRow
-                            android:id="@+id/more_page_row1"
+                            android:id="@+id/management"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -181,7 +181,7 @@
                         </TableRow>
 
                         <TableRow
-                            android:id="@+id/more_page_row2"
+                            android:id="@+id/hobby"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -236,7 +236,7 @@
                         android:stretchColumns="0">
 
                         <TableRow
-                            android:id="@+id/more_page_row4"
+                            android:id="@+id/sysset"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -265,7 +265,7 @@
                         </TableRow>
 
                         <TableRow
-                            android:id="@+id/more_page_row5"
+                            android:id="@+id/reflect"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -294,7 +294,7 @@
                         </TableRow>
 
                         <TableRow
-                            android:id="@+id/more_page_row6"
+                            android:id="@+id/update"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -323,7 +323,7 @@
                         </TableRow>
 
                         <TableRow
-                            android:id="@+id/more_page_row7"
+                            android:id="@+id/about"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
