@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
@@ -25,10 +28,13 @@ import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
+import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 
 import java.io.File;
-
+/**
+ * Created by Cookie_D on 2016/8/26.
+ */
 public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private String urlpath;			// 图片本地路径
     private String resultStr = "";	// 服务端返回结果集
@@ -100,12 +106,27 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
             // 取得SDCard图片路径做显示
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(null, photo);
-            urlpath = FileUtil.saveFile(getActivity(), "temphead.png", photo);
+            UserInfo userInfo=(UserInfo) mApp.getUserModel();
+            urlpath = FileUtil.saveFile(getActivity(), userInfo.getuserName()+".png", photo);
             avatarview.setImageDrawable(drawable);
 
             // 新线程后台上传服务端
             //pd = ProgressDialog.show(getActivity(), null, "正在上传图片，请稍候...");
-            //new Thread(uploadImageRunnable).start();
+            //ToastUtil.showShort(Util.uploadAvatar());
+            SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
+
+                @Override
+                protected Object doInBackground(Object[] params) {
+                    UserInfo userInfo=(UserInfo) mApp.getUserModel();
+                    Log.e("ERROR",Util.uploadAvatar(userInfo.getuserName()));
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+
+                }
+            });
         }
     }
     public void startPhotoZoom(Uri uri) {

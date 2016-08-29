@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup_5"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="100dp"
+            android:layout_weight="0.20">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recycle_plant">
+            </android.support.v7.widget.RecyclerView>
+            <ImageView
+                android:layout_width="184dp"
+                android:layout_height="250dp"
+                android:id="@+id/addplant_flower"
+                android:src="@drawable/flower1"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.20" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="点击更换植物头像"
+        android:textSize="18sp"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

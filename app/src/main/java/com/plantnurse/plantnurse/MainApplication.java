@@ -15,11 +15,10 @@ import com.plantnurse.plantnurse.utils.Constants;
 import java.util.HashMap;
 
 /**
- * 程序首先从这里启动
+ * Created by Cookie_D on 2016/8/13.
  */
 public class MainApplication extends KSimpleApplication  {
 
-    private ACache mCache;
     public static Context mAppContext = null;
 
     @Override

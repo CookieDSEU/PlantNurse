@@ -63,7 +63,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     private ProgressDialog progressDialog;
     private HashMap<String, String> loginParams;
-
+    /**
+     * Created by Eason_Tao on 2016/8/12.
+     */
     @Override
     public int initLocalData() {
         loginParams = new HashMap<>();
@@ -80,7 +82,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         list_career.add("居家人士");
         return 0;
     }
-
+    /**
+     * Created by Eason_Tao on 2016/8/12.
+     */
     @Override
     public void initView(ViewGroup view) {
         button = (Button) findViewById(R.id.button_over);
@@ -100,7 +104,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     }
 
 
-
+    /**
+     * Created by Eason_Tao on 2016/8/12.
+     */
     @Override
     public void initController() {
         id = text_id.getText().toString();//获取id
@@ -175,7 +181,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     public int getContentLayoutID() {
         return R.layout.activity_register;
     }
-
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     void initProvinceSpinner(SQLiteDatabase database) {
         Cursor provincecursor = citycodedb.getAllProvince(database);
 
@@ -217,6 +225,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
         spinner_pro.setOnItemSelectedListener(listener);
     }
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     void initCitySpinner(SQLiteDatabase database, String provinceid) {
         Cursor citycursor = citycodedb.getCity(database, provinceid);
         if (citycursor != null) {
@@ -258,7 +269,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         };
         spinner_city.setOnItemSelectedListener(listener);
     }
-
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     public void signup() {
         progressDialog.show();
         loginParams.put("userName", id);
@@ -298,6 +311,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         });
     }
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {

@@ -12,7 +12,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
-
+/**
+ * Created by Cookie_D on 2016/8/26.
+ */
 public class FileUtil {
 
 
