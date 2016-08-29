@@ -1,8 +1,11 @@
 package com.plantnurse.plantnurse.utils;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,7 +13,14 @@ import android.graphics.BitmapFactory;
 import android.nfc.Tag;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ProgressBar;
 
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.kot32.ksimplelibrary.util.tools.NetworkUtil;
+import com.plantnurse.plantnurse.MainApplication;
+import com.plantnurse.plantnurse.Network.CheckVersionResponse;
 import com.plantnurse.plantnurse.R;
 
 import java.io.BufferedReader;
@@ -22,6 +32,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Created by Cookie_D on 2016/8/13.
@@ -47,6 +58,40 @@ public class Util {
             e.printStackTrace();
             return 0;
         }
+    }
+    public static void checkVersion(final Context context){
+        HashMap hashMap=new HashMap<String,String>();
+        hashMap.put("Version",getVersionCode(context)+"");
+        SimpleTaskManager.startNewTask(new NetworkTask("Update",context, CheckVersionResponse.class,hashMap,Constants.CHECKVERSION_URL, NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                CheckVersionResponse res=(CheckVersionResponse)result.resultObject;
+                if(res.getResponseCode()==1){
+                    new AlertDialog.Builder(context)
+                            .setTitle("检测更新")
+                            .setMessage("已经是最新版！")
+                            .setPositiveButton("确定", null)
+                            .show();
+                }
+                else if(res.getResponseCode()==0){
+                    new AlertDialog.Builder(context)
+                            .setTitle(res.getUpdateLogTitle())
+                            .setMessage(res.getUpdateLogTitle())
+                            .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
+                }
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
     }
     public static void copyToClipboard(String info, Context context) {
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);

@@ -23,8 +23,7 @@
             android:label="@string/app_name" />
         <activity android:name=".Activity.SigninActivity" />
         <activity
-            android:name=".Activity.SignupActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:name=".Activity.SignupActivity" />
         <activity
             android:name=".Activity.AboutActivity"
             android:hardwareAccelerated="true"
