@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="200"
+
+    android:weightSum="1">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/signup_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background= "NULL"
+        android:minHeight="?attr/actionBarSize"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="NULL"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:text="省份:"
+                android:textSize="20sp"
+                android:id="@+id/textView_loc"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.27" />
+            <Spinner
+                android:layout_width="178dp"
+                android:layout_height="40dp"
+                android:id="@+id/spinner_province"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.32" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:weightSum="1"
+            android:layout_weight="0.12" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:text="城市:"
+                android:textSize="20sp"
+                android:id="@+id/textView_city"
+                android:paddingStart="40dp"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_weight="0.27" />
+            <Spinner
+                android:layout_width="178dp"
+                android:layout_height="40dp"
+                android:id="@+id/spinner_city"
+                android:background="@drawable/editlayout"
+                android:layout_weight="0.32" />
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+</LinearLayout>
