@@ -35,4 +35,14 @@
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
+
+    <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
+
+        <item name="android:progressDrawable">@drawable/sun_ratingbar</item>
+
+        <item name="android:minHeight">60dp</item>
+
+        <item name="android:maxHeight">60dp</item>
+
+    </style>
 </resources>

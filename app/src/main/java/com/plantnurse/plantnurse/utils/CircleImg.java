@@ -27,8 +27,8 @@ public class CircleImg extends ImageView {
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 1;
 
-    private static final int DEFAULT_BORDER_WIDTH = 0;
-    private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final int DEFAULT_BORDER_WIDTH = 3;
+    private static final int DEFAULT_BORDER_COLOR = Color.WHITE;
 
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
