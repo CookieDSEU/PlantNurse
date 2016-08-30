@@ -131,19 +131,38 @@
                 android:layout_weight="0.40"
                 android:layout_marginTop="30dp">
 
-                <TextView
-                    android:text="选择时间"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:id="@+id/text_choosetime"
-                    android:drawableLeft="@drawable/ic_choosetime"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp"
-                    android:layout_weight="0.40"/>
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.40"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:text="选择时间"
+                        android:layout_width="235dp"
+                        android:layout_height="38dp"
+                        android:id="@+id/text_choosetime"
+                        android:drawableLeft="@drawable/ic_choosetime"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:paddingLeft="17.0dip"
+                        android:textColor="#ff333333"
+                        android:textSize="16.0sp"
+                        android:layout_weight="0.37" />
+
+                    <Button
+                        android:text="选择时间"
+                        android:layout_width="76dp"
+                        android:layout_height="38dp"
+                        android:id="@+id/button_time"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_ok_click"
+                        android:textSize="16sp"
+                        android:layout_marginRight="20dp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -218,7 +237,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/button_everyday"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -232,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_dayoverday"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -245,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_threeday"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -258,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_userdefine"
                         android:layout_weight="0.20"
-                        android:background="@drawable/button_ok_click"
+                        android:background="@drawable/button_userdefine_click"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
@@ -298,7 +317,7 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/button_water"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -312,7 +331,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_sun"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -325,7 +344,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_back"
                         android:layout_weight="0.20"
-                        android:background="@color/ic_color"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -338,7 +357,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_worm"
                         android:layout_weight="0.20"
-                        android:background="@drawable/button_ok_click"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
@@ -351,7 +370,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/button_medicine"
                         android:layout_weight="0.20"
-                        android:background="@drawable/button_ok_click"
+                        android:background="@color/color_Grey"
                         android:textColor="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
