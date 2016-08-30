@@ -19,7 +19,7 @@ import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
-import com.plantnurse.plantnurse.Fragment.ClockFragment;
+import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
@@ -44,7 +44,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
-        fragmentList.add(new ClockFragment());
+        fragmentList.add(new AlarmFragment());
         fragmentList.add(new MyFragment());
         return fragmentList;
     }
