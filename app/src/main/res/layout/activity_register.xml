@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
 
     android:weightSum="1">
 
@@ -13,229 +15,100 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-    </android.support.v7.widget.Toolbar>
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.50"
-        android:background="@drawable/signup_5"
-        android:weightSum="1">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
-
-
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:background="@drawable/signup_5"
+            android:orientation="vertical"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="40dp"
             android:weightSum="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="用户名:"
-                android:textSize="20sp"
-                android:id="@+id/textView_id"
-                android:textColor="#000000"
-                android:paddingStart="40dp"
-                android:layout_gravity="right"
-                android:paddingTop="5dp"
-                android:layout_weight="0.05" />
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:id="@+id/editText_id"
-                android:background="@drawable/editlayout"
-                android:layout_weight="0.77"
-                />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/editText_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入用户名："
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.12" />
+            </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="密码:"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:id="@+id/textView_pwd"
-                android:paddingStart="40dp"
-                android:layout_gravity="right"
-                android:paddingTop="5dp"
-                android:layout_weight="0.11" />
+                <EditText
+                    android:id="@+id/editText_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入密码："
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:id="@+id/editText_pwd"
-                android:background="@drawable/editlayout"
-                android:layout_weight="0.73"
-                android:inputType="textPassword"
-                />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewrepeat"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.12" />
+            </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="确认密码:"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:id="@+id/textView_pwdrepeat"
+                <EditText
+                    android:id="@+id/editText_pwd_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="确认密码："
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                android:paddingStart="0dp"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:layout_weight="0.11" />
-
-            <EditText
-                android:layout_width="10dp"
-                android:layout_height="40dp"
-                android:id="@+id/editText_pwdrepeat"
-                android:background="@drawable/editlayout"
-                android:layout_weight="0.73"
-                android:inputType="textPassword"
-                />
-        </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:layout_weight="0.12" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="#000000"
-                android:text="省份:"
-                android:textSize="20sp"
-                android:id="@+id/textView_loc"
-                android:paddingStart="40dp"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:layout_weight="0.27" />
-            <Spinner
-                android:layout_width="178dp"
-                android:layout_height="40dp"
+            <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_province"
-                android:background="@drawable/editlayout"
-                android:layout_weight="0.32" />
-        </LinearLayout>
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="选择省份" />
 
-        <TextView
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:weightSum="1"
-            android:layout_weight="0.12" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="#000000"
-                android:text="城市:"
-                android:textSize="20sp"
-                android:id="@+id/textView_city"
-                android:paddingStart="40dp"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:layout_weight="0.27" />
-            <Spinner
-                android:layout_width="178dp"
-                android:layout_height="40dp"
+            <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_city"
-                android:background="@drawable/editlayout"
-                android:layout_weight="0.32" />
-        </LinearLayout>
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="选择城市" />
 
-        <TextView
-            android:layout_width="11dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.12" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="#000000"
-                android:text="职业:"
-                android:textSize="20sp"
-                android:id="@+id/textView_career"
-                android:paddingStart="40dp"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:layout_weight="0.27" />
-            <Spinner
-                android:layout_width="178dp"
-                android:layout_height="40dp"
+            <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_career"
-                android:background="@drawable/editlayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="选择职业" />
 
-                android:layout_weight="0.32" />
+            <Button
+                android:id="@+id/button_over"
+                android:layout_width="137dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btnstyle1"
+                android:text="完成"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
         </LinearLayout>
-        <Button
-            android:layout_width="137dp"
-            android:layout_height="wrap_content"
-            android:text="完成"
-            android:textColor="#ffffff"
-            android:textSize="25sp"
-            android:background="@drawable/btnstyle1"
-            android:id="@+id/button_over"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp" />
-    </LinearLayout>
+    <!--</ScrollView>-->
 
 
 </LinearLayout>

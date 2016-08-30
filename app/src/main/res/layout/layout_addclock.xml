@@ -5,15 +5,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@drawable/bg_test1">
+    android:background="@color/white">
+
+    <TextView
+        android:text="闹钟设置"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/text_clockset"
+        android:background="@color/ic_color"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:gravity="center"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="556dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginTop="30dp">
+
 
 
         <LinearLayout
@@ -25,16 +34,30 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:weightSum="1"
-                android:background="@drawable/bg_chooseplant"
-                android:layout_weight="0.20">
+                android:background="@color/white">
+
+                <TextView
+                    android:text="选择植物"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:drawableLeft="@drawable/ic_chooseplant"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="17.0dip"
+                    android:id="@+id/text_chooseplant"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0sp"
+                    android:layout_weight="0.40" />
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="94dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -102,89 +125,289 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="30dp"
-                android:layout_weight="0.15"
-                android:background="@drawable/bg_choosetime">
+                android:layout_height="match_parent"
+                android:layout_weight="0.40"
+                android:layout_marginTop="30dp">
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numberPicker_AMPM"
-                    android:layout_weight="1"
-                    android:layout_marginRight="20dp"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="55dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="10dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.40"
+                    android:weightSum="1">
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numberPicker_hour"
-                    android:layout_weight="1"
-                    android:background="@android:color/white"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="55dp"
-                    android:layout_marginBottom="10dp" />
+                    <TextView
+                        android:text="选择时间"
+                        android:layout_width="235dp"
+                        android:layout_height="38dp"
+                        android:id="@+id/text_choosetime"
+                        android:drawableLeft="@drawable/ic_choosetime"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:paddingLeft="17.0dip"
+                        android:textColor="#ff333333"
+                        android:textSize="16.0sp"
+                        android:layout_weight="0.37" />
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numberPicker_minute"
-                    android:layout_weight="1"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="55dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="10dp" />
+                    <Button
+                        android:text="选择时间"
+                        android:layout_width="76dp"
+                        android:layout_height="38dp"
+                        android:id="@+id/button_time"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_ok_click"
+                        android:textSize="16sp"
+                        android:layout_marginRight="20dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.40"
+                    android:background="@color/white">
+
+                    <NumberPicker
+                        android:layout_width="60dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/numberPicker_AMPM"
+                        android:layout_marginRight="20dp"
+                        android:background="@android:color/white"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp" />
+
+                    <NumberPicker
+                        android:layout_width="60dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/numberPicker_hour"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp" />
+
+                    <NumberPicker
+                        android:layout_width="60dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/numberPicker_minute"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginBottom="10dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/bg_chooserepeat"
+                android:background="@color/white"
                 android:layout_marginTop="30dp">
+
+                <TextView
+                    android:text="选择重复"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:id="@+id/text_chooserepeat"
+                    android:drawableLeft="@drawable/ic_chooserepeat"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="17.0dip"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0sp" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:paddingLeft="100dp">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:text="每天"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/everyday1"
-                        android:id="@+id/image_everyday"
-                        android:layout_marginLeft="110dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="0.00"
-                        android:background="@drawable/view_everyday_click"
-                        android:clickable="true" />
-
-                    <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/weekend1"
-                        android:id="@+id/image_weekend"
-                        android:layout_weight="0.00"
-                        android:layout_marginTop="5dp"
+                        android:id="@+id/button_everyday"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:clickable="true" />
+                        android:layout_marginStart="20dp" />
+
+                    <Button
+                        android:text="隔一天"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_dayoverday"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <Button
+                        android:text="隔两天"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_threeday"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp" />
+
+                    <Button
+                        android:text="自定义"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_userdefine"
+                        android:layout_weight="0.20"
+                        android:background="@drawable/button_userdefine_click"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/button_other"
-                android:background="@drawable/button_other_click"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:text="选择行为"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:id="@+id/text_chooseact"
+                    android:drawableLeft="@drawable/ic_chooseact"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="17.0dip"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0sp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:text="浇水"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/button_water"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="20dp" />
+
+                    <Button
+                        android:text="晒太阳"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_sun"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <Button
+                        android:text="收回"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_back"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp" />
+
+                    <Button
+                        android:text="除虫"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_worm"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <Button
+                        android:text="打药"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_medicine"
+                        android:layout_weight="0.20"
+                        android:background="@color/color_Grey"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:text="备注"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:id="@+id/text_other"
+                android:drawableLeft="@drawable/ic_other"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingLeft="17.0dip"
+                android:textColor="@color/ic_color"
+                android:textSize="16.0sp"
+                android:background="@color/white"
                 android:layout_marginTop="30dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:id="@+id/edit_other"
+                android:textColor="@color/ic_color"
+                android:textSize="16.0sp"
+                android:editable="true"
+                android:background="@drawable/bg_edit"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingLeft="17.0dip" />
 
             <Button
                 android:layout_width="match_parent"
@@ -193,7 +416,10 @@
                 android:layout_weight="0.79"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button_ok_click"
-                android:layout_marginBottom="50dp" />
+                android:layout_marginBottom="80dp"
+                android:textColor="@color/white"
+                android:text="确认"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

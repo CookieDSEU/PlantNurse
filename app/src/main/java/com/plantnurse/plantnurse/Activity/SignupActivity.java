@@ -11,7 +11,9 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
+import fr.ganfra.materialspinner.MaterialSpinner;
+
 
 public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseAction {
 
@@ -49,11 +53,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private CityCodeDB citycodedb = null;
     private SQLiteDatabase db = null;
     private Button button;
-    private TextView text_id;
-    private TextView text_pwd;
-    private Spinner spinner_pro;
-    private Spinner spinner_city;
-    private Spinner spinner_career;
+    private EditText text_id;
+    private EditText text_pwd;
+    private MaterialSpinner spinner_pro;
+    private MaterialSpinner spinner_city;
+    private MaterialSpinner spinner_career;
 
     private String id;
     private String pwd;
@@ -88,11 +92,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     @Override
     public void initView(ViewGroup view) {
         button = (Button) findViewById(R.id.button_over);
-        text_id = (TextView) findViewById(R.id.editText_id);
-        text_pwd = (TextView) findViewById(R.id.editText_pwd);
-        spinner_pro = (Spinner) findViewById(R.id.spinner_province);
-        spinner_city = (Spinner) findViewById(R.id.spinner_city);
-        spinner_career = (Spinner) findViewById(R.id.spinner_career);
+        text_id = (EditText) findViewById(R.id.editText_id);
+        text_pwd = (EditText) findViewById(R.id.editText_pwd);
+        spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
+        spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
+        spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("正在注册...");
         toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
@@ -119,10 +123,16 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         adapter_career = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_career);
         adapter_career.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_career.setAdapter(adapter_career);
+        spinner_career.setSelection(1);
         spinner_career.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                career = adapter_career.getItem(arg2);//获得职业
-                arg0.setVisibility(View.VISIBLE);
+                if(arg2==-1){
+                    spinner_career.setSelection(0);
+                }
+                else {
+                    career = adapter_career.getItem(arg2);//获得职业
+                    arg0.setVisibility(View.VISIBLE);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -133,8 +143,8 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id=text_id.getText().toString();
-                pwd=text_id.getText().toString();
+                id = text_id.getText().toString();//获取id
+                pwd = text_pwd.getText().toString();//获取pwd
                 if (!checkID(id) ){
                     new AlertDialog.Builder(SignupActivity.this)
                             .setTitle("我是一个小提示")
@@ -207,14 +217,20 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 provincename);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_pro.setAdapter(adapter);
+        spinner_pro.setSelection(1);
 
         AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                province =arg0.getItemAtPosition(position).toString();
-                initCitySpinner(db, provinceid.get(position).toString());
+                if(position==-1){
+                    spinner_pro.setSelection(0);
+                }
+                else {
+                    province = arg0.getItemAtPosition(position).toString();
+                    initCitySpinner(db, provinceid.get(position).toString());
+                }
             }
 
             @Override
@@ -252,14 +268,20 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 cityname);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_city.setAdapter(adapter);
+        spinner_city.setSelection(1);
 
         AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                city=arg0.getItemAtPosition(position).toString();
-                //initAreaSpinner(db, cityid.get(position).toString());
+                if(position==-1){
+                    spinner_city.setSelection(0);
+                }
+                else {
+                    city = arg0.getItemAtPosition(position).toString();
+                    //initAreaSpinner(db, cityid.get(position).toString());
+                }
             }
 
             @Override
@@ -288,7 +310,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     ToastUtil.showShort("注册成功");
                     UserInfo ui=new UserInfo();
                     ui.setuserName(id);
-                    ui.setProvince(pwd);
+                    ui.setProvince(province);
                     ui.setcareer(career);
                     ui.setcity(city);
                     ui.settoken(signupResponse.gettoken());
@@ -326,9 +348,12 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         return super.onOptionsItemSelected(item);
     }
 //按返回键，跳转回MainActivity界面
+
+    @Override
     public void onBackPressed() {
         Intent in=getIntent();
         setResult(RESULT_CANCELED,in);
         finish();
+        super.onBackPressed();
     }
 }

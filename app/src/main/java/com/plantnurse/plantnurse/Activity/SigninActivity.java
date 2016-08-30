@@ -152,9 +152,12 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     }
 
     //按返回键，返回MainActivity界面,关闭当前页面
+
+    @Override
     public void onBackPressed() {
-       Intent in=getIntent();
-        setResult(RESULT_OK,in);
+        Intent in=getIntent();
+        setResult(RESULT_CANCELED,in);
         finish();
+        super.onBackPressed();
     }
 }
