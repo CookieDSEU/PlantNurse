@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".MainApplication"
@@ -28,8 +29,10 @@
             android:name=".Activity.AboutActivity"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".Activity.AddplantActivity"></activity>
-        <activity android:name=".Activity.AddClockActivity" />
+        <activity android:name=".Activity.AddplantActivity">
+        </activity>
+        <activity android:name=".Activity.AddClockActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
