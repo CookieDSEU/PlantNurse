@@ -96,6 +96,7 @@ public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseActio
             @Override
             public void onClick(View v) {
 
+                Util.checkVersion(AboutActivity.this);
             }
         });
 

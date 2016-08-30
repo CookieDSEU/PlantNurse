@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -8,16 +10,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.plantnurse.plantnurse.Activity.LoginActivity">
+    tools:context="com.plantnurse.plantnurse.Activity.SignupActivity">
+    <!--created by went-->
 
-    <!-- created by went -->
-    <!--<ProgressBar-->
-        <!--android:id="@+id/login_progress"-->
-        <!--style="?android:attr/progressBarStyleLarge"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:visibility="gone" />-->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -29,44 +31,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/rprovince"
-                    android:layout_width="match_parent"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_province"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="输入您的省份"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    app:ms_hint="选择省份" />
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/rcity"
-                    android:layout_width="match_parent"
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_city"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:hint="输入您的城市"
-                    android:imeActionId="@+id/login"
-
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    app:ms_hint="选择城市" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/reset"
                 style="?android:textAppearanceSmall"
+                android:textColor="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="确定更改"
-                android:textStyle="bold" />
-
+                />
         </LinearLayout>
 
 </LinearLayout>

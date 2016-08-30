@@ -1,35 +1,21 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
-import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.SignupResponse;
@@ -39,139 +25,73 @@ import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-
-public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseAction {
-
-    private Toolbar toolbar;
-    private List<String> provinceid, provincename;
-    private List<String> cityid, cityname;
-    private List<String> areaid, areaname;
-    private List<String> list_career = new ArrayList<String>();
-    private ArrayAdapter<String> adapter_career;
-    private CityCodeDB citycodedb = null;
-    private SQLiteDatabase db = null;
-    private Button button;
-    private EditText text_id;
-    private EditText text_pwd;
+public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseAction
+{
+//    private Toolbar toolbar;
     private MaterialSpinner spinner_pro;
     private MaterialSpinner spinner_city;
-    private MaterialSpinner spinner_career;
-
-    private String id;
-    private String pwd;
-    private String province;
-    private String city;
-    private String career;
-
+    private List<String>  provincename,provinceid;
+    private List<String>  cityname,cityid;
+    private CityCodeDB cityCodeDB=null;
+    private SQLiteDatabase db = null;
+    private Button button;
+    private  String province;
+    private  String city;
     private ProgressDialog progressDialog;
     private HashMap<String, String> loginParams;
-    /**
-     * Created by Eason_Tao on 2016/8/12.
-     */
     @Override
-    public int initLocalData() {
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_reset_city);
+//    }
+
+    public int initLocalData(){
         loginParams = new HashMap<>();
-        provinceid = new ArrayList<String>();
-        provincename = new ArrayList<String>();
+        provincename=new ArrayList<String>();
+        provinceid=new ArrayList<String>();
+        cityname=new ArrayList<String>();
         cityid = new ArrayList<String>();
-        cityname = new ArrayList<String>();
-        areaid = new ArrayList<String>();
-        areaname = new ArrayList<String>();
-        citycodedb = new CityCodeDB(SignupActivity.this);
-        db = citycodedb.getDatabase("data.db");
-        list_career.add("学生");
-        list_career.add("上班族");
-        list_career.add("居家人士");
-        return 0;
+        cityCodeDB = new CityCodeDB(ResetcityActivity.this);
+        db = cityCodeDB.getDatabase("data.db");
+
+       return 0;
     }
-    /**
-     * Created by Eason_Tao on 2016/8/12.
-     */
-    @Override
+
     public void initView(ViewGroup view) {
-        button = (Button) findViewById(R.id.button_over);
-        text_id = (EditText) findViewById(R.id.editText_id);
-        text_pwd = (EditText) findViewById(R.id.editText_pwd);
+        button=(Button)findViewById(R.id.reset);
+        button.setBackgroundColor(Color.parseColor("#3A5FCD"));
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
-        spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("正在注册...");
-        toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
-        toolbar.setTitle("注册");
-        setSupportActionBar(toolbar);
+        progressDialog.setTitle("正在更改");
+//        toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
+//        toolbar.setTitle("更改");
+//        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
-
-    /**
-     * Created by Eason_Tao on 2016/8/12.
-     */
     @Override
     public void initController() {
-        id = text_id.getText().toString();//获取id
-        pwd = text_pwd.getText().toString();//获取pwd
+
         initProvinceSpinner(db);
-
-
-
-
-        adapter_career = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_career);
-        adapter_career.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_career.setAdapter(adapter_career);
-        spinner_career.setSelection(1);
-        spinner_career.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                career = adapter_career.getItem(arg2);//获得职业
-                arg0.setVisibility(View.VISIBLE);
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                arg0.setVisibility(View.VISIBLE);
-            }
-        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id = text_id.getText().toString();//获取id
-                pwd = text_pwd.getText().toString();//获取pwd
-                if (!checkID(id) ){
-                    new AlertDialog.Builder(SignupActivity.this)
-                            .setTitle("我是一个小提示")
-                            .setMessage("用户名必须是8~16位英语和数字的组合")
-                            .setPositiveButton("确定", null)
-                            .show();
-                }
-                else{
-                    if(!checkPwd(pwd)){
-                        new AlertDialog.Builder(SignupActivity.this)
-                                .setTitle("我是一个小提示")
-                                .setMessage("密码必须是8~16位英语和数字的组合")
-                                .setPositiveButton("确定", null)
-                                .show();
-                    }
-                    else{
-                        signup();
-                    }
-                }
+                citychange();
+          }
+
             }
-        });
+        );
     }
-
-    private boolean checkID(String s) {
-        return s.matches("[a-zA-Z0-9]{8,16}");
-    }
-
-    private boolean checkPwd(String s) {
-        return s.matches("[a-zA-Z0-9]{8,16}");
-    }
-
-
     @Override
     public void onLoadingNetworkData() {
 
@@ -184,13 +104,13 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     @Override
     public int getContentLayoutID() {
-        return R.layout.activity_register;
+        return R.layout.activity_reset_city;
     }
-    /**
-     * Created by Cookie_D on 2016/8/12.
-     */
+
+
+
     void initProvinceSpinner(SQLiteDatabase database) {
-        Cursor provincecursor = citycodedb.getAllProvince(database);
+        Cursor provincecursor = cityCodeDB.getAllProvince(database);
 
         if (provincecursor != null) {
             provinceid.clear();
@@ -207,7 +127,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignupActivity.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResetcityActivity.this,
                 android.R.layout.simple_spinner_item,
                 provincename);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -231,11 +151,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
         spinner_pro.setOnItemSelectedListener(listener);
     }
-    /**
-     * Created by Cookie_D on 2016/8/12.
-     */
+
     void initCitySpinner(SQLiteDatabase database, String provinceid) {
-        Cursor citycursor = citycodedb.getCity(database, provinceid);
+        Cursor citycursor = cityCodeDB.getCity(database, provinceid);
         if (citycursor != null) {
             cityid.clear();
             cityname.clear();
@@ -253,7 +171,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignupActivity.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResetcityActivity.this,
                 android.R.layout.simple_spinner_item,
                 cityname);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -276,39 +194,35 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         };
         spinner_city.setOnItemSelectedListener(listener);
     }
-    /**
-     * Created by Cookie_D on 2016/8/12.
-     */
-    public void signup() {
+
+
+    public void citychange() {
         progressDialog.show();
-        loginParams.put("userName", id);
-        loginParams.put("password", pwd);
+
         loginParams.put("province", province);
         loginParams.put("city", city);
-        loginParams.put("career", career);
+
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
                 SignupResponse.class, loginParams, Constants.SIGNUP_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 SignupResponse signupResponse = (SignupResponse) result.resultObject;
                 if (signupResponse.getresponseCode() == 1) {
-                    ToastUtil.showShort("注册成功");
+                    ToastUtil.showShort("更改成功");
                     UserInfo ui=new UserInfo();
-                    ui.setuserName(id);
                     ui.setProvince(province);
-                    ui.setcareer(career);
                     ui.setcity(city);
                     ui.settoken(signupResponse.gettoken());
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
-                   // Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                   // startActivity(intent);
+                    // Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    // startActivity(intent);
                     Intent in=getIntent();
                     setResult(RESULT_OK,in);
                     finish();
                     progressDialog.dismiss();
-                } else if (signupResponse.getresponseCode() == 2) {
-                    ToastUtil.showShort("注册失败：该用户名已被注册");
+                } else  {
+                    ToastUtil.showShort("更改失败，网络好像出了点问题");
                 }
             }
 
@@ -318,27 +232,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         });
     }
-    /**
-     * Created by Cookie_D on 2016/8/12.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
-//按返回键，跳转回MainActivity界面
 
-    @Override
-    public void onBackPressed() {
-        Intent in=getIntent();
-        setResult(RESULT_CANCELED,in);
-        finish();
-        super.onBackPressed();
-    }
-}
+

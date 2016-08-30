@@ -3,15 +3,14 @@ package com.plantnurse.plantnurse.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
-import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
@@ -20,6 +19,7 @@ import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
+import com.plantnurse.plantnurse.Fragment.ClockFragment;
 import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
@@ -39,11 +39,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private List<Fragment> fragmentList = new ArrayList<>();
     private Toolbar toolbar;
     private DrawerLayout drawer;
+    private static final int REQUEST_CODE=0x01;
 
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
-        fragmentList.add(new MyFragment());
+        fragmentList.add(new ClockFragment());
         fragmentList.add(new MyFragment());
         return fragmentList;
     }
@@ -85,8 +86,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-                    startActivity(intent);
-                    finish();
+                    startActivityForResult(intent,REQUEST_CODE);
                     if (drawer != null) {
                         drawer.closeDrawers();
                     }
@@ -114,8 +114,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
                             /*刷新界面*/
                             Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-                            startActivity(intent);
-                            finish();
+                            startActivityForResult(intent,REQUEST_CODE);
 
                         }
                     }
@@ -131,8 +130,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
                          } else {
                             Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                            startActivity(intent);
-                            finish();
+                             startActivityForResult(intent,REQUEST_CODE);
                             if (drawer != null) {
                                 drawer.closeDrawers();
                              }
@@ -276,4 +274,18 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==REQUEST_CODE){
+            if(resultCode==RESULT_OK){
+                Intent intent=new Intent(MainActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else if(resultCode==RESULT_CANCELED){
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

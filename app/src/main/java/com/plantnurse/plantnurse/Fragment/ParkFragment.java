@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
-import com.plantnurse.plantnurse.Activity.AddplantActivity;
+//import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.Calendar;
@@ -113,14 +113,14 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
         });
 
-        image_Plant.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(getActivity(),AddplantActivity.class);
-                startActivity(intent); // 启动Activity
-                return false;
-            }
-        });
+//        image_Plant.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+////                Intent intent = new Intent(getActivity(),AddplantActivity.class);
+////                startActivity(intent); // 启动Activity
+////                return false;
+//            }
+//        });
 
         image_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
