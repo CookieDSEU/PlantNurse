@@ -13,13 +13,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.plantnurse.plantnurse.Activity.AboutActivity;
+import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
@@ -28,7 +30,6 @@ import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
-import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 
 import java.io.File;
@@ -42,6 +43,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private CircleImg avatarview;
     private TextView usnview;
     private MainApplication mApp;
+    private TableRow mycity;
+    private TableRow myaccount;
+    private TableRow myhobby;
+    private TableRow sysset;
+    private TableRow sysreflct;
+    private TableRow sysupdate;
+    private TableRow sysabout;
+
     private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
     private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
     private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
@@ -156,6 +165,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
         avatarview=(CircleImg) view.findViewById(R.id.ava_img);
         usnview=(TextView)view.findViewById(R.id.usn_txv);
+        mycity=(TableRow)view.findViewById(R.id.city);
+        myaccount=(TableRow)view.findViewById(R.id.management);
+        myhobby=(TableRow)view.findViewById(R.id.hobby);
+        sysset=(TableRow)view.findViewById(R.id.sysset);
+        sysreflct=(TableRow)view.findViewById(R.id.reflect);
+        sysupdate=(TableRow)view.findViewById(R.id.update);
+        sysabout=(TableRow)view.findViewById(R.id.about);
+
     }
 
     @Override
@@ -178,6 +195,62 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                     menuWindow.showAtLocation(avatarview,
                             Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
+            }
+        });
+        mycity.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ResetcityActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        myaccount.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        myhobby.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        sysset.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        sysreflct.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        sysupdate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        sysabout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+
             }
         });
     }
