@@ -4,10 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AddplantAdapter;
@@ -20,15 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
-import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
