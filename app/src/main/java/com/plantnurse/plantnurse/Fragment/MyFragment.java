@@ -21,6 +21,7 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
@@ -30,6 +31,7 @@ import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
+import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 
 import java.io.File;
@@ -102,6 +104,15 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                     setPicToView(data);
                 }
                 break;
+            case MainActivity.REQUEST_CODE:
+                if(resultCode==getActivity().RESULT_OK){
+                    Intent intent=new Intent(getActivity(),MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else if(resultCode==getActivity().RESULT_CANCELED){
+
+                }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -188,8 +199,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
                 if(!mApp.isLogined()){
                     Intent intent=new Intent(getActivity(), SigninActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    startActivityForResult(intent, MainActivity.REQUEST_CODE);
                 }
                 else{menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
                     menuWindow.showAtLocation(avatarview,
@@ -200,8 +210,13 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         mycity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ResetcityActivity.class);
-                startActivity(intent);
+                if(mApp.isLogined()){
+                    Intent intent = new Intent(getActivity(), ResetcityActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    ToastUtil.showShort("您尚未登录！");
+                }
 
             }
         });

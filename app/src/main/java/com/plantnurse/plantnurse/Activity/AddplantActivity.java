@@ -63,9 +63,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         findViewById(R.id.dateButton).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog.setVibrate(isVibrate());
+                datePickerDialog.setVibrate(true);
                 datePickerDialog.setYearRange(1985, 2028);
-                datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
+                datePickerDialog.setCloseOnSingleTapDay(false);
                 datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
             }
         });
@@ -73,8 +73,8 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         findViewById(R.id.timeButton).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                timePickerDialog.setVibrate(isVibrate());
-                timePickerDialog.setCloseOnSingleTapMinute(isCloseOnSingleTapMinute());
+                timePickerDialog.setVibrate(true);
+                timePickerDialog.setCloseOnSingleTapMinute(false);
                 timePickerDialog.show(getSupportFragmentManager(), TIMEPICKER_TAG);
             }
         });
@@ -105,21 +105,21 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                 R.drawable.flower3, R.drawable.flower4, R.mipmap.flower5,R.drawable.flower1, R.drawable.flower2,
                 R.drawable.flower3, R.drawable.flower4, R.mipmap.flower5));
         calendar = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), isVibrate());
+        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
         timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, false);
     }
 
-    private boolean isVibrate() {
-        return ((CheckBox) findViewById(R.id.checkBoxVibrate)).isChecked();
-    }
-
-    private boolean isCloseOnSingleTapDay() {
-        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapDay)).isChecked();
-    }
-
-    private boolean isCloseOnSingleTapMinute() {
-        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapMinute)).isChecked();
-    }
+//    private boolean isVibrate() {
+//        return ((CheckBox) findViewById(R.id.checkBoxVibrate)).isChecked();
+//    }
+//
+//    private boolean isCloseOnSingleTapDay() {
+//        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapDay)).isChecked();
+//    }
+//
+//    private boolean isCloseOnSingleTapMinute() {
+//        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapMinute)).isChecked();
+//    }
 
     @Override
     public void initController () {
