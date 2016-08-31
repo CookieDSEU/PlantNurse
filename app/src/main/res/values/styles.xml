@@ -45,4 +45,22 @@
         <item name="android:maxHeight">60dp</item>
 
     </style>
+    <style name="roomRatingBar2" parent="@android:style/Widget.RatingBar">
+
+        <item name="android:progressDrawable">@drawable/water_ratingbar</item>
+
+        <item name="android:minHeight">60dp</item>
+
+        <item name="android:maxHeight">60dp</item>
+
+    </style>
+    <style name="roomRatingBar3" parent="@android:style/Widget.RatingBar">
+
+        <item name="android:progressDrawable">@drawable/snow_ratingbar</item>
+
+        <item name="android:minHeight">60dp</item>
+
+        <item name="android:maxHeight">60dp</item>
+
+    </style>
 </resources>

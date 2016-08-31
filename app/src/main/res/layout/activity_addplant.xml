@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,66 +44,158 @@
                 android:textColor="@color/white"
                 android:id="@+id/textView8"
                 android:layout_gravity="center_horizontal" />
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="#ffffff">-->
-                <!--<RatingBar-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="50dp"-->
-                <!--style="@style/roomRatingBar"-->
-                <!--android:rating="1"-->
-                <!--android:stepSize="1"-->
-                <!--android:numStars="5"/>-->
-            <!--</LinearLayout>-->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:hint="名字："
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/icon_mushroom"
+                    android:id="@+id/imageView5"
+                    android:layout_gravity="center"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+                    <EditText
+                        android:hint="给它取个名字吧~"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/imageView4"
+                android:background="@drawable/icon_cake"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="它的生日是？"
+                android:textSize="20sp"
+                android:layout_gravity="center" />
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
-
-            <CheckBox
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vibrate"
-                android:layout_marginBottom="30dp"
-                android:id="@+id/checkBoxVibrate"
-                android:checked="true"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
+                android:layout_gravity="center">
+                <EditText
+                    android:hint="年"
+                    android:id="@+id/text_birthyear"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="close on single tap day"
-                android:layout_marginBottom="30dp"
-                android:id="@+id/checkBoxCloseOnSingleTapDay"
-                android:checked="true"/>
-
-            <Button
-                android:id="@+id/dateButton"
-                android:layout_width="wrap_content"
+                android:layout_gravity="center">
+                <EditText
+                    android:hint="月"
+                    android:id="@+id/text_birthmonth"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:text="Select Date" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="close on single tap minute"
-                android:layout_marginBottom="30dp"
-                android:id="@+id/checkBoxCloseOnSingleTapMinute"
-                android:checked="true"/>
-
-            <Button
-                android:id="@+id/timeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select Time" />
-
+                android:layout_gravity="center">
+                <EditText
+                    android:hint="日"
+                    android:id="@+id/text_birthday"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="它爱晒太阳么？"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"/>
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    style="@style/roomRatingBar"
+                    android:rating="1"
+                    android:stepSize="1"
+                    android:numStars="5"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="它爱洗雨水澡么？"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"/>
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    style="@style/roomRatingBar2"
+                    android:rating="1"
+                    android:stepSize="1"
+                    android:numStars="5"/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="它怕冷么？"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"/>
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    style="@style/roomRatingBar3"
+                    android:rating="1"
+                    android:stepSize="1"
+                    android:numStars="5"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_addover"
+                android:layout_width="137dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btnstyle1"
+                android:text="完成"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
+        </LinearLayout>
 
     </ScrollView>
 

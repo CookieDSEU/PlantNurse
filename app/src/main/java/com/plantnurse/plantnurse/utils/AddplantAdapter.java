@@ -7,6 +7,7 @@ package com.plantnurse.plantnurse.utils;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHo
             super(arg0);
         }
 
-        ImageView mImg;
+        CircleImg mImg;
 
     }
 
@@ -67,8 +68,8 @@ public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHo
         View view = mInflater.inflate(R.layout.item_addplant, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.mImg = (CircleImg) view.findViewById(R.id.id_index_addplant_item_image);
 
-        viewHolder.mImg = (ImageView) view.findViewById(R.id.id_index_addplant_item_image);
         return viewHolder;
     }
 
@@ -79,7 +80,6 @@ public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
         viewHolder.mImg.setImageResource(mDatas.get(i));
-
         //如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null)
         {
