@@ -39,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="1"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:id="@+id/selectPlants">
 
                 <TextView
                     android:text="选择植物"
@@ -73,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.40"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:id="@+id/selectTime">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -155,7 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                android:id="@+id/selectFrequency">
 
                 <TextView
                     android:text="选择重复"
@@ -235,7 +238,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp"
+                android:id="@+id/selectAction">
 
                 <TextView
                     android:text="选择行为"
@@ -296,7 +300,7 @@
                         android:layout_marginLeft="10dp" />
 
                     <Button
-                        android:text="除虫"
+                        android:text="打理"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button_worm"
@@ -309,7 +313,7 @@
                         android:layout_marginLeft="10dp"/>
 
                     <Button
-                        android:text="打药"
+                        android:text="施肥"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button_medicine"
