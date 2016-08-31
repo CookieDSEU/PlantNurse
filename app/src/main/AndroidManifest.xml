@@ -47,6 +47,9 @@
         <activity android:name=".Activity.ResetcityActivity"
             android:theme="@style/Theme.Design.BottomSheetDialog"
             android:label=""></activity>
+
+        <receiver android:name=".utils.AlarmReceiver"></receiver>
+        <service android:name=".utils.MyService"></service>
     </application>
 
 </manifest>
