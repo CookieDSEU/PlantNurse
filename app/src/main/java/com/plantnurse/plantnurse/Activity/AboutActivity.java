@@ -14,6 +14,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.Util;
 
 /**
@@ -89,7 +90,7 @@ public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseActio
         btBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                goToHtml(Constants.REPORT_URL);
             }
         });
         btUpdate.setOnClickListener(new View.OnClickListener() {

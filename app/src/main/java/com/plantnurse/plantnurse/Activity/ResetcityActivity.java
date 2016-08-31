@@ -57,7 +57,6 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
 
     public void initView(ViewGroup view) {
         button=(Button)findViewById(R.id.reset);
-        button.setBackgroundColor(Color.parseColor("#3A5FCD"));
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         progressDialog = new ProgressDialog(this);

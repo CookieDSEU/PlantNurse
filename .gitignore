@@ -8,3 +8,4 @@
 /build
 /captures
 ExampleUtilTest.java
+app/src/androidTest/java/com/plantnurse/plantnurse/utils/

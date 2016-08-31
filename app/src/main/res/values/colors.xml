@@ -12,5 +12,6 @@
     <color name="cloudyText">#728288</color>
     <color name="white">#ffffff</color>
     <color name="ic_color">#333333</color>
+    <color name="citycolor">#d7d7d7</color>
     <!--<color name="aboutIcon">#106c99</color>-->
 </resources>
