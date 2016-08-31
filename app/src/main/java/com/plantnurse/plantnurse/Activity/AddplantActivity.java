@@ -162,6 +162,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         //Toast.makeText(AddplantActivity.this, "new date:" + year + "-" + month + "-" + day, Toast.LENGTH_LONG).show();
+        month++;
         _year.setText(""+year);
         _month.setText(""+month);
         _day.setText(""+day);
