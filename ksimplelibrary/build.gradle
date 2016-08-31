@@ -30,4 +30,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.0'
 
     compile 'com.android.support:percent:22.2.0'
+    compile 'cn.pedant.sweetalert:library:1.3'
 }
