@@ -95,9 +95,10 @@
                 <EditText
                     android:hint="年"
                     android:id="@+id/text_birthyear"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:gravity="center_horizontal" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -106,9 +107,10 @@
                 <EditText
                     android:hint="月"
                     android:id="@+id/text_birthmonth"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:gravity="center_horizontal" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -117,9 +119,10 @@
                 <EditText
                     android:hint="日"
                     android:id="@+id/text_birthday"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:gravity="center_horizontal" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
             <LinearLayout
