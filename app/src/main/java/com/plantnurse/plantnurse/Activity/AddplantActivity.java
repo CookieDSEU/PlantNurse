@@ -124,6 +124,8 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     }
 
+
+
 //    private boolean isVibrate() {
 //        return ((CheckBox) findViewById(R.id.checkBoxVibrate)).isChecked();
 //    }

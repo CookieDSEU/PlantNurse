@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Create by Heloise-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +11,8 @@
     <TextView
         android:text="闹钟设置"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.12"
         android:id="@+id/text_clockset"
         android:background="@color/ic_color"
         android:textColor="@color/white"
@@ -20,8 +22,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="556dp"
-        android:layout_marginTop="30dp">
+        android:layout_height="0dp"
+        android:layout_weight="0.80"
+        android:scrollbars="none">
 
 
 
@@ -50,78 +53,19 @@
                     android:id="@+id/text_chooseplant"
                     android:textColor="#ff333333"
                     android:textSize="16.0sp"
-                    android:layout_weight="0.40" />
+                    android:layout_weight="0.40"
+                    android:layout_marginTop="30dp"/>
 
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:paddingRight="20dp"
-                    android:paddingLeft="20dp">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView_selectPlant"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:elevation="1dp">
+                        android:layout_height="120dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_centerVertical="true"
+                        android:background="#ffffff"
+                        android:scrollbars="none" />
 
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/button_plant1"
-                            android:background="@drawable/clock_clock"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_margin="10dp" />
-
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/button_plant2"
-                            android:background="@drawable/leaficon"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_margin="10dp" />
-
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/button_plant3"
-                            android:background="@drawable/leaficon"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp" />
-
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/button_plant4"
-                            android:background="@drawable/leaficon"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginEnd="10dp"/>
-
-                        <Button
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:id="@+id/button_plant5"
-                            android:background="@drawable/leaficon"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginEnd="10dp"/>
-
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
 
             <LinearLayout
@@ -129,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.40"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -409,22 +353,18 @@
                 android:includeFontPadding="false"
                 android:paddingLeft="17.0dip" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/button_ok"
-                android:layout_weight="0.79"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/button_ok_click"
-                android:layout_marginBottom="80dp"
-                android:textColor="@color/white"
-                android:text="确认"
-                android:textSize="18sp" />
-
         </LinearLayout>
 
-
-
     </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.08"
+        android:id="@+id/button_ok"
+        android:background="@drawable/button_ok_click"
+        android:textColor="@color/white"
+        android:text="确认"
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -280,7 +280,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 }
                 else {
                     city = arg0.getItemAtPosition(position).toString();
-                    //initAreaSpinner(db, cityid.get(position).toString());
                 }
             }
 

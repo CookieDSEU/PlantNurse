@@ -19,7 +19,7 @@ import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.kot32.ksimplelibrary.widgets.drawer.KDrawerBuilder;
 import com.kot32.ksimplelibrary.widgets.drawer.component.DrawerComponent;
 import com.kot32.ksimplelibrary.widgets.view.KTabBar;
-import com.plantnurse.plantnurse.Fragment.ClockFragment;
+import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
@@ -29,6 +29,7 @@ import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
 import com.plantnurse.plantnurse.utils.ToastUtil;
+import com.plantnurse.plantnurse.utils.Util;
 import com.plantnurse.plantnurse.utils.WeatherManager;
 
 import java.util.ArrayList;
@@ -39,12 +40,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private List<Fragment> fragmentList = new ArrayList<>();
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private static final int REQUEST_CODE=0x01;
+    public static final int REQUEST_CODE=0x04;
 
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
-        fragmentList.add(new ClockFragment());
+        fragmentList.add(new AlarmFragment());
         fragmentList.add(new MyFragment());
         return fragmentList;
     }
@@ -164,7 +165,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
                      }
                 })
-                 .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, null)
+                 .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, new View.OnClickListener(){
+                     @Override
+                     public void onClick(View v) {
+                         Util.checkVersion(MainActivity.this);
+                     }
+                 })
                  .withDrawerAction(new KDrawerBuilder.DrawerAction() {
                      @Override
                      public void onDrawerOpened(View kDrawerView) {

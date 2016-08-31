@@ -29,22 +29,18 @@
             android:name=".Activity.AboutActivity"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".Activity.AddplantActivity">
+        <activity android:name=".Activity.AddplantActivity"
+            android:hardwareAccelerated="false">
         </activity>
-        <activity android:name=".Activity.AddClockActivity"
+        <activity android:name=".Activity.AddAlarmActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ResetcityActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <activity android:name=".Activity.ResetcityActivity"></activity>
     </application>
 
 </manifest>
