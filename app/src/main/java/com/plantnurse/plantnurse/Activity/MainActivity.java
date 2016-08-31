@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
@@ -40,7 +41,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private List<Fragment> fragmentList = new ArrayList<>();
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    public static final int REQUEST_CODE=0x04;
+    public static final int REQUEST_CODE = 0x04;
 
     @Override
     public List<Fragment> getFragmentList() {
@@ -87,7 +88,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-                    startActivityForResult(intent,REQUEST_CODE);
+                    startActivityForResult(intent, REQUEST_CODE);
                     if (drawer != null) {
                         drawer.closeDrawers();
                     }
@@ -108,170 +109,169 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                             ToastUtil.showShort("您已经登录");
                             return;
                         }
-                        getSimpleApplicationContext().logout();
 
 
                         if (!getSimpleApplicationContext().isLogined()) {
 
                             /*刷新界面*/
                             Intent intent = new Intent(MainActivity.this, SigninActivity.class);
-                            startActivityForResult(intent,REQUEST_CODE);
+                            startActivityForResult(intent, REQUEST_CODE);
 
                         }
                     }
                 })
 
-                 .addDrawerSubItem(R.drawable.ic_person, "注册", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.ic_person, "注册", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //判断当前是否登录
-                         if (getSimpleApplicationContext().isLogined()) {
+                        if (getSimpleApplicationContext().isLogined()) {
 
                             ToastUtil.showShort("你已经登录！");
 
-                         } else {
+                        } else {
                             Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                             startActivityForResult(intent,REQUEST_CODE);
+                            startActivityForResult(intent, REQUEST_CODE);
                             if (drawer != null) {
                                 drawer.closeDrawers();
-                             }
-                         }
+                            }
+                        }
                     }
                 })
-                 .addDrawerSubItem(R.drawable.ic_logout, "注销", null, new View.OnClickListener() {
-                     @Override
-            public  void onClick(View v) {
-                if  (!getSimpleApplicationContext().isLogined()) {
-                    ToastUtil.showShort("你还没有登录");
-                     return;
-                }
-                 getSimpleApplicationContext().logout();
+                .addDrawerSubItem(R.drawable.ic_logout, "注销", null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!getSimpleApplicationContext().isLogined()) {
+                            ToastUtil.showShort("你还没有登录");
+                            return;
+                        }
+                        getSimpleApplicationContext().logout();
 
 
-                 if (!getSimpleApplicationContext().isLogined()) {
-                     ToastUtil.showShort("注销成功");
+                        if (!getSimpleApplicationContext().isLogined()) {
+                            ToastUtil.showShort("注销成功");
                             /*刷新界面*/
-                     finish();
-                      Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                     startActivity(intent);
-                }
-            }
-        })
-
-                 .addDrawerDivider(Color.parseColor("#EEE9E9"))
-                 .addDrawerSubItem(R.drawable.ic_about, "关于本软件", null, new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                     }
+                            finish();
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }
                 })
-                 .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, new View.OnClickListener(){
-                     @Override
-                     public void onClick(View v) {
-                         Util.checkVersion(MainActivity.this);
-                     }
-                 })
-                 .withDrawerAction(new KDrawerBuilder.DrawerAction() {
-                     @Override
-                     public void onDrawerOpened(View kDrawerView) {
+
+                .addDrawerDivider(Color.parseColor("#EEE9E9"))
+                .addDrawerSubItem(R.drawable.ic_about, "关于本软件", null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                    }
+                })
+                .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Util.checkVersion(MainActivity.this);
+                    }
+                })
+                .withDrawerAction(new KDrawerBuilder.DrawerAction() {
+                    @Override
+                    public void onDrawerOpened(View kDrawerView) {
                         //打开了侧滑菜单
-                         if (getSimpleApplicationContext().isLogined()) {
+                        if (getSimpleApplicationContext().isLogined()) {
                             UserInfo userInfo = (UserInfo) PreferenceManager.getLocalUserModel();
-                             header.changeNickName(userInfo.getuserName());
+                            header.changeNickName(userInfo.getuserName());
                             String temp = Constants.AVATAR_URL + "?id=" + userInfo.getuserName();
-                             header.changeAvatorURL(temp);
+                            header.changeAvatorURL(temp);
                             header.changeIntroduction("正式用户");
-                         } else {
+                        } else {
                             header.changeNickName("未登录");
                             header.changeAvatorURL(Constants.AVATAR_URL);
-                             header.changeIntroduction("点击头像登录");
-                         }
+                            header.changeIntroduction("点击头像登录");
+                        }
                     }
 
                     @Override
-                     public void onDrawerClosed(View kDrawerView) {
-                         //关闭了侧滑菜单
-                     }
-                 })
-                 .addDrawerDivider(Color.parseColor("#EEE9E9"))
-                 .build();
+                    public void onDrawerClosed(View kDrawerView) {
+                        //关闭了侧滑菜单
+                    }
+                })
+                .addDrawerDivider(Color.parseColor("#EEE9E9"))
+                .build();
 
 
     }
 
     @Override
-    public void  initController() {
+    public void initController() {
 
-         addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-         addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
-         addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
 
 
-     @Override
-     public void onLoadingNetworkData() {
+    @Override
+    public void onLoadingNetworkData() {
         getWeatherInfo();
     }
 
-     @Override
-     public void onLoadedNetworkData(View contentView) {
+    @Override
+    public void onLoadedNetworkData(View contentView) {
 
     }
 
 
-     @Override
-     public View getCustomContentView(View v) {
-         ViewGroup vg = (ViewGroup) super.getCustomContentView(v);
-         toolbar = (Toolbar) getLayoutInflater().inflate(R.layout.default_toolbar, null);
-         vg.addView(toolbar, 0);
-         return vg;
-     }
+    @Override
+    public View getCustomContentView(View v) {
+        ViewGroup vg = (ViewGroup) super.getCustomContentView(v);
+        toolbar = (Toolbar) getLayoutInflater().inflate(R.layout.default_toolbar, null);
+        vg.addView(toolbar, 0);
+        return vg;
+    }
 
-     @Override
-     public void onBackPressed() {
-         if (drawer.isDrawerOpen(GravityCompat.START)) {
-             drawer.closeDrawer(GravityCompat.START);
-         } else {
-             if (!DoubleClickExit.check()) {
-                 ToastUtil.showShort("再按一次退出");
-             } else {
-                 finish();
-             }
-         }
-     }
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (!DoubleClickExit.check()) {
+                ToastUtil.showShort("再按一次退出");
+            } else {
+                finish();
+            }
+        }
+    }
 
-     @Override
-     protected void onResume() {
-         super.onResume();
-     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
-     public void getWeatherInfo() {
-         HashMap<String, String> params = new HashMap<String, String>();
-         if (getSimpleApplicationContext().isLogined()) {
-              UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
-             params.put("key", Constants.WEATHER_KEY);
-             params.put("city", userInfo.getcity());
-        }  else {
-             params.put("key", Constants.WEATHER_KEY);
+    public void getWeatherInfo() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        if (getSimpleApplicationContext().isLogined()) {
+            UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+            params.put("key", Constants.WEATHER_KEY);
+            params.put("city", userInfo.getcity());
+        } else {
+            params.put("key", Constants.WEATHER_KEY);
             params.put("city", "北京");
 
         }
 
-         SimpleTaskManager.startNewTask(new NetworkTask(
-                 getTaskTag(),
+        SimpleTaskManager.startNewTask(new NetworkTask(
+                getTaskTag(),
                 getSimpleApplicationContext(),
-                 WeatherAPI.class,
-                 params,
-                 Constants.WEATHER_API_URL,
-                 NetworkTask.GET) {
+                WeatherAPI.class,
+                params,
+                Constants.WEATHER_API_URL,
+                NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                 WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
-                 WeatherResponse weatherInfo = weatherAPI.response.get(0);
-                 WeatherManager.setWeatherInfo(weatherInfo);
+                WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
+                WeatherResponse weatherInfo = weatherAPI.response.get(0);
+                WeatherManager.setWeatherInfo(weatherInfo);
             }
 
-             @Override
+            @Override
             public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
             }
@@ -282,13 +282,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQUEST_CODE){
-            if(resultCode==RESULT_OK){
-                Intent intent=new Intent(MainActivity.this,MainActivity.class);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }
-            else if(resultCode==RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
 
             }
         }

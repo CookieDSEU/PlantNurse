@@ -39,6 +39,7 @@ import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 
@@ -65,7 +66,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private String city;
     private String career;
 
-    private ProgressDialog progressDialog;
+    private SweetAlertDialog progressDialog;
     private HashMap<String, String> loginParams;
     /**
      * Created by Eason_Tao on 2016/8/12.
@@ -97,7 +98,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitle("正在注册...");
         toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
         toolbar.setTitle("注册");
@@ -320,7 +321,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     Intent in=getIntent();
                     setResult(RESULT_OK,in);
                     finish();
-                    progressDialog.dismiss();
+                    progressDialog.dismissWithAnimation();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");
                 }

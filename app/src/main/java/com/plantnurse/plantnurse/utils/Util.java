@@ -34,6 +34,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Cookie_D on 2016/8/13.
  */
@@ -67,20 +69,25 @@ public class Util {
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 CheckVersionResponse res=(CheckVersionResponse)result.resultObject;
                 if(res.getResponseCode()==1){
-                    new AlertDialog.Builder(context)
-                            .setTitle("检测更新")
-                            .setMessage("已经是最新版！")
-                            .setPositiveButton("确定", null)
+                    new SweetAlertDialog(context,SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("检测更新")
+                            .setContentText("已经是最新版本！")
                             .show();
+//                    new AlertDialog.Builder(context)
+//                            .setTitle("检测更新")
+//                            .setMessage("已经是最新版！")
+//                            .setPositiveButton("确定", null)
+//                            .show();
                 }
                 else if(res.getResponseCode()==0){
-                    new AlertDialog.Builder(context)
-                            .setTitle(res.getUpdateLogTitle())
-                            .setMessage(res.getUpdateLogTitle())
-                            .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                    new SweetAlertDialog(context,SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText(res.getUpdateLogTitle())
+                            .setContentText(res.getUpdateLogTitle())
+                            .setConfirmText("更新")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
                                 }
                             })
                             .show();
