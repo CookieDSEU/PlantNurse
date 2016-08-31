@@ -10,51 +10,29 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.plantnurse.plantnurse.Activity.SignupActivity">
-    <!--created by went-->
+    android:background="@color/citycolor"
+    tools:context="com.plantnurse.plantnurse.Activity.ResetcityActivity">
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_province"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="选择省份" />
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:ms_hint="选择城市" />
+            <Button
+            android:id="@+id/reset"
+            android:textSize="20sp"
+            android:background="@drawable/btnstyle1"
+            android:textColor="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinner_province"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    app:ms_hint="选择省份" />
-
-
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spinner_city"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    app:ms_hint="选择城市" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/reset"
-                style="?android:textAppearanceSmall"
-                android:textColor="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="确定更改"
-                />
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:text="确定更改"
+            />
 
 </LinearLayout>

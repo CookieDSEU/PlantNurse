@@ -12,4 +12,5 @@ public class Constants {
     public static final String AVATAR_UPLOAD_URL="http://www.plantnurse.top/avatar/upload.php";
     public static final String CHECKVERSION_URL="http://www.plantnurse.top/checkversion.php";
     public static final String CHANGEINFO_URL="http://www.plantnurse.top/changeinfo.php";
+    public static final String REPORT_URL="https://www.sojump.hk/jq/9513426.aspx";
 }
