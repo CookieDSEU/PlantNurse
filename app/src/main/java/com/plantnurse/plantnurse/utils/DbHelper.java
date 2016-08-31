@@ -15,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     //数据库名称
-    private static final String DATABASE_NAME = "plantNurse.db";
+    private static final String DATABASE_NAME = "AlarmsInfo.db";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,6 +32,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Alarm.KEY_IsAlarm + " INTEGER,"
                 + Alarm.KEY_Frequency + " INTEGER,"
                 + Alarm.KEY_PlantName + " TEXT,"
+                + Alarm.KEY_Water + " INTEGER,"
+                + Alarm.KEY_Sun + " INTEGER,"
+                + Alarm.KEY_TakeBack + " INTEGER,"
+                + Alarm.KEY_TakeCare + " INTEGER,"
+                + Alarm.KEY_Fertilization + " INTEGER,"
                 + Alarm.KEY_Weather + " TEXT,"
                 + Alarm.KEY_Music + " INTEGER,"
                 + Alarm.KEY_Available + " TEXT)";

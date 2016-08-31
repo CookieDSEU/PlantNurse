@@ -33,7 +33,11 @@
             android:hardwareAccelerated="false">
         </activity>
         <activity android:name=".Activity.AddAlarmActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+
+        <activity android:name=".Activity.AlarmActivity">
+        </activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
