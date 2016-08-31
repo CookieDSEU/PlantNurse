@@ -2,80 +2,84 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/park_2">
+    android:weightSum="1"
+    android:background="@mipmap/parkbackground_2">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            android:id="@+id/button_left"
-            android:src="@drawable/left_3"
-            android:scaleType="centerInside"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="104dp"
-            android:layout_marginLeft="15dp"
-            android:background="#00000000"/>
-        <ImageButton
-            android:id="@+id/button_right"
-            android:src="@drawable/right_3"
-            android:scaleType="centerInside"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_alignTop="@+id/button_left"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="104dp"
-            android:layout_marginRight="15dp"
-            android:background="#00000000"/>
-        <ImageView
-            android:id="@+id/image_flower"
-            android:scaleType="centerInside"
-            android:layout_width="220dip"
-            android:layout_height="300dip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp" />
-
-        <TextView
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_gravity="right"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="36℃"
-            android:textColor="#ffffff"
-            android:textSize="40sp"
-            android:id="@+id/text_temp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="上海"
-            android:textColor="#ffffff"
-            android:textSize="30sp"
-            android:id="@+id/text_city"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_height="90dp"
+            android:layout_weight="0.1"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="36℃"
+                android:textColor="#ffffff"
+                android:textSize="40sp"
+                android:id="@+id/text_temp"
+                android:layout_gravity="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="上海"
+                android:textColor="#ffffff"
+                android:textSize="30sp"
+                android:id="@+id/text_city"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
         <ImageView
             android:scaleType="centerInside"
             android:layout_width="85dip"
             android:layout_height="85dip"
             android:id="@+id/image_weather"
-            android:layout_below="@+id/text_city"
+            android:layout_gravity="right|center_vertical"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_plantlist"
+            android:layout_width="wrap_content"
+            android:layout_height="220dp"
+            android:scrollbars="none"
+            android:layout_above="@+id/imageButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <com.plantnurse.plantnurse.utils.CircleImg
+            android:id="@+id/image_flower"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
+            android:layout_marginLeft="41dp"
+            android:layout_marginStart="41dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginTop="15dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bubblebutton"
+            android:id="@+id/tipButton"
+            android:layout_marginTop="43dp"
+            android:layout_below="@+id/image_flower"
+            android:layout_toRightOf="@+id/image_flower"
+            android:layout_toEndOf="@+id/image_flower"
+            android:layout_marginLeft="90dp"
+            android:layout_marginStart="11dp" />
 
 
     </RelativeLayout>

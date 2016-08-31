@@ -2,9 +2,13 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.app.Dialog;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.Display;
@@ -26,20 +30,25 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 //import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.utils.AddplantAdapter;
 import com.plantnurse.plantnurse.utils.Calendar;
+import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.ListDialog;
+import com.plantnurse.plantnurse.utils.PlantListAdapter;
 import com.plantnurse.plantnurse.utils.WeatherAdapter;
 import com.plantnurse.plantnurse.utils.WeatherManager;
 
 
 import java.sql.Wrapper;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,16 +64,18 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     //view
     private TextView text_Tmp;
     private ImageView image_Weather;
-    private ImageView image_Plant;
+    private ImageButton button_tips;
+    private CircleImg image_Plant;
     private TextView text_City;
-    private ImageButton left_Button;
-    private ImageButton right_Button;
     private ListView weather_ListView;
+    private PlantListAdapter mAdapter;//添加植物的图片适配器
+    private RecyclerView mRecyclerView;
     //data
     private String now_Tmp;
     private String city;
     private int now_Cond;
     private  List<Map<String,Object>> mData;
+    private List<Integer> plantList_Data;//添加植物的图片列表
     private Context mContext;
     private WeatherListAdapter adapter;
 
@@ -76,52 +87,65 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initView(ViewGroup view) {
+        initDatas();
         text_Tmp = (TextView) view.findViewById(R.id.text_temp);
         text_City = (TextView) view.findViewById(R.id.text_city);
         image_Weather = (ImageView) view.findViewById(R.id.image_weather);
-        image_Plant = (ImageView) view.findViewById(R.id.image_flower);
-        left_Button = (ImageButton) view.findViewById(R.id.button_left);
-        right_Button = (ImageButton) view.findViewById(R.id.button_right);
+        image_Plant = (CircleImg) view.findViewById(R.id.image_flower);
+        button_tips = (ImageButton) view.findViewById(R.id.tipButton);
+        //选择图片recyclerView
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_plantlist);
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        //设置适配器
+        mAdapter = new PlantListAdapter(getActivity(), plantList_Data);
+        mAdapter.setOnItemClickLitener(new PlantListAdapter.OnItemClickLitener()
+        {
+            @Override
+            public void onItemClick(View view, int position)
+            {
+                image_Plant.setImageResource(plantList_Data.get(position));
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
     }
 
+
+    //初始化plantlist
+    private void initDatas()
+    {
+        plantList_Data = new ArrayList<Integer>(Arrays.asList(R.drawable.flower1_s, R.drawable.flower2_s,
+                R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s,R.drawable.flower1_s,
+                R.drawable.flower2_s, R.drawable.flower3_s, R.drawable.flower4_s, R.drawable.flower5_s));
+
+    }
     @Override
     public void initController() {
         now_Tmp = WeatherManager.getWeatherInfo().now.tmp;
         now_Cond = Integer.parseInt(WeatherManager.getWeatherInfo().now.cond.code);
         city = WeatherManager.getWeatherInfo().basic.city;
-
-        left_Button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.setBackgroundResource(R.drawable.left3_pressed);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.setBackgroundResource(R.drawable.left_3);
-                }
-                return false;
-            }
-        });
-
-        right_Button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.setBackgroundResource(R.drawable.right3_pressed);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.setBackgroundResource(R.drawable.right_3);
-                }
-                return false;
-            }
-        });
+        image_Plant.setImageResource(R.drawable.flower2_s);
+        image_Plant.setBorderWidth(6);
+        image_Plant.setBorderColor(R.color.flowerborder);
 
         image_Plant.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Intent intent = new Intent(getActivity(),AddplantActivity.class);
+                Intent intent = new Intent(getActivity(), AddplantActivity.class);
                 startActivity(intent); // 启动Activity
                 return false;
             }
         });
+
+//        button_tips.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                if()
+//            }
+//        });
 
         image_Weather.setOnClickListener(new View.OnClickListener() {
             @Override

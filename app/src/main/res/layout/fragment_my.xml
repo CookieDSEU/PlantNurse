@@ -19,7 +19,7 @@
                 android:id="@+id/top_relative"
                 android:layout_width="fill_parent"
                 android:layout_height="150.0dip"
-                android:background="@color/Indigo_color_teal">
+                android:background="@mipmap/myfragmenttitle2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
