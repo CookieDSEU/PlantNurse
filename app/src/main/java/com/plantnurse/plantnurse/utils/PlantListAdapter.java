@@ -4,21 +4,19 @@ package com.plantnurse.plantnurse.utils;
  * Created by Eason_Tao on 2016/8/29.
  */
 
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.plantnurse.plantnurse.R;
 
+import java.util.List;
 
-public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHolder>
+
+public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.ViewHolder>
 {
 
     public interface OnItemClickLitener
@@ -36,7 +34,7 @@ public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHo
     private LayoutInflater mInflater;
     private List<Integer> mDatas;
 
-    public AddplantAdapter(Context context, List<Integer> datats)
+    public PlantListAdapter(Context context, List<Integer> datats)
     {
         mInflater = LayoutInflater.from(context);
         mDatas = datats;
@@ -65,7 +63,7 @@ public class AddplantAdapter extends RecyclerView.Adapter<AddplantAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        View view = mInflater.inflate(R.layout.item_addplant, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_addplant2, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.mImg = (CircleImg) view.findViewById(R.id.id_index_addplant_item_image);

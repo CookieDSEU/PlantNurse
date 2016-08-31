@@ -21,6 +21,7 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
@@ -30,6 +31,7 @@ import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
+import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 
 import java.io.File;
@@ -38,7 +40,6 @@ import java.io.File;
  */
 public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private String urlpath;			// 图片本地路径
-    private String resultStr = "";	// 服务端返回结果集
     private static ProgressDialog pd;// 等待进度圈
     private CircleImg avatarview;
     private TextView usnview;
@@ -102,6 +103,15 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                     setPicToView(data);
                 }
                 break;
+            case MainActivity.REQUEST_CODE:
+                if(resultCode==getActivity().RESULT_OK){
+                    Intent intent=new Intent(getActivity(),MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else if(resultCode==getActivity().RESULT_CANCELED){
+
+                }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -120,14 +130,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
             avatarview.setImageDrawable(drawable);
 
             // 新线程后台上传服务端
-            //pd = ProgressDialog.show(getActivity(), null, "正在上传图片，请稍候...");
-            //ToastUtil.showShort(Util.uploadAvatar());
+            pd = ProgressDialog.show(getActivity(), null, "正在上传图片，请稍候...");
             SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
 
                 @Override
                 protected Object doInBackground(Object[] params) {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
-                    Log.e("ERROR",Util.uploadAvatar(userInfo.getuserName()));
+                    String info=Util.uploadAvatar(userInfo.getuserName());
+                    pd.dismiss();
                     return null;
                 }
 
@@ -188,8 +198,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
                 if(!mApp.isLogined()){
                     Intent intent=new Intent(getActivity(), SigninActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    startActivityForResult(intent, MainActivity.REQUEST_CODE);
                 }
                 else{menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
                     menuWindow.showAtLocation(avatarview,
@@ -200,8 +209,13 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         mycity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ResetcityActivity.class);
-                startActivity(intent);
+                if(mApp.isLogined()){
+                    Intent intent = new Intent(getActivity(), ResetcityActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    ToastUtil.showShort("您尚未登录！");
+                }
 
             }
         });
@@ -232,17 +246,18 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         sysreflct.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(intent);
+                Uri uri = Uri.parse(Constants.REPORT_URL);   //指定网址
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);           //指定Action
+                intent.setData(uri);                            //设置Uri
+                startActivity(intent);        //启动Activity
 
             }
         });
         sysupdate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(intent);
-
+                Util.checkVersion(getActivity());
             }
         });
         sysabout.setOnClickListener(new View.OnClickListener(){

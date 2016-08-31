@@ -33,6 +33,5 @@ dependencies {
     compile 'com.android.support:design:24.1.1'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.github.ganfra:material-spinner:1.1.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 
 }
