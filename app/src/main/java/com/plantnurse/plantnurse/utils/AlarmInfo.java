@@ -30,6 +30,11 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
         values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
+        values.put(Alarm.KEY_Water,alarm.water);
+        values.put(Alarm.KEY_Sun,alarm.sun);
+        values.put(Alarm.KEY_TakeBack,alarm.takeBack);
+        values.put(Alarm.KEY_TakeCare,alarm.takeCare);
+        values.put(Alarm.KEY_Fertilization,alarm.fertilization);
         //返回行数值
         long alarm_Id=db.insert(Alarm.TABLE,null,values);
         db.close();
@@ -49,7 +54,17 @@ public class AlarmInfo  {
 
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
-        //values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
+        values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
+        values.put(Alarm.KEY_Frequency,alarm.frequency);
+        values.put(Alarm.KEY_PlantName,alarm.plantName);
+        values.put(Alarm.KEY_Water,alarm.water);
+        values.put(Alarm.KEY_Sun,alarm.sun);
+        values.put(Alarm.KEY_TakeBack,alarm.takeBack);
+        values.put(Alarm.KEY_TakeCare,alarm.takeCare);
+        values.put(Alarm.KEY_Fertilization,alarm.fertilization);
+        values.put(Alarm.KEY_Weather,alarm.weather);
+        values.put(Alarm.KEY_Music,alarm.music);
+        values.put(Alarm.KEY_Available,alarm.available);
 
         db.update(Alarm.TABLE,values,Alarm.KEY_ID+"=?",new String[] { String.valueOf(alarm.alarm_id) });
         db.close();
@@ -64,6 +79,11 @@ public class AlarmInfo  {
                 Alarm.KEY_IsAlarm+","+
                 Alarm.KEY_Frequency+","+
                 Alarm.KEY_PlantName+","+
+                Alarm.KEY_Water+","+
+                Alarm.KEY_Sun+","+
+                Alarm.KEY_TakeBack+","+
+                Alarm.KEY_TakeCare+","+
+                Alarm.KEY_Fertilization+","+
                 Alarm.KEY_Weather+","+
                 Alarm.KEY_Music+","+
                 Alarm.KEY_Available+
@@ -78,6 +98,16 @@ public class AlarmInfo  {
                 alarm.put("content",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Content)));
                 alarm.put("time",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Time)));
                 alarm.put("isAlarm",cursor.getString(cursor.getColumnIndex(Alarm.KEY_IsAlarm)));
+                alarm.put("frequency",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Frequency)));
+                alarm.put("plantNurse",cursor.getString(cursor.getColumnIndex(Alarm.KEY_PlantName)));
+                alarm.put("water",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Water)));
+                alarm.put("sun",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Sun)));
+                alarm.put("takeBack",cursor.getString(cursor.getColumnIndex(Alarm.KEY_TakeBack)));
+                alarm.put("takeCare",cursor.getString(cursor.getColumnIndex(Alarm.KEY_TakeCare)));
+                alarm.put("fertilization",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Fertilization)));
+                alarm.put("weather",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Weather)));
+                alarm.put("music",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Music)));
+                alarm.put("available",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Available)));
                 alarmList.add(alarm);
             }while(cursor.moveToNext());
         }
@@ -95,6 +125,11 @@ public class AlarmInfo  {
                 Alarm.KEY_IsAlarm+","+
                 Alarm.KEY_Frequency +","+
                 Alarm.KEY_PlantName +","+
+                Alarm.KEY_Water+","+
+                Alarm.KEY_Sun+","+
+                Alarm.KEY_TakeBack+","+
+                Alarm.KEY_TakeCare+","+
+                Alarm.KEY_Fertilization+","+
                 Alarm.KEY_Weather +","+
                 Alarm.KEY_Music +","+
                 Alarm.KEY_Available+
@@ -110,6 +145,16 @@ public class AlarmInfo  {
                 alarm.content=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Content));
                 alarm.time  =cursor.getString(cursor.getColumnIndex(Alarm.KEY_Time));
                 alarm.isAlarm=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_IsAlarm));
+                alarm.frequency=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Frequency));
+                alarm.plantName=cursor.getString(cursor.getColumnIndex(Alarm.KEY_PlantName));
+                alarm.water=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Water));
+                alarm.sun=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Sun));
+                alarm.takeBack=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_TakeBack));
+                alarm.takeCare=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_TakeCare));
+                alarm.fertilization=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Fertilization));
+                alarm.weather=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Weather));
+                alarm.music=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Music));
+                alarm.available=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Available));
             }while(cursor.moveToNext());
         }
         cursor.close();

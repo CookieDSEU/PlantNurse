@@ -15,6 +15,11 @@ public class Alarm {
     public static final String KEY_IsAlarm="isAlarm";
     public static final String KEY_Frequency="frequency";
     public static final String KEY_PlantName="plantName";
+    public static final String KEY_Water="water";
+    public static final String KEY_Sun="sun";
+    public static final String KEY_TakeBack="takeBack";
+    public static final String KEY_TakeCare="takeCare";
+    public static final String KEY_Fertilization="fertilization";
     public static final String KEY_Weather="weather";
     public static final String KEY_Music="music";
     public static final String KEY_Available="available";
@@ -26,6 +31,11 @@ public class Alarm {
     public int isAlarm;
     public int frequency;//哪个值对应哪个频率
     public String plantName;
+    public int water;
+    public int sun;
+    public int takeBack;
+    public int takeCare;
+    public int fertilization;
     public String weather;
     public int music;
     public String available;
