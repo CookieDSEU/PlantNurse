@@ -13,4 +13,6 @@ public class Constants {
     public static final String CHECKVERSION_URL="http://www.plantnurse.top/checkversion.php";
     public static final String CHANGEINFO_URL="http://www.plantnurse.top/changeinfo.php";
     public static final String REPORT_URL="https://www.sojump.hk/jq/9513426.aspx";
+    public static final String GETINDEX_URL="http://www.plantnurse.top/getindex.php";
+    public static final String PLANTICON_URL="http://www.plantnurse.top/planticon/planticon?id=";
 }
