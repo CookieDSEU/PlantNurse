@@ -160,23 +160,42 @@
                 android:layout_marginTop="30dp"
                 android:id="@+id/selectFrequency">
 
-                <TextView
-                    android:text="选择重复"
-                    android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:id="@+id/text_chooserepeat"
-                    android:drawableLeft="@drawable/ic_chooserepeat"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="38dp">
+
+                    <TextView
+                        android:text="选择重复"
+                        android:layout_width="300dp"
+                        android:layout_height="38dp"
+                        android:id="@+id/text_chooserepeat"
+                        android:drawableLeft="@drawable/ic_chooserepeat"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:paddingLeft="17.0dip"
+                        android:textColor="#ff333333"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:text="12333"
+                        android:id="@+id/text_selectedFrequency"
+                        android:gravity="center_vertical"
+                        android:textColor="#ff333333"
+                        android:textSize="12.0sp"
+                        android:layout_gravity="right" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
 
                     <Button
                         android:text="每天"
@@ -231,6 +250,8 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout

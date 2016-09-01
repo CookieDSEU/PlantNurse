@@ -8,12 +8,14 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
@@ -92,17 +94,20 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
     private List<Integer> plantData;//添加植物的图片列表
     EditText editText;//备注
     private ImageView plantView;
+    private TextView selectedFrequency;//显示当前所选或已选时间
 
     private long currentTime;//当前时间
-    long selectedTime;//选定的时间
-    //private AlarmManager am;
-    //Intent intent;
-    //PendingIntent pendingIntent;
+    private String currentOrSelected;//当前时间或已选择时间的Sting类型，方便分隔时间和日期
+    private String selectedDate;//已选择的日期
+    private String selectedTime1;//已选择的时间
+    private String selectedHour;//已选择的小时数
+    private String selectedMin;//已选择的分钟数
+    private long selectedTime;//重新选定的时间
     private int alarm_Id;//闹钟的ID号
     private int isAlarm = 0;//判断是否有添加闹钟,0为没有，1为有
     private String text;//所编辑的内容
-    private String date;//所选择的日期
-    private String time;//所选择的时间
+    private String date;//新选择的日期
+    private String time;//新选择的时间
     private int frequency;//设置重复次数对应的值：每天1、隔一天2、隔两天3、自定义4、无选择默认为当天时间0
     private AlarmInfo info;//闹钟的增删查改等工作
     private Alarm alarm;//获取闹钟的相关属性
@@ -118,6 +123,9 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     @Override
     public int initLocalData() {
+
+        currentTime=System.currentTimeMillis();
+        currentOrSelected=formatter.format(currentTime);//当前时间
 
         //获取AlarmFragment传来的值，新建闹钟的alarm_Id=0
         Intent intent = getIntent();
@@ -185,6 +193,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
         //备注
         editText = (EditText) view.findViewById(R.id.edit_other);
+        selectedFrequency=(TextView)view.findViewById(R.id.text_selectedFrequency);
         //选择图片recyclerView
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_selectPlant);
         //设置recyclerView的布局管理器
@@ -209,6 +218,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             alarm = info.getAlarmById(alarm_Id);
             editText.setText(alarm.content);
             time = alarm.time;
+            currentOrSelected=time;//已选择的时间
             isAlarm = alarm.isAlarm;
             frequency = alarm.frequency;
             iswater_clicked = alarm.water;
@@ -227,6 +237,28 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
         }
 
+        //分隔日期和时间
+        String strDorT[]=currentOrSelected.split(" ");
+        selectedDate=strDorT[0];
+        selectedTime1=strDorT[1];
+
+        //分隔时钟，分钟
+        String strHorM[]=selectedTime1.split(":");
+        selectedHour=strHorM[0];
+        selectedMin=strHorM[1];
+
+        //初始化NumberPicker的值
+
+        if (Integer.parseInt(selectedHour) < 12) {
+            numberPicker_ampm.setValue(0);
+            numberPicker_h.setValue(Integer.parseInt(selectedHour));
+        } else {
+            numberPicker_ampm.setValue(1);
+            numberPicker_h.setValue(Integer.parseInt(selectedHour)-12);
+        }
+        numberPicker_m.setValue(Integer.parseInt(selectedMin));
+
+
     }
 
     //重复闹钟按钮的初始化颜色
@@ -234,18 +266,22 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         switch (i) {
             case 1:
                 iseveryday_clicked=1;
+                selectedFrequency.setText("每天");
                 button_everyday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                 break;
             case 2:
                 isdayoverday_clicked=1;
+                selectedFrequency.setText("隔一天");
                 button_dayoverday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                 break;
             case 3:
                 isthreeday_clicked=1;
+                selectedFrequency.setText("隔两天");
                 button_threeday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                 break;
             case 4:
                 isuserdefine_clicked=1;
+                selectedFrequency.setText(selectedDate);
                 button_userdefine.setBackgroundColor(getResources().getColor(R.color.ic_color));
                 break;
         }
@@ -334,6 +370,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     isuserdefine_clicked = 0;
                     frequency=0;
                     date=null;
+                    selectedFrequency.setText("");
                 } else {
                     //若选择自定义，则其他的按钮全为false，颜色设为灰色
                     iseveryday_clicked = 0;
@@ -346,6 +383,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     button_userdefine.setBackgroundColor(getResources().getColor(R.color.ic_color));
                     isuserdefine_clicked = 1;
                     frequency = 4;
+                    selectedFrequency.setText("自定义");
 
                     //datePickerDialog.setVibrate(isVibrate());
                     datePickerDialog.setYearRange(1985, 2028);
@@ -363,6 +401,8 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 if (iseveryday_clicked == 1) {
                     button_everyday.setBackgroundColor(getResources().getColor(R.color.color_Grey));
                     iseveryday_clicked = 0;
+                    frequency=0;
+                    selectedFrequency.setText("");
                 } else {
                     //若用户选择每天，其他按钮false
                     isuserdefine_clicked = 0;
@@ -375,6 +415,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     button_everyday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                     iseveryday_clicked = 1;
                     frequency = 1;
+                    selectedFrequency.setText("每天");
                 }
             }
         });
@@ -386,6 +427,8 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 if (isdayoverday_clicked == 1) {
                     button_dayoverday.setBackgroundColor(getResources().getColor(R.color.color_Grey));
                     isdayoverday_clicked = 0;
+                    frequency=0;
+                    selectedFrequency.setText("");
                 } else {
                     //其他按钮false
                     iseveryday_clicked = 0;
@@ -398,6 +441,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     button_dayoverday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                     isdayoverday_clicked = 1;
                     frequency = 2;
+                    selectedFrequency.setText("隔一天");
                 }
             }
         });
@@ -408,6 +452,8 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 if (isthreeday_clicked == 1) {
                     button_threeday.setBackgroundColor(getResources().getColor(R.color.color_Grey));
                     isthreeday_clicked = 0;
+                    frequency=0;
+                    selectedFrequency.setText("");
                 } else {
                     //其他false
                     iseveryday_clicked = 0;
@@ -420,6 +466,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     button_threeday.setBackgroundColor(getResources().getColor(R.color.ic_color));
                     isthreeday_clicked = 1;
                     frequency = 3;
+                    selectedFrequency.setText("隔两天");
                 }
             }
         });
@@ -534,8 +581,10 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 alarm.fertilization=ismedicine_clicked;
 
                 if(alarm_Id==0){//新闹钟
-                    info.insert(alarm);
-                    setAlarm(AddAlarmActivity.this,alarm.frequency,alarm.time,alarm.alarm_id,0);
+                    //返回插入的闹钟的alarm_id值
+                    alarm_Id=info.insert(alarm);
+                    //一定要传alarm_Id,这个时候alarm.alarm_id还没更新，值为0
+                    setAlarm(AddAlarmActivity.this,alarm.frequency,alarm.time,alarm_Id,0);
                     ToastUtil.showShort("New Alarm!");
                 }else{//以前设的闹钟
                     info.update(alarm);
@@ -614,11 +663,9 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         }else if(frequency==3){//隔两天
             intervalMillis=24 * 3600 * 1000 * 3;
         }
-        Intent intent = new Intent();
-        intent.setClass(context,AlarmReceiver.class);
-//        intent.putExtra("intervalMillis", intervalMillis);
-//        intent.putExtra("msg", tips);
-        intent.putExtra("id", id);
+        //发送闹钟请求
+        Intent intent = new Intent(context,AlarmReceiver.class);
+        intent.putExtra("alarm_Id", id);
 //        intent.putExtra("soundOrVibrator", soundOrVibrator);
         PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, 0);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -688,6 +735,8 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        String hour=""+hourOfDay;//小于10的小时数
+        String min=""+minute;//小于10的分钟数
         //获取当前时间
         currentTime=System.currentTimeMillis();
         //获取设置的时间
@@ -696,6 +745,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 (Calendar.DAY_OF_MONTH), hourOfDay, minute, 10);
         selectedTime=calendar.getTimeInMillis();
 
+        //设置NumberPicker显示的值
         if (hourOfDay < 12) {
             numberPicker_ampm.setValue(0);
             numberPicker_h.setValue(hourOfDay);
@@ -704,18 +754,22 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             numberPicker_h.setValue(hourOfDay - 12);
         }
         numberPicker_m.setValue(minute);
+
         //若设置的时间比当前的小，则顺延到明天
         if(selectedTime<=currentTime) {
             selectedTime+=24*3600*1000;
         }
 
-        time = hourOfDay + ":" + minute;
+
+        if(hourOfDay<10){
+            hour="0"+hourOfDay;
+        }
+        if(minute<10){
+            min="0"+minute;
+        }
+        time = hour + ":" + min;
         ToastUtil.showShort(time);
     }
-
-
-
-
 
 
     /**
