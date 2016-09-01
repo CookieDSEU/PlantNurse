@@ -59,7 +59,7 @@ public class AlarmActivity extends Activity {
         mtext=alarm.content;
 
         //alarm.time=null;
-        isAlarm=0;//响过后设置为0，即不再是个闹钟
+        //isAlarm=0;//响过后设置为0，即不再是个闹钟
 
 
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
@@ -68,8 +68,8 @@ public class AlarmActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         stopService(intentSV);
-                        AlarmActivity.this.finish();
                         info.update(alarm);
+                        AlarmActivity.this.finish();
                     }
                 }).show();
 

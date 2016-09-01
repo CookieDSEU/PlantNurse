@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.kot32.ksimplelibrary.KSimpleApplication;
 import com.plantnurse.plantnurse.Fragment.AlarmFragment;
@@ -64,8 +65,8 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Fertilization,alarm.fertilization);
         values.put(Alarm.KEY_Weather,alarm.weather);
         values.put(Alarm.KEY_Music,alarm.music);
-        values.put(Alarm.KEY_Available,alarm.available);
-
+        values.put(Alarm.KEY_Available, alarm.available);
+        Log.e("test2", String.valueOf(alarm.alarm_id));
         db.update(Alarm.TABLE,values,Alarm.KEY_ID+"=?",new String[] { String.valueOf(alarm.alarm_id) });
         db.close();
     }

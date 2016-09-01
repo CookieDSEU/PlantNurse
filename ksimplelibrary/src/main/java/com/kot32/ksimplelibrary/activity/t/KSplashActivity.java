@@ -25,6 +25,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by kot32 on 15/10/18.
  * 继承该类用于开发刚进入APP后的闪屏页面
@@ -88,15 +90,25 @@ public abstract class KSplashActivity extends KSimpleBaseActivityImpl {
             程序退出
            */
         if(getLocalIpAddress()==null){
-            AlertDialog waringDialog=new AlertDialog.Builder(this).setTitle
-                    ("Warning").setMessage("糟糕，没有网了！").setNegativeButton
-                    (R.string.kdrawer_close, new DialogInterface.OnClickListener() {
+            new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("糟糕，没有网了！")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
                             System.exit(0);
                         }
-                    }).create();
-            waringDialog.show();
+                    })
+                    .show();
+//            AlertDialog waringDialog=new AlertDialog.Builder(this).setTitle
+//                    ("Warning").setMessage("糟糕，没有网了！").setNegativeButton
+//                    (R.string.kdrawer_close, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            System.exit(0);
+//                        }
+//                    }).create();
+//            waringDialog.show();
         }
     }
     //判断是否联网，ip地址为空则尚未联网
