@@ -2,6 +2,7 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
+import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
@@ -52,18 +54,27 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private SortAdapter adapter; // 排序的适配器
 
     private CharacterParser characterParser;
-    private List<SortModel> SourceDateList; // 数据
 
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
     private int lastFirstVisibleItem = -1;
-    private ArrayList<String> plantname=new ArrayList<>();
-    private ArrayList<Bitmap> planticon=new ArrayList<>();
-    GetIndexResponse indexdata=new GetIndexResponse();
+    private ArrayList<String> plantname;
+    private ArrayList<Integer> planticon;
+    boolean isUpdate=false;
+    GetIndexResponse indexdata;
+    private List<SortModel> sourceDateList;
 
     @Override
-    public int initLocalData() {;
+    public int initLocalData() {
+        indexdata= PlantIndexManager.getPlantIndex();
+        plantname=new ArrayList<>();
+        planticon=new ArrayList<>();
+        for(int i=0;i<indexdata.response.size();i++) {
+            plantname.add(indexdata.response.get(i).name);
+            planticon.add(indexdata.response.get(i).id);
+        }
+        isUpdate=false;
         return 0;
 
     }
@@ -83,14 +94,17 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
 
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
-    private List<SortModel> filledData(List<String> name, List<Bitmap> icon) {
+    private List<SortModel> filledData(List<String> name) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
 
         for (int i = 0; i < name.size(); i++) {
 
             SortModel sortModel = new SortModel();
             sortModel.setName(name.get(i));
-            sortModel.seticonBitmap(icon.get(i));
+            sortModel.setId(planticon.get(i));
+            Bitmap bitmap=Util.getHttpBitmap(Constants.PLANTICON_URL+planticon.get(i));
+            sortModel.seticonBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.avatar));
+           // sortModel.seticonBitmap(bitmap);
             String pinyin = characterParser.getSelling(name.get(i));
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
@@ -106,68 +120,24 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
 
-    /**
-     * 过滤数据
-     * @param filterStr
-     */
-
-    private void filterData(String filterStr) {
-        List<SortModel> filterDateList = new ArrayList<SortModel>();
-
-        if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = SourceDateList;
-        } else {
-            filterDateList.clear();
-            for (SortModel sortModel : SourceDateList) {
-                String name = sortModel.getName();
-                if (name.indexOf(filterStr.toString()) != -1
-                        || characterParser.getSelling(name).startsWith(
-                        filterStr.toString())) {
-                    filterDateList.add(sortModel);
-                }
-            }
-        }
-
-        Collections.sort(filterDateList, pinyinComparator);
-        //生成列表了
-        adapter.updateListView(filterDateList);
-    }
-
 
     @Override
     public void initController() {
+
 
     }
 
     @Override
     public void onLoadingNetworkData() {
-        HashMap temp=new HashMap<>();
-        SimpleTaskManager.startNewTask(new NetworkTask("getindex", getActivity(),GetIndexResponse.class,
-                temp, Constants.GETINDEX_URL, NetworkTask.GET) {
-            @Override
-            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                Log.e("test","im in 1");
-                indexdata=(GetIndexResponse)result.resultObject;
 
-            }
-
-            @Override
-            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
-                Log.e("test","im in 2");
-            }
-        });
+        sourceDateList = filledData(plantname);
     }
-
-    @Override
-    public void onLoadedNetworkData(View view) {
-        Log.e("log",indexdata.response.size()+"");
-        for(int i=0;i<indexdata.response.size();i++) {
-            plantname.add(indexdata.response.get(i).name);
-            planticon.add(Util.getHttpBitmap(Constants.PLANTICON_URL+indexdata.response.get(i).id));
-        }
-        SourceDateList = filledData(plantname,planticon);// 填充数据
-        Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(getActivity(), SourceDateList);
+    public void updateindex(){
+        // 填充数据
+        Collections.sort(sourceDateList, pinyinComparator);
+        //adapter = new SortAdapter(getActivity(), SourceDateList);
+        adapter=new SortAdapter(getActivity(), sourceDateList);
+        adapter.updateListView(sourceDateList);
         sortListView.setAdapter(adapter);
         sortListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -180,6 +150,9 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
+//                List<SortModel> list=adapter.getlist();
+//                list.get(firstVisibleItem).seticonBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.pwd2));
+//                adapter.updateListView(list);
                 int section = adapter.getSectionForPosition(firstVisibleItem);
                 int nextSecPosition = adapter
                         .getPositionForSection(section + 1);
@@ -238,6 +211,11 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             }
         });
+    }
+    @Override
+    public void onLoadedNetworkData(View view) {
+
+        updateindex();
     }
 
     @Override

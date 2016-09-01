@@ -25,6 +25,9 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	//用的是SortModel 的list
 	private List<SortModel> list = null;
 	private Context mContext;
+	public List<SortModel> getlist(){
+		return list;
+	}
 
 	public SortAdapter(Context mContext, List<SortModel> list) {
 		this.mContext = mContext;
