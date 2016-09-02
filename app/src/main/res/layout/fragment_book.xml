@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--create by Heloise-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:background="@color/Indigo_color_teal">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="搜植物"
-            android:drawableLeft="@drawable/ic_search"
-            android:textColor="@color/ic_color"
-            android:gravity="left|center"
-            android:textSize="20sp"
-            android:background="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="10dp" />
-
+        <com.quinny898.library.persistentsearch.SearchBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchbox"
+            />
     </RelativeLayout>
 
     <FrameLayout

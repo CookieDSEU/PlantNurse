@@ -1,6 +1,12 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.speech.RecognizerIntent;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -8,6 +14,11 @@ import android.widget.AdapterView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Activity.MainActivity;
+import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
@@ -16,15 +27,24 @@ import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.utils.Util;
+import com.quinny898.library.persistentsearch.SearchBox;
+import com.quinny898.library.persistentsearch.SearchResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.R.attr.name;
+import static android.R.id.list;
+import static com.plantnurse.plantnurse.R.array.date;
 
 /**
  * Created by Heloise on 2016/8/31.
@@ -48,12 +68,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public int initLocalData() {
-//        plantname=new ArrayList<>();
-//        planticon=new ArrayList<>();
-//        for(int i=0;i<indexdata.response.size();i++) {
-//            plantname.add(indexdata.response.get(i).name);
-//            planticon.add(indexdata.response.get(i).id);
-//        }
         return 0;
     }
 
@@ -69,8 +83,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
     }
 
-
-
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
     private List<SortModel> filledData() {
         List<SortModel> mSortList = new ArrayList<SortModel>();
@@ -80,7 +92,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             SortModel sortModel = new SortModel();
             sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
             sortModel.setUrl(Constants.PLANTICON_URL+PlantIndexManager.getPlantIndex().response.get(i).id);
-            String pinyin = characterParser.getSpelling(PlantIndexManager.getPlantIndex().response.get(i).name);
+            String pinyin = characterParser.getSelling(PlantIndexManager.getPlantIndex().response.get(i).name);
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             if (sortString.matches("[A-Z]")) {
@@ -98,8 +110,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initController() {
-
-
     }
 
     @Override
