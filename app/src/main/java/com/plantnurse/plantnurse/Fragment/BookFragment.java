@@ -2,11 +2,6 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.speech.RecognizerIntent;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -14,11 +9,6 @@ import android.widget.AdapterView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
-import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
-import com.kot32.ksimplelibrary.network.NetworkExecutor;
-import com.plantnurse.plantnurse.Activity.MainActivity;
-import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
@@ -27,16 +17,10 @@ import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.utils.Util;
-import com.quinny898.library.persistentsearch.SearchBox;
-import com.quinny898.library.persistentsearch.SearchResult;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
