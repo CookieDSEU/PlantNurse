@@ -13,6 +13,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.plantnurse.plantnurse.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 		SortModel model = list.get(position);
 		//设置名字和图片
 		viewHolder.tvTitle.setText(model.getName());
-		viewHolder.icon.setImageBitmap(model.getIconBitmap());
+		Picasso.with(mContext).load(model.getUrl()).into(viewHolder.icon);
 		return view;
 	}
 

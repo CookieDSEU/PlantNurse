@@ -33,6 +33,7 @@ import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 /**
@@ -272,20 +273,18 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
     @Override
     public void onLoadingNetworkData() {
-        if(mApp.isLogined()){
-            UserInfo userInfo=(UserInfo) mApp.getUserModel();
-            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
-            avabitmap=Util.getHttpBitmap(temp);
-        }
+
 
     }
 
     @Override
     public void onLoadedNetworkData(View contentView) {
         if(mApp.isLogined()){
-            avatarview.setImageBitmap(avabitmap);
+            UserInfo userInfo=(UserInfo) mApp.getUserModel();
+            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+            // avabitmap=Util.getHttpBitmap(temp);
+            Picasso.with(getActivity()).load(temp).into(avatarview);
         }
-
     }
 
     @Override

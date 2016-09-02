@@ -111,7 +111,7 @@ public class CharacterParser {
 		return result;
 	}
 
-	public String getSelling(String chs) {
+	public String getSpelling(String chs) {
 		String key, value;
 		buffer = new StringBuilder();
 		for (int i = 0; i < chs.length(); i++) {
@@ -130,7 +130,7 @@ public class CharacterParser {
 	}
 
 	public String getSpelling() {
-		return this.getSelling(this.getResource());
+		return this.getSpelling(this.getResource());
 	}
 
 }

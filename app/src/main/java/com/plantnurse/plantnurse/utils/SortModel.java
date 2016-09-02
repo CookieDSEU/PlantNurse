@@ -16,24 +16,20 @@ public class SortModel implements Serializable {
 
 	private String name;
 	private String sortLetters;
-	private Bitmap iconBitmap;
-	private int resid;
 	private int id;
+	private String url;
 
 	public SortModel() {
 		super();
 	}
 
-	public void seticonBitmap(Bitmap bitmap)
-	{
-		this.iconBitmap=bitmap;
+	public String getUrl() {
+		return url;
 	}
 
-	public Bitmap getIconBitmap()
-	{
-		return iconBitmap;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -49,8 +45,6 @@ public class SortModel implements Serializable {
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}
-	public void setResid(int id){this.resid=id;}
-	public int getResid(){return resid;}
 	public void setId(int _id){this.id=_id;}
 	public int getId(){return id;}
 }
