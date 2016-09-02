@@ -2,6 +2,9 @@ package com.plantnurse.plantnurse.utils;
 
 import android.graphics.Bitmap;
 
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+
 import java.io.Serializable;
 
 /**
@@ -13,40 +16,20 @@ public class SortModel implements Serializable {
 
 	private String name;
 	private String sortLetters;
-	private String iconUrl;
-	private Bitmap iconBitmap;
-
-	public SortModel(String name, String sortLetters, String iconUrl) {
-		super();
-		this.name = name;
-		this.sortLetters = sortLetters;
-		this.iconUrl = iconUrl;
-	}
+	private int id;
+	private String url;
 
 	public SortModel() {
 		super();
 	}
 
-	//获取图片路径
-	public String getIconUrl() {
-		return iconUrl;
+	public String getUrl() {
+		return url;
 	}
 
-	//设置路径
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-
-	public void seticonBitmap(Bitmap bitmap)
-	{
-		this.iconBitmap=bitmap;
-	}
-
-	public Bitmap getIconBitmap()
-	{
-		return iconBitmap;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -62,4 +45,6 @@ public class SortModel implements Serializable {
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}
+	public void setId(int _id){this.id=_id;}
+	public int getId(){return id;}
 }

@@ -1,9 +1,6 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
-import android.graphics.Bitmap;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -11,33 +8,23 @@ import android.widget.AdapterView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
-import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
-import com.kot32.ksimplelibrary.network.NetworkExecutor;
-import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
+import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import static android.R.attr.name;
-import static android.R.id.list;
-import static com.plantnurse.plantnurse.R.array.date;
 
 /**
  * Created by Heloise on 2016/8/31.
@@ -52,20 +39,22 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private SortAdapter adapter; // 排序的适配器
 
     private CharacterParser characterParser;
-    private List<SortModel> SourceDateList; // 数据
 
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
     private int lastFirstVisibleItem = -1;
-    private ArrayList<String> plantname=new ArrayList<>();
-    private ArrayList<Bitmap> planticon=new ArrayList<>();
-    GetIndexResponse indexdata=new GetIndexResponse();
+    private List<SortModel> sourceDateList;
 
     @Override
-    public int initLocalData() {;
+    public int initLocalData() {
+//        plantname=new ArrayList<>();
+//        planticon=new ArrayList<>();
+//        for(int i=0;i<indexdata.response.size();i++) {
+//            plantname.add(indexdata.response.get(i).name);
+//            planticon.add(indexdata.response.get(i).id);
+//        }
         return 0;
-
     }
 
     @Override
@@ -83,15 +72,15 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
 
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
-    private List<SortModel> filledData(List<String> name, List<Bitmap> icon) {
+    private List<SortModel> filledData() {
         List<SortModel> mSortList = new ArrayList<SortModel>();
 
-        for (int i = 0; i < name.size(); i++) {
+        for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
 
             SortModel sortModel = new SortModel();
-            sortModel.setName(name.get(i));
-            sortModel.seticonBitmap(icon.get(i));
-            String pinyin = characterParser.getSelling(name.get(i));
+            sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
+            sortModel.setUrl(Constants.PLANTICON_URL+PlantIndexManager.getPlantIndex().response.get(i).id);
+            String pinyin = characterParser.getSpelling(PlantIndexManager.getPlantIndex().response.get(i).name);
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             if (sortString.matches("[A-Z]")) {
@@ -106,68 +95,24 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
 
-    /**
-     * 过滤数据
-     * @param filterStr
-     */
-
-    private void filterData(String filterStr) {
-        List<SortModel> filterDateList = new ArrayList<SortModel>();
-
-        if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = SourceDateList;
-        } else {
-            filterDateList.clear();
-            for (SortModel sortModel : SourceDateList) {
-                String name = sortModel.getName();
-                if (name.indexOf(filterStr.toString()) != -1
-                        || characterParser.getSelling(name).startsWith(
-                        filterStr.toString())) {
-                    filterDateList.add(sortModel);
-                }
-            }
-        }
-
-        Collections.sort(filterDateList, pinyinComparator);
-        //生成列表了
-        adapter.updateListView(filterDateList);
-    }
-
 
     @Override
     public void initController() {
+
 
     }
 
     @Override
     public void onLoadingNetworkData() {
-        HashMap temp=new HashMap<>();
-        SimpleTaskManager.startNewTask(new NetworkTask("getindex", getActivity(),GetIndexResponse.class,
-                temp, Constants.GETINDEX_URL, NetworkTask.GET) {
-            @Override
-            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                Log.e("test","im in 1");
-                indexdata=(GetIndexResponse)result.resultObject;
 
-            }
 
-            @Override
-            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
-                Log.e("test","im in 2");
-            }
-        });
     }
-
-    @Override
-    public void onLoadedNetworkData(View view) {
-        Log.e("log",indexdata.response.size()+"");
-        for(int i=0;i<indexdata.response.size();i++) {
-            plantname.add(indexdata.response.get(i).name);
-            planticon.add(Util.getHttpBitmap(Constants.PLANTICON_URL+indexdata.response.get(i).id));
-        }
-        SourceDateList = filledData(plantname,planticon);// 填充数据
-        Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(getActivity(), SourceDateList);
+    public void updateindex(){
+        // 填充数据
+        Collections.sort(sourceDateList, pinyinComparator);
+        //adapter = new SortAdapter(getActivity(), SourceDateList);
+        adapter=new SortAdapter(getActivity(), sourceDateList);
+        adapter.updateListView(sourceDateList);
         sortListView.setAdapter(adapter);
         sortListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -180,6 +125,9 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
+//                List<SortModel> list=adapter.getlist();
+//                list.get(firstVisibleItem).seticonBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.pwd2));
+//                adapter.updateListView(list);
                 int section = adapter.getSectionForPosition(firstVisibleItem);
                 int nextSecPosition = adapter
                         .getPositionForSection(section + 1);
@@ -238,6 +186,11 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             }
         });
+    }
+    @Override
+    public void onLoadedNetworkData(View view) {
+        sourceDateList = filledData();
+        updateindex();
     }
 
     @Override

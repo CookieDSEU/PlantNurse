@@ -23,12 +23,14 @@ import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Fragment.BookFragment;
+import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
+import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 import com.plantnurse.plantnurse.utils.WeatherManager;
@@ -213,6 +215,24 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     @Override
     public void onLoadingNetworkData() {
         getWeatherInfo();
+        getPlantIndex();
+
+    }
+
+    private void getPlantIndex() {
+        HashMap temp=new HashMap<>();
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(),GetIndexResponse.class,
+                temp, Constants.GETINDEX_URL, NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetIndexResponse response = (GetIndexResponse) result.resultObject;
+                PlantIndexManager.setPlantIndex(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+            }
+        });
     }
 
     @Override
