@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.utils.CharacterParser;
@@ -43,7 +44,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private SortAdapter adapter; // 排序的适配器
 
     private CharacterParser characterParser;
-
+    private FloatingSearchView searchView;
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
@@ -65,17 +66,17 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         dialog = (TextView) view.findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
         sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
+        searchView=(FloatingSearchView)view.findViewById(R.id.floating_search_view);
     }
 
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
-    private List<SortModel> filledData() {
+    private List<SortModel> filledData(String param) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-
         for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
-
-            SortModel sortModel = new SortModel();
+            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)){
+                SortModel sortModel = new SortModel();
             sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
-            sortModel.setUrl(Constants.PLANTICON_URL+PlantIndexManager.getPlantIndex().response.get(i).id);
+            sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
             String pinyin = characterParser.getSelling(PlantIndexManager.getPlantIndex().response.get(i).name);
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
@@ -87,6 +88,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             mSortList.add(sortModel);
         }
+        }
         return mSortList;
     }
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
@@ -94,6 +96,13 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initController() {
+        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                sourceDateList=filledData(newQuery);
+                adapter.updateListView(sourceDateList);
+            }
+        });
     }
 
     @Override
@@ -183,7 +192,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     @Override
     public void onLoadedNetworkData(View view) {
-        sourceDateList = filledData();
+        sourceDateList = filledData("");
         updateindex();
     }
 
