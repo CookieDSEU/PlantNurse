@@ -1,16 +1,16 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
-import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
-import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
 import com.plantnurse.plantnurse.utils.PlantIndexManager;
@@ -27,10 +27,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.attr.name;
-import static android.R.id.list;
-import static com.plantnurse.plantnurse.R.array.date;
-
 /**
  * Created by Heloise on 2016/8/31.
  */
@@ -40,16 +36,14 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private ListView sortListView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
-
     private SortAdapter adapter; // 排序的适配器
-
-    private CharacterParser characterParser;
     private FloatingSearchView searchView;
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
     private int lastFirstVisibleItem = -1;
     private List<SortModel> sourceDateList;
+    private static final int VOICE_RECOGNITION_REQUEST_CODE=0x05;
 
     @Override
     public int initLocalData() {
@@ -58,7 +52,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initView(ViewGroup view) {
-        characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         xuanfuLayout = (LinearLayout) view.findViewById(R.id.top_layout);
         xuanfaText = (TextView) view.findViewById(R.id.top_char);
@@ -77,7 +70,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 SortModel sortModel = new SortModel();
             sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
             sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
-            String pinyin = characterParser.getSelling(PlantIndexManager.getPlantIndex().response.get(i).name);
+            String pinyin= Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             if (sortString.matches("[A-Z]")) {
@@ -101,6 +94,13 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onSearchTextChanged(String oldQuery, String newQuery) {
                 sourceDateList=filledData(newQuery);
                 adapter.updateListView(sourceDateList);
+            }
+        });
+        searchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                if(item.getItemId()==R.id.action_voice_rec){
+                }
             }
         });
     }

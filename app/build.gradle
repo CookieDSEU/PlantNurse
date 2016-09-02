@@ -34,4 +34,5 @@ dependencies {
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
+    compile 'com.github.promeg:tinypinyin:1.0.0'
 }
