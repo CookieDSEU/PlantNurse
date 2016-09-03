@@ -128,8 +128,8 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         city = WeatherManager.getWeatherInfo().basic.city;
         image_Plant.setImageResource(R.drawable.flower2_s);
         image_Plant.setBorderWidth(6);
-        image_Plant.setBorderColor(R.color.flowerborder);
-
+        //image_Plant.setBorderColor(R.color.flowerborder);
+        image_Plant.setBorderColor(Color.WHITE);
         image_Plant.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

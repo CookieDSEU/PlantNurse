@@ -53,28 +53,28 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_plantlist"
             android:layout_width="wrap_content"
-            android:layout_height="220dp"
+            android:layout_height="240dp"
             android:scrollbars="none"
-            android:layout_above="@+id/imageButton"
+            android:layout_alignTop="@+id/image_flower"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
         <com.plantnurse.plantnurse.utils.CircleImg
             android:id="@+id/image_flower"
             android:layout_width="200dip"
             android:layout_height="200dip"
-            android:layout_marginLeft="41dp"
-            android:layout_marginStart="41dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="55dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp" />
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/bubblebutton"
             android:id="@+id/tipButton"
-            android:layout_marginTop="43dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@+id/image_flower"
             android:layout_toRightOf="@+id/image_flower"
             android:layout_toEndOf="@+id/image_flower"
