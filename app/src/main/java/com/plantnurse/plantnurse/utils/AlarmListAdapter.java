@@ -46,7 +46,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     private int alarmId;
     private AlarmFragment context;
     private LayoutInflater layoutInflater;
-     int isCircleImg_Click;
 
 
     public AlarmListAdapter(AlarmFragment mContext, ArrayList<HashMap<String,String>> mAlarmList){
@@ -101,17 +100,16 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             public void onClick(View v) {
                 Alarm alarm=new Alarm();
                 alarm = info.getAlarmById(alarmId);
-                if(isCircleImg_Click==1){//原先为闹钟，点击取消
-                    holder.showBackground.getBackground().setAlpha(100);
+                if(alarm.isAlarm==1){//原先为闹钟，点击取消
+                    holder.showBackground.getBackground().setAlpha(50);
                    // holder.showRole.getBackground().setAlpha(100);
                     cancelAlarm(context.getActivity(), alarm.alarm_id);
                     alarm.isAlarm=0;
+                    info.update(alarm);
                     ToastUtil.showShort("闹钟已取消");
-                    isCircleImg_Click=0;
                 }else {//重新启用闹钟
-                    holder.showBackground.getBackground().setAlpha(255);
 //                    holder.showRole.getBackground().setAlpha(255);
-                    setAlarm(context.getActivity(),alarm,0);
+                    setAlarm(context.getActivity(),holder,alarm,0);
 
                 }
             }
@@ -121,7 +119,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     }
 
     //设置闹钟
-    public  void setAlarm(Context context, Alarm alarm, int soundOrVibrator) {
+    public  void setAlarm(Context context, AlarmItemHolder holder,Alarm alarm, int soundOrVibrator) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         long intervalMillis = 0;
         long selectedTime = 0;
@@ -154,11 +152,11 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             if(selectedTime<=currentTime){
                 ToastUtil.showShort("请选择大于当前的时间");
                 alarm.isAlarm=0;
-                isCircleImg_Click=0;
+
             }else{
                 am.set(AlarmManager.RTC_WAKEUP, selectedTime, sender);
                 alarm.isAlarm=1;
-                isCircleImg_Click=1;
+                holder.showBackground.getBackground().setAlpha(255);
                 ToastUtil.showShort("闹钟已重新启用");
             }
 
@@ -170,15 +168,15 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 am.setRepeating(AlarmManager.RTC_WAKEUP, selectedTime, intervalMillis, sender);
             }
             alarm.isAlarm=1;
-            isCircleImg_Click=1;
+            holder.showBackground.getBackground().setAlpha(255);
             ToastUtil.showShort("闹钟已重新启用");
         }
-
+        info.update(alarm);
     }
 
     //取消闹钟
     public static void cancelAlarm(Context context,int id) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(context,AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent
                 .FLAG_CANCEL_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -197,8 +195,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         int fetilization=alarm.fertilization;
         String tips=alarm.content;
         int roleColor=alarm.roleColor;
-        isCircleImg_Click=alarm.isAlarm;
-
 
 
         //初始化行为
@@ -270,6 +266,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
         switch (roleColor){
             case 1://选择绿色
+                //holder.showRole.setBackgroundResource(R.drawable.alarmrole_green);
                 holder.showRole.setImageResource(R.drawable.alarmrole_green);
                 holder.showRole.setBorderWidth(10);
                 holder.showRole.setBorderColor(R.color.greenborder);
@@ -296,10 +293,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         }
 
         //初始化亮度，是否为闹钟
-        if(isCircleImg_Click==1){//是闹钟
-
+        if(alarm.isAlarm==1){//是闹钟
+            holder.showBackground.getBackground().setAlpha(225);
         }else{
-            holder.showBackground.getBackground().setAlpha(100);
+            holder.showBackground.getBackground().setAlpha(50);
             //holder.showRole.getBackground().setAlpha(100);
         }
 
