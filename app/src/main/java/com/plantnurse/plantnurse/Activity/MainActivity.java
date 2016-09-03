@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,12 +22,15 @@ import com.kot32.ksimplelibrary.widgets.view.KTabBar;
 import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
+import com.plantnurse.plantnurse.Fragment.BookFragment;
+import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
+import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 import com.plantnurse.plantnurse.utils.WeatherManager;
@@ -46,6 +48,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     @Override
     public List<Fragment> getFragmentList() {
         fragmentList.add(new ParkFragment());
+        fragmentList.add(new BookFragment());
         fragmentList.add(new AlarmFragment());
         fragmentList.add(new MyFragment());
         return fragmentList;
@@ -84,7 +87,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     //关闭drawer
                     drawer.closeDrawer(GravityCompat.START);
                     //跳转到“我的”fragement
-                    getContainer().setCurrentItem(2);
+                    getContainer().setCurrentItem(3);
 
                 } else {
                     Intent intent = new Intent(MainActivity.this, SigninActivity.class);
@@ -202,15 +205,34 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     @Override
     public void initController() {
 
-        addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-        addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
-        addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
+         addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.book_grey,R.drawable.book_color,"百科",Color.GRAY,Color.parseColor("#04b00f"));
+         addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
+         addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
 
 
     @Override
     public void onLoadingNetworkData() {
         getWeatherInfo();
+        getPlantIndex();
+
+    }
+
+    private void getPlantIndex() {
+        HashMap temp=new HashMap<>();
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(),GetIndexResponse.class,
+                temp, Constants.GETINDEX_URL, NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetIndexResponse response = (GetIndexResponse) result.resultObject;
+                PlantIndexManager.setPlantIndex(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+            }
+        });
     }
 
     @Override

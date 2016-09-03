@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.kot32.ksimplelibrary.KSimpleApplication;
 import com.plantnurse.plantnurse.Fragment.AlarmFragment;
@@ -20,13 +21,17 @@ public class AlarmInfo  {
     private DbHelper dbHelper;
 
     public AlarmInfo(Context context){
+
         dbHelper=new DbHelper(context);
+//        SQLiteDatabase db=dbHelper.getReadableDatabase();
+//        dbHelper.onUpgrade(db,1,1);
     }
 
     public int insert(Alarm alarm){
         //打开连接，写入数据
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
+        values.put(Alarm.KEY_RoleColor,alarm.roleColor);
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
         values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
@@ -52,6 +57,7 @@ public class AlarmInfo  {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
 
+        values.put(Alarm.KEY_RoleColor,alarm.roleColor);
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
         values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
@@ -64,8 +70,8 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Fertilization,alarm.fertilization);
         values.put(Alarm.KEY_Weather,alarm.weather);
         values.put(Alarm.KEY_Music,alarm.music);
-        values.put(Alarm.KEY_Available,alarm.available);
-
+        values.put(Alarm.KEY_Available, alarm.available);
+        Log.e("test2", String.valueOf(alarm.alarm_id));
         db.update(Alarm.TABLE,values,Alarm.KEY_ID+"=?",new String[] { String.valueOf(alarm.alarm_id) });
         db.close();
     }
@@ -74,6 +80,7 @@ public class AlarmInfo  {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         String selectQuery="SELECT "+
                 Alarm.KEY_ID+","+
+                Alarm.KEY_RoleColor+","+
                 Alarm.KEY_Content+","+
                 Alarm.KEY_Time+","+
                 Alarm.KEY_IsAlarm+","+
@@ -95,6 +102,7 @@ public class AlarmInfo  {
             do{
                 HashMap<String,String> alarm=new HashMap<String,String>();
                 alarm.put("alarm_id",cursor.getString(cursor.getColumnIndex(Alarm.KEY_ID)));
+                alarm.put("roleColor",cursor.getString(cursor.getColumnIndex(Alarm.KEY_RoleColor)));
                 alarm.put("content",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Content)));
                 alarm.put("time",cursor.getString(cursor.getColumnIndex(Alarm.KEY_Time)));
                 alarm.put("isAlarm",cursor.getString(cursor.getColumnIndex(Alarm.KEY_IsAlarm)));
@@ -120,6 +128,7 @@ public class AlarmInfo  {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         String selectQuery="SELECT "+
                 Alarm.KEY_ID + "," +
+                Alarm.KEY_RoleColor +","+
                 Alarm.KEY_Content + "," +
                 Alarm.KEY_Time +","+
                 Alarm.KEY_IsAlarm+","+
@@ -142,6 +151,7 @@ public class AlarmInfo  {
         if(cursor.moveToFirst()){
             do{
                 alarm.alarm_id =cursor.getInt(cursor.getColumnIndex(Alarm.KEY_ID));
+                alarm.roleColor =cursor.getInt(cursor.getColumnIndex(Alarm.KEY_RoleColor));
                 alarm.content=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Content));
                 alarm.time  =cursor.getString(cursor.getColumnIndex(Alarm.KEY_Time));
                 alarm.isAlarm=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_IsAlarm));

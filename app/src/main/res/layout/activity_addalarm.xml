@@ -3,28 +3,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="@color/white">
 
-    <TextView
-        android:text="闹钟设置"
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/setalarm_toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.12"
-        android:id="@+id/text_clockset"
-        android:background="@color/ic_color"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:textAlignment="center"
-        android:gravity="center"/>
+        android:layout_weight="0.09"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.80"
-        android:scrollbars="none">
+        android:layout_weight="0.83"
+        android:scrollbars="none"
+        android:clickable="true"
+        android:id="@+id/setAlam">
 
 
 
@@ -33,7 +36,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="1">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectRole">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selecticon_color"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="6"
+                        android:layout_height="match_parent"
+                        android:text="选择颜色"
+                        android:paddingLeft="17.0dip"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/textcolor"
+                        android:textSize="20.0sp"
+                        android:id="@+id/selecColor"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp">
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/role_green"/>
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/role_pink" />
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/role_blue"/>
+
+                    <!--<com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:id="@+id/role_yellow"/>-->
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"
+                android:layout_marginTop="20dp"/>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -42,74 +126,83 @@
                 android:background="@color/white"
                 android:id="@+id/selectPlants">
 
-                <TextView
-                    android:text="选择植物"
-                    android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:drawableLeft="@drawable/ic_chooseplant"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:id="@+id/text_chooseplant"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp"
-                    android:layout_weight="0.40"
-                    android:layout_marginTop="30dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selecticon_plant"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="6"
+                        android:layout_height="match_parent"
+                        android:text="选择植物"
+                        android:paddingLeft="17.0dip"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/textcolor"
+                        android:textSize="20.0sp"
+                        android:id="@+id/selecPlant"
+                        android:layout_gravity="center" />
+                </LinearLayout>
 
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerView_selectPlant"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_centerVertical="true"
                         android:background="#ffffff"
                         android:scrollbars="none" />
 
             </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"
+                android:layout_marginTop="0dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.40"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/selectTime">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.40"
-                    android:weightSum="1">
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selecticon_time"/>
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="6"
+                        android:layout_height="match_parent"
                         android:text="选择时间"
-                        android:layout_width="235dp"
-                        android:layout_height="38dp"
-                        android:id="@+id/text_choosetime"
-                        android:drawableLeft="@drawable/ic_choosetime"
+                        android:paddingLeft="17.0dip"
                         android:drawablePadding="10.0dip"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
-                        android:paddingLeft="17.0dip"
-                        android:textColor="#ff333333"
-                        android:textSize="16.0sp"
-                        android:layout_weight="0.37" />
+                        android:textColor="@color/textcolor"
+                        android:textSize="20.0sp"
 
-                    <Button
-                        android:text="选择时间"
-                        android:layout_width="76dp"
-                        android:layout_height="38dp"
-                        android:id="@+id/button_time"
-                        android:textColor="@color/white"
-                        android:background="@drawable/button_ok_click"
-                        android:textSize="16sp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_gravity="center" />
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -119,9 +212,9 @@
 
                     <NumberPicker
                         android:layout_width="60dp"
-                        android:layout_height="150dp"
+                        android:layout_height="120dp"
                         android:id="@+id/numberPicker_AMPM"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:background="@android:color/white"
                         android:layout_marginLeft="50dp"
                         android:layout_marginBottom="10dp"
@@ -129,233 +222,360 @@
 
                     <NumberPicker
                         android:layout_width="60dp"
-                        android:layout_height="150dp"
+                        android:layout_height="120dp"
                         android:id="@+id/numberPicker_hour"
                         android:layout_weight="1"
                         android:background="@android:color/white"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp" />
 
                     <NumberPicker
                         android:layout_width="60dp"
-                        android:layout_height="150dp"
+                        android:layout_height="120dp"
                         android:id="@+id/numberPicker_minute"
                         android:layout_weight="1"
                         android:background="@android:color/white"
                         android:layout_marginTop="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp" />
+                    <ImageButton
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="#00000000"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/selecttime"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/button_time"
+                        android:layout_gravity="center" />
                 </LinearLayout>
 
             </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/selectFrequency">
 
-                <TextView
-                    android:text="选择重复"
-                    android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:id="@+id/text_chooserepeat"
-                    android:drawableLeft="@drawable/ic_chooserepeat"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/selecticon_frequency"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="选择重复"
+                            android:paddingLeft="17.0dip"
+                            android:drawablePadding="10.0dip"
+                            android:gravity="center_vertical"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/textcolor"
+                            android:textSize="20.0sp"
+                            android:layout_gravity="center" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:id="@+id/text_selectedFrequency"
+                            android:gravity="center_vertical"
+                            android:textColor="#ff333333"
+                            android:textSize="12.0sp"
+                            android:layout_gravity="right"
+                            android:layout_marginLeft="100dp" />
+                    </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.17"
+                        android:scaleType="centerInside"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/leftbubble"
+                        android:layout_gravity="center" />
 
-                    <Button
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.66"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:weightSum="1">
+
+
+                    <ImageButton
                         android:text="每天"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:scaleType="centerInside"
                         android:id="@+id/button_everyday"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
+                        android:layout_weight="0.25"
+                        android:background="#00000000"
+                        android:src="@drawable/choice_grey"
                         android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="20dp" />
+                        android:layout_marginRight="4dp"
+                        android:layout_marginLeft="5dp"/>
 
-                    <Button
-                        android:text="隔一天"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/button_dayoverday"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        <ImageButton
+                            android:text="隔一天"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:scaleType="centerInside"
+                            android:id="@+id/button_dayoverday"
+                            android:layout_weight="0.25"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginLeft="3dp" />
 
-                    <Button
+                    <ImageButton
                         android:text="隔两天"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button_threeday"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
+                        android:scaleType="centerInside"
+                        android:layout_weight="0.25"
+                        android:background="#00000000"
+                        android:src="@drawable/choice_grey"
                         android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp" />
+                        android:layout_marginRight="4dp"
+                        android:layout_marginLeft="4dp" />
 
-                    <Button
+                    <ImageButton
                         android:text="自定义"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button_userdefine"
-                        android:layout_weight="0.20"
-                        android:background="@drawable/button_userdefine_click"
+                        android:scaleType="centerInside"
+                        android:layout_weight="0.25"
+                        android:background="#00000000"
+                        android:src="@drawable/choice_grey"
                         android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="4dp"/>
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.17"
+                        android:layout_marginTop="0dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:scaleType="centerInside"
+                        android:layout_height="18dp"
+                        android:background="@drawable/rightbubble"
+                        android:layout_gravity="center" />
                 </LinearLayout>
-            </LinearLayout>
 
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"
+                android:layout_marginTop="20dp"/>
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/selectAction">
 
-                <TextView
-                    android:text="选择行为"
-                    android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:id="@+id/text_chooseact"
-                    android:drawableLeft="@drawable/ic_chooseact"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selecticon_action"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="6"
+                        android:layout_height="match_parent"
+                        android:text="选择动作"
+                        android:paddingLeft="17.0dip"
+                        android:drawablePadding="10.0dip"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/textcolor"
+                        android:textSize="20.0sp"
+                        android:layout_gravity="center" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Button
-                        android:text="浇水"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/button_water"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.17"
+                        android:scaleType="centerInside"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="0dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginStart="20dp" />
+                        android:background="@drawable/leftbubble"
+                        android:layout_gravity="center" />
 
-                    <Button
-                        android:text="晒太阳"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.66"
+                        android:orientation="horizontal"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button_sun"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginTop="0dp"
+                        android:weightSum="1">
 
-                    <Button
-                        android:text="收回"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/button_back"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp" />
 
-                    <Button
-                        android:text="打理"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/button_worm"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        <ImageButton
+                            android:text="浇水"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:scaleType="centerInside"
+                            android:id="@+id/button_water"
+                            android:layout_weight="0.20"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="4dp"
+                            android:layout_marginLeft="5dp"/>
 
-                    <Button
-                        android:text="施肥"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/button_medicine"
-                        android:layout_weight="0.20"
-                        android:background="@color/color_Grey"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"/>
+                        <ImageButton
+                            android:text="晒太阳"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:scaleType="centerInside"
+                            android:id="@+id/button_sun"
+                            android:layout_weight="0.20"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginLeft="3dp" />
 
+                        <ImageButton
+                            android:text="收回"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button_back"
+                            android:scaleType="centerInside"
+                            android:layout_weight="0.20"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="4dp"
+                            android:layout_marginLeft="4dp" />
+
+                        <ImageButton
+                            android:text="打理"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button_worm"
+                            android:scaleType="centerInside"
+                            android:layout_weight="0.20"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="4dp"
+                            android:layout_marginLeft="4dp"/>
+                        <ImageButton
+                            android:text="施肥"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/button_medicine"
+                            android:scaleType="centerInside"
+                            android:layout_weight="0.20"
+                            android:background="#00000000"
+                            android:src="@drawable/choice_grey"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="4dp"/>
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.17"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="centerInside"
+                        android:layout_height="18dp"
+                        android:background="@drawable/rightbubble"
+                        android:layout_gravity="center" />
                 </LinearLayout>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"
+                android:layout_marginTop="20dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selecticon_text"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="match_parent"
+                    android:text="备注"
+                    android:paddingLeft="17.0dip"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/textcolor"
+                    android:textSize="20.0sp"
+                    android:layout_gravity="center" />
             </LinearLayout>
 
 
-            <TextView
-                android:text="备注"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:id="@+id/text_other"
-                android:drawableLeft="@drawable/ic_other"
-                android:drawablePadding="10.0dip"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:paddingLeft="17.0dip"
-                android:textColor="@color/ic_color"
-                android:textSize="16.0sp"
-                android:background="@color/white"
-                android:layout_marginTop="30dp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_other"
+                    android:hint="添加其它您想要做的事吧~"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16.0sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:includeFontPadding="true"
+                    android:gravity="center_vertical" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:id="@+id/edit_other"
-                android:textColor="@color/ic_color"
-                android:textSize="16.0sp"
-                android:editable="true"
-                android:background="@drawable/bg_edit"
-                android:drawablePadding="10.0dip"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:paddingLeft="17.0dip" />
+
+
 
         </LinearLayout>
 
@@ -366,7 +586,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.08"
         android:id="@+id/button_ok"
-        android:background="@drawable/button_ok_click"
+        android:background="@color/greenborder"
         android:textColor="@color/white"
         android:text="确认"
         android:textSize="18sp" />

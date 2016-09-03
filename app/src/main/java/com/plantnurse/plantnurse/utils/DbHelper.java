@@ -15,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     //数据库名称
-    private static final String DATABASE_NAME = "AlarmsInfo.db";
+    private static final String DATABASE_NAME = "Alarm.db";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,9 +24,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         //创建数据表
         String CREATE_TABLE_ALARM = "CREATE TABLE " + Alarm.TABLE + "("
                 + Alarm.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Alarm.KEY_RoleColor + " INTEGER,"
                 + Alarm.KEY_Content + " TEXT, "
                 + Alarm.KEY_Time + " TEXT,"
                 + Alarm.KEY_IsAlarm + " INTEGER,"
