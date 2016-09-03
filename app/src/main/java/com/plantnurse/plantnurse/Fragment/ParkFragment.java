@@ -115,6 +115,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                intent.putExtra("addplant",0);
                 startActivity(intent); // 启动Activity
                 return false;
             }
