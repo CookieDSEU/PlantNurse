@@ -15,8 +15,8 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
-import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
@@ -68,13 +68,13 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
     private List<SortModel> filledData(String param) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-        for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
-            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)) {
+        for (int i = 0; i < DataManager.getPlantIndex().response.size(); i++) {
+            if (DataManager.getPlantIndex().response.get(i).name.contains(param)) {
                 SortModel sortModel = new SortModel();
-                sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
-                sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
-                sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
-                String pinyin = Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
+                sortModel.setName(DataManager.getPlantIndex().response.get(i).name);
+                sortModel.setId(DataManager.getPlantIndex().response.get(i).id);
+                sortModel.setUrl(Constants.PLANTICON_URL + DataManager.getPlantIndex().response.get(i).id);
+                String pinyin = Pinyin.toPinyin(DataManager.getPlantIndex().response.get(i).name.charAt(0));
                 String sortString = pinyin.substring(0, 1).toUpperCase();
                 if (sortString.matches("[A-Z]")) {
                     sortModel.setSortLetters(sortString.toUpperCase());
