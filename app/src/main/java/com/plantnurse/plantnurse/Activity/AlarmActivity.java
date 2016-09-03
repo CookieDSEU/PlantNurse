@@ -23,9 +23,9 @@ public class AlarmActivity extends Activity {
 
     private String mtext;//内容
     private int alarm_Id;//id
+    private int frequency;
     private Alarm alarm=new Alarm();
     private AlarmInfo info;
-    private int isAlarm;
     //private int alarm_music;
     //private String alarm_plantName;
     //private int weather;
@@ -52,14 +52,19 @@ public class AlarmActivity extends Activity {
 
         Intent intent=getIntent();
         alarm_Id=intent.getIntExtra("alarm_Id", 0);
+        frequency = intent.getIntExtra("frequency",0);
         //alarm_music=intent.getIntExtra("soundOrVibrator",0);
         info=new AlarmInfo(this);
 
         alarm = info.getAlarmById(alarm_Id);
         mtext=alarm.content;
 
-        //alarm.time=null;
-        //isAlarm=0;//响过后设置为0，即不再是个闹钟
+        if(frequency==0||frequency==4){//一次性闹钟
+            alarm.isAlarm=0;//响过后设置为0，即不再是个闹钟
+        }else{
+           // isAlarm=1;
+        }
+
 
 
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面

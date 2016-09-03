@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.plantnurse.plantnurse.R;
 
 
-public class SelectPlantAdapter extends RecyclerView.Adapter<SelectPlantAdapter.ViewHolder>
+public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPlantAdapter.ViewHolder>
 {
 
     public interface OnItemClickLitener
@@ -35,10 +35,10 @@ public class SelectPlantAdapter extends RecyclerView.Adapter<SelectPlantAdapter.
     private LayoutInflater mInflater;
     private List<Integer> mDatas;
 
-    public SelectPlantAdapter(Context context, List<Integer> datats)
+    public AlarmSelectPlantAdapter(Context context, List<Integer> datas)
     {
         mInflater = LayoutInflater.from(context);
-        mDatas = datats;
+        mDatas = datas;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -64,6 +64,7 @@ public class SelectPlantAdapter extends RecyclerView.Adapter<SelectPlantAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
+        //可直接引用花园中新建植物的布局
         View view = mInflater.inflate(R.layout.item_addplant, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(view);

@@ -10,6 +10,7 @@ public class Alarm {
 
     //表的各域名
     public static final String KEY_ID="alarm_id";
+    public static final String KEY_RoleColor="roleColor";
     public static final String KEY_Content="content";
     public static final String KEY_Time="time";
     public static final String KEY_IsAlarm="isAlarm";
@@ -26,6 +27,7 @@ public class Alarm {
 
     //属性
     public int alarm_id;
+    public int roleColor;
     public String content;
     public String time;
     public int isAlarm;
