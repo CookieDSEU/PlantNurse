@@ -8,6 +8,8 @@
         <item name="colorPrimary">@color/Indigo_color_teal</item>
         <!--返回键样式-->
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+        <!--下划线颜色-->
+        <item name="colorAccent">@color/greenborder</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

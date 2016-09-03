@@ -4,41 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/alarmbackground"
+    android:background="@mipmap/alarmbackground2"
     android:weightSum="1">
 
-    //create by Heloise
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:background="@drawable/alarmtitle"
+        android:text="我的闹钟"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="1dp"
-            android:background="@color/Indigo_color_teal">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="81dp"
-                app:srcCompat="@drawable/clock_clock"
-                android:id="@+id/imageView3"
-                android:background="@color/Indigo_color_teal" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal"
-
-                android:padding="10.0dip"
-                android:singleLine="true"
-                android:text="我的闹钟"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-
-        </LinearLayout>
-
-    <!--Create by Yxuan-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:divider="#d1cece"
@@ -46,20 +28,14 @@
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:layout_weight="0.98" />
-    <!--Create by Yxuan-->
+
 
     <Button
-        android:text="+"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/button_addalarm"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="45sp"
-        android:background="@drawable/addclock_button_click"
-        android:textColor="@color/white" />
+        android:background="@drawable/alarm_add"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>
