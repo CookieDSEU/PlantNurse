@@ -2,17 +2,18 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
-import com.plantnurse.plantnurse.utils.CharacterParser;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
 import com.plantnurse.plantnurse.utils.PlantIndexManager;
@@ -20,7 +21,6 @@ import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
 import com.plantnurse.plantnurse.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +28,6 @@ import java.util.List;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Heloise on 2016/8/31.
@@ -39,16 +38,14 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private ListView sortListView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
-
     private SortAdapter adapter; // 排序的适配器
-
-    private CharacterParser characterParser;
-
+    private FloatingSearchView searchView;
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
     private int lastFirstVisibleItem = -1;
     private List<SortModel> sourceDateList;
+    private static final int VOICE_RECOGNITION_REQUEST_CODE=0x05;
 
     @Override
     public int initLocalData() {
@@ -57,7 +54,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initView(ViewGroup view) {
-        characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         xuanfuLayout = (LinearLayout) view.findViewById(R.id.top_layout);
         xuanfaText = (TextView) view.findViewById(R.id.top_char);
@@ -65,21 +61,19 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         dialog = (TextView) view.findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
         sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
+        searchView=(FloatingSearchView)view.findViewById(R.id.floating_search_view);
     }
 
-
-
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
-    private List<SortModel> filledData() {
+    private List<SortModel> filledData(String param) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-
         for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
-
-            SortModel sortModel = new SortModel();
+            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)){
+                SortModel sortModel = new SortModel();
             sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
             sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
-            sortModel.setUrl(Constants.PLANTICON_URL+PlantIndexManager.getPlantIndex().response.get(i).id);
-            String pinyin = characterParser.getSpelling(PlantIndexManager.getPlantIndex().response.get(i).name);
+            sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
+            String pinyin= Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             if (sortString.matches("[A-Z]")) {
@@ -90,6 +84,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             mSortList.add(sortModel);
         }
+        }
         return mSortList;
     }
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
@@ -97,8 +92,20 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initController() {
-
-
+        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                sourceDateList=filledData(newQuery);
+                adapter.updateListView(sourceDateList);
+            }
+        });
+        searchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                if(item.getItemId()==R.id.action_voice_rec){
+                }
+            }
+        });
     }
 
     @Override
@@ -187,7 +194,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     @Override
     public void onLoadedNetworkData(View view) {
-        sourceDateList = filledData();
+        sourceDateList = filledData("");
         updateindex();
     }
 

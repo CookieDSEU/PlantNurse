@@ -54,7 +54,7 @@ public class SideBar extends View {
 			paint.setColor(Color.parseColor("#A1A1A2"));
 			paint.setColor(getResources().getColor(R.color.Indigo_color_teal));
 			paint.setAntiAlias(true);
-			paint.setTextSize(50);
+			paint.setTextSize(40);
 			if (i == choose) {
 				paint.setColor(Color.parseColor("#B8B8B8"));
 				paint.setFakeBoldText(true);
@@ -95,7 +95,7 @@ public class SideBar extends View {
 					if (mTextDialog != null) {
 						mTextDialog.setText(b[c]);
 						//设置提示框的字母颜色
-						mTextDialog.setTextColor(getResources().getColor(R.color.ic_color));
+						mTextDialog.setTextColor(Color.parseColor("#ffffff"));
 						mTextDialog.setVisibility(View.VISIBLE);
 					}
 

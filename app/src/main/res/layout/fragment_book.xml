@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--create by Heloise-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:background="@color/Indigo_color_teal">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="搜植物"
-            android:drawableLeft="@drawable/ic_search"
-            android:textColor="@color/ic_color"
-            android:gravity="left|center"
-            android:textSize="20sp"
-            android:background="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="10dp" />
-
-    </RelativeLayout>
-
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:paddingTop="60dp">
+
 
         <ListView
             android:id="@+id/country_lvcountry"
@@ -49,6 +38,7 @@
                 android:paddingLeft="10dip"
                 android:paddingTop="3dip"
                 android:text="A" />
+
         </LinearLayout>
 
         <TextView
@@ -58,7 +48,7 @@
             android:layout_gravity="center"
             android:background="@drawable/toast_show"
             android:gravity="center"
-            android:textColor="#ffffffff"
+            android:textColor="#ffffff"
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
@@ -69,7 +59,22 @@
             android:layout_gravity="right|center"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" />
+
     </FrameLayout>
 
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/floating_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:floatingSearch_dismissOnOutsideTouch="true"
+        app:floatingSearch_leftActionMode="noLeftAction"
+        app:floatingSearch_showVoiceInput="true"
+        app:floatingSearch_searchHint="搜索..."
+        app:floatingSearch_showSearchKey="true"
+        app:floatingSearch_menu="@menu/search_view_menu"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_dimBackground="false"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+    </RelativeLayout>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
