@@ -35,6 +35,7 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
         values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
+        values.put(Alarm.KEY_Frequency,alarm.frequency);
         values.put(Alarm.KEY_Water,alarm.water);
         values.put(Alarm.KEY_Sun,alarm.sun);
         values.put(Alarm.KEY_TakeBack,alarm.takeBack);
