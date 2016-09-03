@@ -1,16 +1,22 @@
 package com.plantnurse.plantnurse.Fragment;
 
 import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmListAdapter;
@@ -38,8 +44,10 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
 
     @Override
     public void initView(ViewGroup view) {
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         addBtn=(Button)view.findViewById(R.id.button_addalarm);
+
 
         //获取数据库内容
         info = new AlarmInfo(getActivity());
@@ -58,17 +66,18 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
 
     }
 
+
+
     @Override
     public void initController() {
-
 
         //新建闹钟
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(),AddAlarmActivity.class);
-                intent.putExtra("alarm_Id",0);
+                intent.setClass(getActivity(), AddAlarmActivity.class);
+                intent.putExtra("alarm_Id", 0);
                 /* 启动一个新的Activity */
                 AlarmFragment.this.startActivity(intent);
             }
@@ -97,5 +106,7 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     public int getContentLayoutID() {
         return R.layout.fragment_alarm;
     }
+
+
 }
 

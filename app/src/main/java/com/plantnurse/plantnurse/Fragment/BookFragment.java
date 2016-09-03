@@ -21,6 +21,7 @@ import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
 import com.plantnurse.plantnurse.utils.SortModel;
 import com.plantnurse.plantnurse.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private TextView xuanfaText; // 悬浮的文字， 和左上角的群发
     private int lastFirstVisibleItem = -1;
     private List<SortModel> sourceDateList;
-    private static final int VOICE_RECOGNITION_REQUEST_CODE=0x05;
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x05;
 
     @Override
     public int initLocalData() {
@@ -61,21 +62,36 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         dialog = (TextView) view.findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
         sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
-        searchView=(FloatingSearchView)view.findViewById(R.id.floating_search_view);
+        searchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
     }
 
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
     private List<SortModel> filledData(String param) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
         for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
-            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)){
+            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)) {
                 SortModel sortModel = new SortModel();
-            sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
-            sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
-            sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
-            String pinyin= Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
-            String sortString = pinyin.substring(0, 1).toUpperCase();
+                sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
+                sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
+                sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
+                String pinyin = Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
+                String sortString = pinyin.substring(0, 1).toUpperCase();
+                if (sortString.matches("[A-Z]")) {
+                    sortModel.setSortLetters(sortString.toUpperCase());
+                } else {
+                    sortModel.setSortLetters("#");
+                }
 
+                mSortList.add(sortModel);
+            }
+        }
+        if(mSortList.isEmpty()){
+            SortModel sortModel = new SortModel();
+            sortModel.setName("抱歉，没有找到你想要的植物...");
+            sortModel.setId(0);
+            sortModel.setUrl(Constants.PLANTICON_URL + 0);
+            String pinyin = Pinyin.toPinyin("抱歉".charAt(0));
+            String sortString = pinyin.substring(0, 1).toUpperCase();
             if (sortString.matches("[A-Z]")) {
                 sortModel.setSortLetters(sortString.toUpperCase());
             } else {
@@ -83,7 +99,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
 
             mSortList.add(sortModel);
-        }
         }
         return mSortList;
     }
@@ -95,14 +110,14 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                sourceDateList=filledData(newQuery);
+                sourceDateList = filledData(newQuery);
                 adapter.updateListView(sourceDateList);
             }
         });
         searchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
             @Override
             public void onActionMenuItemSelected(MenuItem item) {
-                if(item.getItemId()==R.id.action_voice_rec){
+                if (item.getItemId() == R.id.action_voice_rec) {
                 }
             }
         });
@@ -113,10 +128,11 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
 
     }
-    public void updateindex(){
+
+    public void updateindex() {
         // 填充数据
         Collections.sort(sourceDateList, pinyinComparator);
-        adapter=new SortAdapter(getActivity(), sourceDateList);
+        adapter = new SortAdapter(getActivity(), sourceDateList);
         adapter.updateListView(sourceDateList);
         sortListView.setAdapter(adapter);
         sortListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -168,12 +184,10 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //点击事件，以后会实现跳转
-                Log.e("click","点击按钮");
-                Intent intent = new Intent(getActivity(),ShowActivity.class);
-                String na=((SortModel)adapter.getItem(position)).getName();
-                intent.putExtra("name",na);
-                intent.putExtra("id",((SortModel)adapter.getItem(position)).getId());
-                Log.e("click","开始跳转");
+                Intent intent = new Intent(getActivity(), ShowActivity.class);
+                String na = ((SortModel) adapter.getItem(position)).getName();
+                intent.putExtra("name", na);
+                intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
                 startActivity(intent);
             }
         });
@@ -192,6 +206,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
         });
     }
+
     @Override
     public void onLoadedNetworkData(View view) {
         sourceDateList = filledData("");

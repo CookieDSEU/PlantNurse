@@ -2,58 +2,171 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="120dp"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"
-    app:cardCornerRadius="5dp"
-    app:elevation="1dp">
+    android:layout_marginTop="4dp"
+    app:cardBackgroundColor="@color/nocolor"
+    app:cardElevation="0dp"
+    android:padding="0dp"
+    android:id="@+id/cardView"
+    app:cardCornerRadius="30dp">
 
+    <!--<ImageView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="120dp"-->
+        <!--android:id="@+id/background" />-->
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/container"
-        android:weightSum="1">
-
+        android:orientation="horizontal">
 
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="0.95">
+            android:orientation="horizontal"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/info_container"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="75dp"
-                android:id="@+id/time"
-                android:textColor="#aa000000"
-                android:textSize="18sp"
-                android:layout_gravity="top" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/content"
-                android:textColor="#aa000000"
-                android:textSize="18sp"/>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="190dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|left"
+                android:id="@+id/alarm_info"
+                android:layout_marginLeft="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/dateAndTime"
+                    android:layout_marginLeft="35dp">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time"
+                        android:textSize="30sp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/plants"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="30dp">
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/alarm_plant1"
+                        android:layout_marginRight="5dp" />
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/alarm_plant2"
+                        android:layout_marginRight="5dp"/>
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/alarm_plant3"
+                        android:layout_marginRight="5dp"/>
+
+                    <com.plantnurse.plantnurse.utils.CircleImg
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/alarm_plant4" />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/alarm_tips"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:maxLength="13"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="42dp"/>
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="30dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/alarm_action"
+                android:layout_marginTop="3dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/action_water"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/action_sun"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/action_back"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/action_care"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/action_fetilization" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/alarm_icon"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:gravity="center_vertical|right"
-            android:layout_gravity="center_vertical|right" />
 
+
+        <com.plantnurse.plantnurse.utils.CircleImg
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:id="@+id/alarm_role"
+
+            android:layout_marginTop="5dp"
+            android:foregroundGravity="right"
+            android:layout_gravity="top|center_horizontal" />
 
     </LinearLayout>
-
 
 
 
