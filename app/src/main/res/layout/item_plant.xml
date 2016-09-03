@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--create by Heloise-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/flowerborder">
+
+        <TextView
+            android:id="@+id/catalog"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="3dip"
+            android:paddingLeft="10dip"
+            android:paddingTop="3dip"
+            android:text="A" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+
+        <com.plantnurse.plantnurse.utils.CircleImg
+            android:id="@+id/iv_user_item_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/default_user"
+            local:border_inside_color="@color/white"
+            local:border_outside_color="@color/white"
+            local:border_thickness="1dp" />
+
+        <TextView
+            android:id="@+id/tv_user_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:text="绿萝"
+            android:textSize="20sp"
+            android:textColor="@color/ic_color"
+            android:layout_weight="0.74" />
+
+        <!--<Button-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:id="@+id/button_collect"-->
+            <!--android:background="@drawable/ic_collect2" />-->
+
+    </LinearLayout>
+
+</LinearLayout>
