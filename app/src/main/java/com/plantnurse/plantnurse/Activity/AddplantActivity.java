@@ -16,10 +16,12 @@ import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.ChangeInfoResponse;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.AddplantAdapter;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.utils.CircleImg;
+import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 /**
@@ -126,10 +129,35 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                     water = waterRatingBar.getNumStars();
                     snow = waterRatingBar.getNumStars();
                     HashMap<String,String> param=new HashMap<String, String>();
-                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),this, ChangeInfoResponse.class,param,) {
+                    param.put("nickname",nicname);
+                    param.put("name",name);
+                    param.put("birthday",birth);
+                    param.put("sun",sun+"");
+                    param.put("water",water+"");
+                    param.put("cold",snow+"");
+                    param.put("remark",other);
+                    UserInfo userInfo=(UserInfo)getSimpleApplicationContext().getUserModel();
+                    param.put("owner",userInfo.getuserName());
+                    param.put("pic","test");
+                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(), ChangeInfoResponse.class, param, Constants.ADDPLANT_URL, NetworkTask.GET) {
                         @Override
                         public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-
+                            ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                            if (response.getresponseCode() == 1) {
+                                new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("添加成功！")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                finish();
+                                            }
+                                        })
+                                        .show();
+                            } else {
+                                new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("连接超时，添加失败！")
+                                        .show();
+                            }
                         }
 
                         @Override
