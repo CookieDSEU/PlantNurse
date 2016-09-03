@@ -1,6 +1,8 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
 import com.plantnurse.plantnurse.utils.PlantIndexManager;
@@ -25,7 +28,6 @@ import java.util.List;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Heloise on 2016/8/31.
@@ -69,6 +71,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)){
                 SortModel sortModel = new SortModel();
             sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
+            sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
             sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
             String pinyin= Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
             String sortString = pinyin.substring(0, 1).toUpperCase();
@@ -113,7 +116,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     public void updateindex(){
         // 填充数据
         Collections.sort(sourceDateList, pinyinComparator);
-        //adapter = new SortAdapter(getActivity(), SourceDateList);
         adapter=new SortAdapter(getActivity(), sourceDateList);
         adapter.updateListView(sourceDateList);
         sortListView.setAdapter(adapter);
@@ -128,9 +130,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-//                List<SortModel> list=adapter.getlist();
-//                list.get(firstVisibleItem).seticonBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.pwd2));
-//                adapter.updateListView(list);
                 int section = adapter.getSectionForPosition(firstVisibleItem);
                 int nextSecPosition = adapter
                         .getPositionForSection(section + 1);
@@ -169,11 +168,14 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //点击事件，以后会实现跳转
-                Toast.makeText(getContext(),
-                        ((SortModel) adapter.getItem(position)).getName(),
-                        Toast.LENGTH_SHORT).show();
+                Log.e("click","点击按钮");
+                Intent intent = new Intent(getActivity(),ShowActivity.class);
+                String na=((SortModel)adapter.getItem(position)).getName();
+                intent.putExtra("name",na);
+                intent.putExtra("id",((SortModel)adapter.getItem(position)).getId());
+                Log.e("click","开始跳转");
+                startActivity(intent);
             }
-
         });
         /**
          * 为右边添加触摸事件
