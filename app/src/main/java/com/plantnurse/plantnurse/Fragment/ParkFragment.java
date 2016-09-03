@@ -1,59 +1,40 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
-import android.app.Dialog;
-import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 //import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
-import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.utils.AddplantAdapter;
-import com.plantnurse.plantnurse.utils.Calendar;
 import com.plantnurse.plantnurse.utils.CircleImg;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ListDialog;
 import com.plantnurse.plantnurse.utils.PlantListAdapter;
-import com.plantnurse.plantnurse.utils.WeatherAdapter;
-import com.plantnurse.plantnurse.utils.WeatherManager;
 
 
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
 
 
 /**
@@ -123,9 +104,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     @Override
     public void initController() {
-        now_Tmp = WeatherManager.getWeatherInfo().now.tmp;
-        now_Cond = Integer.parseInt(WeatherManager.getWeatherInfo().now.cond.code);
-        city = WeatherManager.getWeatherInfo().basic.city;
+        now_Tmp = DataManager.getWeatherInfo().now.tmp;
+        now_Cond = Integer.parseInt(DataManager.getWeatherInfo().now.cond.code);
+        city = DataManager.getWeatherInfo().basic.city;
         image_Plant.setImageResource(R.drawable.flower2_s);
         image_Plant.setBorderWidth(6);
         //image_Plant.setBorderColor(R.color.flowerborder);
@@ -231,11 +212,11 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         Map<String, Object> map;
         for (int i = 0; i < 7; i++) {
             map = new HashMap<String, Object>();
-            map.put("date", WeatherManager.getWeatherInfo().dailyForecast.get(i).date);
-            map.put("tmp_min", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
-            //Log.e("test", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
-            map.put("tmp_max", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
-            image_code = Integer.parseInt(WeatherManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
+            map.put("date", DataManager.getWeatherInfo().dailyForecast.get(i).date);
+            map.put("tmp_min", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
+            //Log.e("test", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
+            map.put("tmp_max", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
+            image_code = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
             switch (image_code) {
                 case 100:
                     map.put("img",R.drawable.sunny);
