@@ -7,17 +7,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Network.ChangeInfoResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AddplantAdapter;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
+import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -39,16 +46,33 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private List<Integer> mData;//添加植物的图片列表
     private AddplantAdapter mAdapter;//添加植物的图片适配器
     private RecyclerView mRecyclerView;
-    private ImageView mImg;
-//    private Button dateButton;
-//    private Button timeButton;
-    //data picker
+    private CircleImg mImg;
+    private Button overButton;
+
     private Calendar calendar;
     public static final String DATEPICKER_TAG = "datepicker";
     private DatePickerDialog datePickerDialog;
     private EditText _year;
     private EditText _month;
     private EditText _day;
+    private EditText nameText;
+    private EditText nicnameText;
+    private EditText otherText;
+    private RatingBar sunRatingBar;
+    private RatingBar waterRatingBar;
+    private RatingBar snowRatingBar;
+    //data
+    private String birth;
+    private int birthday;
+    private int birthmonth;
+    private int birthyear;
+    private String name;
+    private String nicname;
+    private String other;
+    private int sun;
+    private int water;
+    private int snow;
+
 
     @Override
     public int initLocalData() {
@@ -59,13 +83,63 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     public void initView(ViewGroup view) {
         initDatas();
         //初始化数据
-        mImg = (ImageView) findViewById(R.id.id_content);
-
+        mImg = (CircleImg) findViewById(R.id.id_content);
+        overButton = (Button) findViewById(R.id.addplant_addoverbutton);
+        nameText = (EditText) findViewById(R.id.addplant_name);
+        nicnameText = (EditText) findViewById(R.id.addplant_nicname);
+        otherText = (EditText) findViewById(R.id.addplant_other);
         _year = (EditText) findViewById(R.id.text_birthyear);
         _month = (EditText) findViewById(R.id.text_birthmonth);
         _day = (EditText) findViewById(R.id.text_birthday);
+        sunRatingBar = (RatingBar) findViewById(R.id.addplant_sun);
+        waterRatingBar = (RatingBar) findViewById(R.id.addplant_water);
+        snowRatingBar = (RatingBar) findViewById(R.id.addplant_snow);
         mImg.setImageResource(R.drawable.flower2);
         //关联图片，设置默认图片
+
+        //完成按钮
+        overButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (nameText.getText().equals("")||nicnameText.getText().equals("")||nameText.getText().equals("")||_year.getText().equals("")||_month.getText().equals("")||_day.getText().equals("")){
+                    ToastUtil.showLong("请多留下一些它的信息吧...");
+                }
+                else {
+                    //get birthday
+                    birth = ""+_year.getText();
+                    birthmonth = Integer.parseInt(_month.getText().toString());
+                    birthday = Integer.parseInt(_day.getText().toString());
+                    if(birthmonth<10)
+                        birth = birth+"0"+birthmonth;
+                    else
+                        birth = birth+birthmonth;
+                    if(birthday<10)
+                        birth = birth+"0"+birthday;
+                    else
+                        birth = birth+birthday;
+                    //get name ...
+                    name = nameText.getText().toString();
+                    nicname = nicnameText.getText().toString();
+                    other = otherText.getText().toString();
+                    //get setting
+                    sun = sunRatingBar.getNumStars();
+                    water = waterRatingBar.getNumStars();
+                    snow = waterRatingBar.getNumStars();
+                    HashMap<String,String> param=new HashMap<String, String>();
+                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),this, ChangeInfoResponse.class,param,) {
+                        @Override
+                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+
+                        }
+
+                        @Override
+                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                        }
+                    });
+                }
+            }
+        });
 
         findViewById(R.id.text_birthyear).setOnClickListener(new OnClickListener() {
             @Override
@@ -126,18 +200,6 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
 
 
-//    private boolean isVibrate() {
-//        return ((CheckBox) findViewById(R.id.checkBoxVibrate)).isChecked();
-//    }
-//
-//    private boolean isCloseOnSingleTapDay() {
-//        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapDay)).isChecked();
-//    }
-//
-//    private boolean isCloseOnSingleTapMinute() {
-//        return ((CheckBox) findViewById(R.id.checkBoxCloseOnSingleTapMinute)).isChecked();
-//    }
-
     @Override
     public void initController () {
     }
@@ -161,7 +223,6 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        //Toast.makeText(AddplantActivity.this, "new date:" + year + "-" + month + "-" + day, Toast.LENGTH_LONG).show();
         month++;
         _year.setText(""+year);
         _month.setText(""+month);
