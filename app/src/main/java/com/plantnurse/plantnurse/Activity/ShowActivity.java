@@ -128,7 +128,6 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             @Override
             public void onClick(View v) {
                 if(!isadopted){
-                    button_adopt.setBackground(getResources().getDrawable(R.drawable.ic_adoption2));
                     button_adopt.setTitle("我已收养");
                     isadopted=true;
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
