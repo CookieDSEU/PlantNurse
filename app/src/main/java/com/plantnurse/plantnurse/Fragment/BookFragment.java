@@ -13,6 +13,7 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
@@ -87,7 +88,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         }
         if(mSortList.isEmpty()){
             SortModel sortModel = new SortModel();
-            sortModel.setName("抱歉，没有找到你想要的植物...");
+            sortModel.setName("抱歉，没有找到，点击新建");
             sortModel.setId(0);
             sortModel.setUrl(Constants.PLANTICON_URL + 0);
             String pinyin = Pinyin.toPinyin("抱歉".charAt(0));
@@ -184,11 +185,18 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //点击事件，以后会实现跳转
-                Intent intent = new Intent(getActivity(), ShowActivity.class);
-                String na = ((SortModel) adapter.getItem(position)).getName();
-                intent.putExtra("name", na);
-                intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
-                startActivity(intent);
+                if(((SortModel) adapter.getItem(position)).getId()!=0) {
+                    Intent intent = new Intent(getActivity(), ShowActivity.class);
+                    String na = ((SortModel) adapter.getItem(position)).getName();
+                    intent.putExtra("name", na);
+                    intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                    intent.putExtra("addplant",0);
+                    startActivity(intent);
+                }
             }
         });
         /**

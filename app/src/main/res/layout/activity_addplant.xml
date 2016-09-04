@@ -10,7 +10,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:title="添加新植物"
+        android:id="@+id/addplant_toolbar"
         android:titleTextColor="@color/white"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
@@ -53,6 +53,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:id="@+id/addimagebutton"
                     android:background="@drawable/addimagebutton"
                     android:layout_gravity="center" />
                 <android.support.v7.widget.RecyclerView

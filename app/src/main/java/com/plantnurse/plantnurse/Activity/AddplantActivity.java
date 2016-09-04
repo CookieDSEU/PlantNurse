@@ -1,11 +1,18 @@
 package com.plantnurse.plantnurse.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,6 +31,7 @@ import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,12 +54,13 @@ import fr.ganfra.materialspinner.MaterialSpinner;
  */
 public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAction,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    private Toolbar toolbar;
     private List<Integer> mData;//添加植物的图片列表
     private AddplantAdapter mAdapter;//添加植物的图片适配器
     private RecyclerView mRecyclerView;
     private CircleImg mImg;
     private Button overButton;
-
+    private ImageButton addimageButton;
     private Calendar calendar;
     public static final String DATEPICKER_TAG = "datepicker";
     private DatePickerDialog datePickerDialog;
@@ -75,8 +84,72 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private int sun;
     private int water;
     private int snow;
+    private String mName;
+    private int mSun;
+    private int mWater;
+    private int mSnow;
 
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    String mNowDate = sDateFormat.format(new java.util.Date());
 
+    Calendar c = Calendar.getInstance();
+    int myear = c.get(Calendar.YEAR);
+    int mmonth = c.get(Calendar.MONTH);
+    int mday = c.get(Calendar.DAY_OF_MONTH);
+
+    //返回键
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //当点击edittext以外的地方，取消焦点，隐藏输入键盘
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+
+    public  boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = { 0, 0 };
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击的是输入框区域，保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public int initLocalData() {
         return 0;
@@ -86,8 +159,10 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     public void initView(ViewGroup view) {
         initDatas();
         //初始化数据
+        toolbar = (Toolbar) view.findViewById(R.id.addplant_toolbar);
         mImg = (CircleImg) findViewById(R.id.id_content);
         overButton = (Button) findViewById(R.id.addplant_addoverbutton);
+        addimageButton = (ImageButton) findViewById(R.id.addimagebutton);
         nameText = (EditText) findViewById(R.id.addplant_name);
         nicnameText = (EditText) findViewById(R.id.addplant_nicname);
         otherText = (EditText) findViewById(R.id.addplant_other);
@@ -99,6 +174,21 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         snowRatingBar = (RatingBar) findViewById(R.id.addplant_snow);
         mImg.setImageResource(R.drawable.flower2);
         //关联图片，设置默认图片
+
+        //ratingbar 初始化
+        nameText.setText(mName);
+        sunRatingBar.setProgress(mSun);
+        waterRatingBar.setProgress(mWater);
+        snowRatingBar.setProgress(mSnow);
+        //y-m-d初始化
+        _year.setText(myear+"");
+        _month.setText(mmonth + "");
+        _day.setText(mday + "");
+
+        //toolbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("添加植物");
 
         //完成按钮
         overButton.setOnClickListener(new OnClickListener() {
@@ -125,10 +215,10 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                     nicname = nicnameText.getText().toString();
                     other = otherText.getText().toString();
                     //get setting
-                    sun = sunRatingBar.getNumStars();
-                    water = waterRatingBar.getNumStars();
-                    snow = waterRatingBar.getNumStars();
-                    HashMap<String,String> param=new HashMap<String, String>();
+                    sun = sunRatingBar.getProgress();
+                    water = waterRatingBar.getProgress();
+                    snow = waterRatingBar.getProgress();
+                    HashMap<String,String> param=new HashMap<String,  String>();
                     param.put("nickname",nicname);
                     param.put("name",name);
                     param.put("birthday",birth);
@@ -166,6 +256,13 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                         }
                     });
                 }
+            }
+        });
+
+        addimageButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -221,6 +318,15 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         mData = new ArrayList<Integer>(Arrays.asList(R.drawable.flower1_s, R.drawable.flower2_s,
                 R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s,R.drawable.flower1_s,
                 R.drawable.flower2_s, R.drawable.flower3_s, R.drawable.flower4_s, R.drawable.flower5_s));
+        Intent mIntent = getIntent();
+        int type = mIntent.getIntExtra("addplant", 0);
+        if(type == 1){
+            mName = mIntent.getStringExtra("name");
+            mSun = mIntent.getIntExtra("sun",1);
+            mWater = mIntent.getIntExtra("water",1);
+            mSnow = mIntent.getIntExtra("snow", 1);
+        }
+
         calendar = Calendar.getInstance();
         datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
 
