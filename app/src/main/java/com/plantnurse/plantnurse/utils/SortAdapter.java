@@ -1,25 +1,23 @@
 package com.plantnurse.plantnurse.utils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.SortModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
  * create by Heloise
- * @author J 适配器
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
