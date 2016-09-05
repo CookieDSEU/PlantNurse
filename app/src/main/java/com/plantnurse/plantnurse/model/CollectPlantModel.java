@@ -8,14 +8,15 @@ import java.util.Date;
  * Created by Heloise on 2016/9/3.
  */
 
-public class CollectModel {
+public class CollectPlantModel {
+
 
     private String name;
     private String url;
     private String addtime;
     private int id;
 
-    public CollectModel() {
+    public CollectPlantModel() {
         super();
     }
 

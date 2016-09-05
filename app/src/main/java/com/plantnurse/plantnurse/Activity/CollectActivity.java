@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.model.CollectModel;
+import com.plantnurse.plantnurse.model.CollectPlantModel;
 import com.plantnurse.plantnurse.utils.CollectAdapter;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
@@ -33,7 +33,7 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
     private RecyclerView collectlist;
     private static CollectAdapter adapter; // 收藏的适配器
-    private List<CollectModel> sourceDateList = new ArrayList<CollectModel>();
+    private List<CollectPlantModel> sourceDateList = new ArrayList<CollectPlantModel>();
     private Toolbar toolbar;
 
     @Override
@@ -59,15 +59,15 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
         Log.e("collect","filledData");
         //收藏列表数据完成
         for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
-            CollectModel collectModel = new CollectModel();
-            collectModel.setName(DataManager.getMyStar().response.get(i).name);
-            collectModel.setUrl(Constants.PLANTICON_URL+DataManager.getMyStar().response.get(i).plant_id);
-            collectModel.setAddtime("收藏于 "+DataManager.getMyStar().response.get(i).date.substring(0,4)+"."
+            CollectPlantModel collectPlantModel = new CollectPlantModel();
+            collectPlantModel.setName(DataManager.getMyStar().response.get(i).name);
+            collectPlantModel.setUrl(Constants.PLANTICON_URL+DataManager.getMyStar().response.get(i).plant_id);
+            collectPlantModel.setAddtime("收藏于 "+DataManager.getMyStar().response.get(i).date.substring(0,4)+"."
             +DataManager.getMyStar().response.get(i).date.substring(5,6)+"."+DataManager.getMyStar().
                     response.get(i).date.substring(7,8));
-            collectModel.setId(DataManager.getMyStar().response.get(i).plant_id);
+            collectPlantModel.setId(DataManager.getMyStar().response.get(i).plant_id);
             Log.e("collect",DataManager.getMyStar().response.get(i).name);
-            sourceDateList.add(collectModel);
+            sourceDateList.add(collectPlantModel);
         }
     }
 
