@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -425,7 +426,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
             public void onItemClick(View view, int position)
             {
                 mImg.setImageResource(mData.get(position));
-                uuid="default"+(mData.get(position)+1);
+                uuid="default"+(position+1);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
