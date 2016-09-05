@@ -32,6 +32,7 @@ import com.plantnurse.plantnurse.Network.GetPlantInfoResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -111,39 +112,44 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             public void onClick(View v) {
                 if(!iscollected){
                     //收藏按钮，实现收藏界面更新(未实现)
-                    button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection2));
-                    Toast.makeText(mContext,"已添加到收藏夹",Toast.LENGTH_SHORT).show();
-//                    button_collect.setTitle("取消收藏");
-                    SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd");
-                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                    String mDate = formatter.format(curDate);
-                    UserInfo userInfo=(UserInfo) getSimpleApplicationContext().getUserModel();
-                    String username=userInfo.getuserName();
-                    HashMap<String,String> param=new HashMap<String,String>();
-                    param.put("owner",username);
-                    param.put("date",mDate);
-                    param.put("plant_id",mId+"");
-                    param.put("name",mName);
-                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),ShowActivity.this, ChangeInfoResponse.class,param,Constants.NEWSTAR_URL,NetworkTask.GET) {
-                        @Override
-                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                            ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
-                            if(response.getresponseCode()==1){
-                                new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.SUCCESS_TYPE)
-                                        .setTitleText("收藏成功!")
+                   //判断是否登录
+                    if(!getSimpleApplicationContext().isLogined()){
+                        new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("请先登录!")
                                 .show();
+                    }else {
+                        button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection2));
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                        String mDate = formatter.format(curDate);
+                        UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                        String username = userInfo.getuserName();
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        param.put("owner", username);
+                        param.put("date", mDate);
+                        param.put("plant_id", mId + "");
+                        param.put("name", mName);
+                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), ShowActivity.this, ChangeInfoResponse.class, param, Constants.NEWSTAR_URL, NetworkTask.GET) {
+                            @Override
+                            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                                ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                                if (response.getresponseCode() == 1) {
+                                    new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("收藏成功!")
+                                            .show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                            @Override
+                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                        }
-                    });
-                    //日期 mData id mID
-                    Log.e("date",mDate);
-                    iscollected=true;
-                }else{
+                            }
+                        });
+                        Log.e("date", mDate);
+                        iscollected = true;
+                    }
+                }
+                else{
                     button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection1));
                     button_collect.setTitle("我要收藏");
                     Toast.makeText(mContext,"取消收藏",Toast.LENGTH_SHORT).show();
@@ -195,6 +201,18 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         mId=intent.getIntExtra("id",0);
         HashMap<String,String> param=new HashMap<String,String>();
         param.put("name",mName);
+        //判断是否已经收藏
+        //是否登录
+        iscollected = false;
+        if(getSimpleApplicationContext().isLogined()) {
+            for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
+                if (DataManager.getMyStar().response.get(i).name.equals(mName)) {
+                    iscollected = true;
+                } else {
+                    iscollected = false;
+                }
+            }
+        }
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),this, GetPlantInfoResponse.class,param, Constants.PLANTINFO_URL,NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
