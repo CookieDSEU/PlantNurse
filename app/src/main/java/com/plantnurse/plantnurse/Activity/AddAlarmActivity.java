@@ -136,6 +136,10 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
         currentTime=System.currentTimeMillis();
         currentOrSelected=formatter.format(currentTime);//当前时间
+        //分隔日期和时间
+        String str[]=currentOrSelected.split(" ");
+        date=str[0];//初始化当前日期
+
 
         //获取AlarmFragment传来的值，新建闹钟的alarm_Id=0
         Intent intent = getIntent();
@@ -816,7 +820,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         String mtime;//分钟数<10
         String htime;//小时数<10
         String ftime;//最终时间
-        month++;
+        month++;//原生闹钟的错误
         date = year + "-" + month + "-" + day;
 
         //获取当前时间
@@ -825,17 +829,19 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         ampm=numberPicker_ampm.getValue();
         hour=numberPicker_h.getValue();
         min=numberPicker_m.getValue();
-        htime=""+hour;
-        mtime=""+min;
+
         if(ampm==1){
             hour+=12;
         }
+        htime=""+hour;
+        mtime=""+min;
         if(hour<10){
             htime="0"+hour;
         }
         if(min<10){
             mtime="0"+min;
         }
+
         time= htime+":"+mtime;
         ftime=date+" "+time;
         try {

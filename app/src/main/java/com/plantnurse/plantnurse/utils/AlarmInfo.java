@@ -35,11 +35,16 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Content,alarm.content);
         values.put(Alarm.KEY_Time,alarm.time);
         values.put(Alarm.KEY_IsAlarm,alarm.isAlarm);
+        values.put(Alarm.KEY_PlantName,alarm.plantName);
+        values.put(Alarm.KEY_Frequency,alarm.frequency);
         values.put(Alarm.KEY_Water,alarm.water);
         values.put(Alarm.KEY_Sun,alarm.sun);
         values.put(Alarm.KEY_TakeBack,alarm.takeBack);
         values.put(Alarm.KEY_TakeCare,alarm.takeCare);
         values.put(Alarm.KEY_Fertilization,alarm.fertilization);
+        values.put(Alarm.KEY_Weather,alarm.weather);
+        values.put(Alarm.KEY_Music,alarm.music);
+        values.put(Alarm.KEY_Available, alarm.available);
         //返回行数值
         long alarm_Id=db.insert(Alarm.TABLE,null,values);
         db.close();
@@ -71,7 +76,6 @@ public class AlarmInfo  {
         values.put(Alarm.KEY_Weather,alarm.weather);
         values.put(Alarm.KEY_Music,alarm.music);
         values.put(Alarm.KEY_Available, alarm.available);
-        Log.e("test2", String.valueOf(alarm.alarm_id));
         db.update(Alarm.TABLE,values,Alarm.KEY_ID+"=?",new String[] { String.valueOf(alarm.alarm_id) });
         db.close();
     }
