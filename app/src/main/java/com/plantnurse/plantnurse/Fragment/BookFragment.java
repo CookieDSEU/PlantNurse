@@ -2,7 +2,6 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
 import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
-import com.plantnurse.plantnurse.utils.SortModel;
+import com.plantnurse.plantnurse.model.SortModel;
 import com.plantnurse.plantnurse.R;
 
 import java.util.ArrayList;

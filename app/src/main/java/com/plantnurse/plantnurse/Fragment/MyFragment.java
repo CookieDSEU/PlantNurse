@@ -19,6 +19,7 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
+import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
@@ -232,9 +233,8 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         myhobby.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                Intent intent = new Intent(getActivity(), CollectActivity.class);
                 startActivity(intent);
-
             }
         });
         sysset.setOnClickListener(new View.OnClickListener(){
