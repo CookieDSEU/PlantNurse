@@ -1,6 +1,5 @@
 package com.plantnurse.plantnurse.Fragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +34,15 @@ import com.plantnurse.plantnurse.utils.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Cookie_D on 2016/8/26.
  */
 public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private String urlpath;			// 图片本地路径
-    private static ProgressDialog pd;// 等待进度圈
+    private static SweetAlertDialog pd;// 等待进度圈
     private CircleImg avatarview;
     private TextView usnview;
     private MainApplication mApp;
@@ -57,7 +58,6 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
     private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
     private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
-    Bitmap avabitmap;
     private SelectPicPopupWindow menuWindow;
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         @Override
@@ -131,13 +131,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
             avatarview.setImageDrawable(drawable);
 
             // 新线程后台上传服务端
-            pd = ProgressDialog.show(getActivity(), null, "正在上传图片，请稍候...");
+            pd = new SweetAlertDialog(getActivity(),SweetAlertDialog.PROGRESS_TYPE);
+            pd.setTitleText("正在上传，请稍候").show();
             SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
 
                 @Override
                 protected Object doInBackground(Object[] params) {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
-                    String info=Util.uploadAvatar(userInfo.getuserName());
+                    String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
                     pd.dismiss();
                     return null;
                 }
