@@ -17,4 +17,5 @@ public class Constants {
     public static final String PLANTICON_URL="http://www.plantnurse.top/planticon/planticon.php?id=";
     public static final String PLANTPIC_URL="http://www.plantnurse.top/plantpic/plantpic.php?id=";
     public static final String PLANTINFO_URL="http://www.plantnurse.top/getplantinfo.php";
+    public  static final String RESETPSD_URL="http://www.plantnurse.top/resetpwd.php";
 }

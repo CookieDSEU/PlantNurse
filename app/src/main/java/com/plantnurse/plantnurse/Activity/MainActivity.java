@@ -105,7 +105,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 .withWidth(250)
                 .addDrawerHeader(header, null)
                 .addDrawerSectionTitle("菜单", Color.parseColor("#2F4F4F"))
-                .addDrawerSubItem(R.drawable.ic_login, "登录", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.singin, "登录", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (getSimpleApplicationContext().isLogined()) {
@@ -124,7 +124,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     }
                 })
 
-                .addDrawerSubItem(R.drawable.ic_person, "注册", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.register, "注册", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //判断当前是否登录
@@ -141,7 +141,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                         }
                     }
                 })
-                .addDrawerSubItem(R.drawable.ic_logout, "注销", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.logoff, "注销", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (!getSimpleApplicationContext().isLogined()) {
@@ -162,13 +162,13 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 })
 
                 .addDrawerDivider(Color.parseColor("#EEE9E9"))
-                .addDrawerSubItem(R.drawable.ic_about, "关于本软件", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.about, "关于本软件", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
                     }
                 })
-                .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.update, "检查更新", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Util.checkVersion(MainActivity.this);

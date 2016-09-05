@@ -19,13 +19,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/login_9">
         <!--<ImageView-->
-            <!--android:layout_width="140dp"-->
-            <!--android:layout_height="140dp"-->
-            <!--android:id="@+id/imageView"-->
-            <!--android:src="@drawable/logo2"-->
-            <!--android:layout_marginBottom="51dp"-->
-            <!--android:layout_above="@+id/username_layout"-->
-            <!--android:layout_centerHorizontal="true" />-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:src="@drawable/logo2"-->
+        <!--android:layout_marginBottom="51dp"-->
+        <!--android:layout_above="@+id/username_layout"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
         <LinearLayout
             android:id="@+id/username_layout"
@@ -111,7 +111,7 @@
             android:layout_above="@+id/login_button"
             android:layout_toRightOf="@+id/imageView"
             android:layout_toEndOf="@+id/imageView">
-         </EditText>
+        </EditText>
 
         <ImageView
             android:layout_width="40dp"
