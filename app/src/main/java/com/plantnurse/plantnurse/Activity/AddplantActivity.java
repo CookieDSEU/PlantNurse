@@ -2,9 +2,17 @@ package com.plantnurse.plantnurse.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,12 +21,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.ChangeInfoResponse;
@@ -29,8 +36,11 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.FileUtil;
+import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,15 +49,15 @@ import java.util.List;
 
 
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 
+import com.plantnurse.plantnurse.utils.Util;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import fr.ganfra.materialspinner.MaterialSpinner;
 
 /**
  * Created by Eason_Tao on 2016/8/27.
@@ -73,6 +83,8 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private RatingBar sunRatingBar;
     private RatingBar waterRatingBar;
     private RatingBar snowRatingBar;
+    private SelectPicPopupWindow menuWindow;
+    private static SweetAlertDialog pd;// 等待进度圈
     //data
     private String birth;
     private int birthday;
@@ -88,6 +100,13 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private int mSun;
     private int mWater;
     private int mSnow;
+    private String uuid="default2";
+    private static final String IMAGE_FILE_NAME = "plantImage.jpg";// 头像文件名称
+    private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
+    private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
+    private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
+    private String urlpath;			// 图片本地路径
+
 
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String mNowDate = sDateFormat.format(new java.util.Date());
@@ -96,6 +115,101 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     int myear = c.get(Calendar.YEAR);
     int mmonth = c.get(Calendar.MONTH);
     int mday = c.get(Calendar.DAY_OF_MONTH);
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                // 拍照
+                case R.id.takePhotoBtn:
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //下面这句指定调用相机拍照后的照片存储的路径
+                    takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+                    startActivityForResult(takeIntent, REQUESTCODE_TAKE);
+                    break;
+                // 相册选择图片
+                case R.id.pickPhotoBtn:
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, null);
+                    // 如果朋友们要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
+                    pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(pickIntent, REQUESTCODE_PICK);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case REQUESTCODE_PICK:// 直接从相册获取
+                try {
+                    startPhotoZoom(data.getData());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();// 用户点击取消操作
+                }
+                break;
+            case REQUESTCODE_TAKE:// 调用相机拍照
+                File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                startPhotoZoom(Uri.fromFile(temp));
+                break;
+            case REQUESTCODE_CUTTING:// 取得裁剪后的图片
+                if (data != null) {
+                    setPicToView(data);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setPicToView(Intent picdata) {
+        Bundle extras = picdata.getExtras();
+        if (extras != null) {
+            // 取得SDCard图片路径做显示
+            Bitmap photo = extras.getParcelable("data");
+            Drawable drawable = new BitmapDrawable(null, photo);
+            uuid = UUID.randomUUID().toString();
+            urlpath = FileUtil.saveFile(AddplantActivity.this, uuid +".png", photo);
+            mImg.setImageDrawable(drawable);
+
+            // 新线程后台上传服务端
+            pd = new SweetAlertDialog(AddplantActivity.this,SweetAlertDialog.PROGRESS_TYPE);
+            pd.setTitleText("正在上传，请稍候").show();
+            SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
+
+                @Override
+                protected Object doInBackground(Object[] params) {
+                    String info= Util.uploadAvatar(uuid,Util.TYPE_PLANT);
+                    pd.dismiss();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+
+                }
+            });
+        }
+    }
+    public void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/png");
+        // crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 500);
+        intent.putExtra("outputY", 500);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, REQUESTCODE_CUTTING);
+    }
 
     //返回键
     @Override
@@ -228,7 +342,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                     param.put("remark",other);
                     UserInfo userInfo=(UserInfo)getSimpleApplicationContext().getUserModel();
                     param.put("owner",userInfo.getuserName());
-                    param.put("pic","test");
+                    param.put("pic",uuid);
                     SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(), ChangeInfoResponse.class, param, Constants.ADDPLANT_URL, NetworkTask.GET) {
                         @Override
                         public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -239,6 +353,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismiss();
                                                 finish();
                                             }
                                         })
@@ -262,7 +377,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         addimageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                menuWindow = new SelectPicPopupWindow(AddplantActivity.this, itemsOnClick);
+                menuWindow.showAtLocation(mImg,
+                        Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
 
@@ -308,6 +425,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
             public void onItemClick(View view, int position)
             {
                 mImg.setImageResource(mData.get(position));
+                uuid="default"+(mData.get(position)+1);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -316,8 +434,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private void initDatas()
     {
         mData = new ArrayList<Integer>(Arrays.asList(R.drawable.flower1_s, R.drawable.flower2_s,
-                R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s,R.drawable.flower1_s,
-                R.drawable.flower2_s, R.drawable.flower3_s, R.drawable.flower4_s, R.drawable.flower5_s));
+                R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s));
         Intent mIntent = getIntent();
         int type = mIntent.getIntExtra("addplant", 0);
         if(type == 1){
