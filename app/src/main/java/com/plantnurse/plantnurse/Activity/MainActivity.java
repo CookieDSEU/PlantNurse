@@ -25,6 +25,7 @@ import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Fragment.BookFragment;
 import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
+import com.plantnurse.plantnurse.Network.GetMyStarResponse;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
@@ -217,8 +218,27 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         getWeatherInfo();
         getPlantIndex();
         if(getSimpleApplicationContext().isLogined())
-        getMyPlant();
+        {getMyPlant();
+        getMyStar();}
 
+    }
+
+    private void getMyStar() {
+        HashMap param=new HashMap<>();
+        UserInfo ui=(UserInfo)getSimpleApplicationContext().getUserModel();
+        param.put("userName",ui.getuserName());
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MainActivity.this, GetMyStarResponse.class,param,Constants.GETMYSTAR_URL,NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyStarResponse response = (GetMyStarResponse) result.resultObject;
+                DataManager.setMyStar(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
     }
 
     private void getMyPlant() {

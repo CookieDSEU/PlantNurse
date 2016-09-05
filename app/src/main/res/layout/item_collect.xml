@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:id="@+id/collectLinearLayout">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="135dp"
-        android:weightSum="1"
-        android:background="@drawable/bg_collection"
-        android:layout_marginTop="20dp">
+
+<LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:weightSum="1"
+    android:background="@drawable/bg_collection"
+    android:layout_marginTop="10dp"
+    android:id="@+id/collectLinearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <com.plantnurse.plantnurse.utils.CircleImg
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:id="@+id/planticon" />
 
@@ -31,7 +28,7 @@
                 android:id="@+id/plantname"
                 android:textColor="@color/white"
                 android:textSize="24dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="10dp" />
 
             <TextView
@@ -43,7 +40,5 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp" />
         </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -22,6 +22,7 @@ import com.plantnurse.plantnurse.Activity.AboutActivity;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
+import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
@@ -233,8 +234,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         myhobby.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CollectActivity.class);
-                startActivity(intent);
+                if(!mApp.isLogined()){
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录!")
+                            .show();
+                }else {
+                    Intent intent = new Intent(getActivity(), CollectActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         sysset.setOnClickListener(new View.OnClickListener(){
