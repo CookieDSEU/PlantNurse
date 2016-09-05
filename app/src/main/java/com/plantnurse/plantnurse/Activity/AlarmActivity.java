@@ -13,6 +13,8 @@ import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.DbHelper;
 import com.plantnurse.plantnurse.utils.MyService;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Yxuan on 2016/8/26.
  */
@@ -68,16 +70,18 @@ public class AlarmActivity extends Activity {
 
 
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
-        new AlertDialog.Builder(AlarmActivity.this).setTitle("闹钟").setMessage(mtext)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        stopService(intentSV);
-                        info.update(alarm);
-                        AlarmActivity.this.finish();
-                    }
-                }).show();
-
+        SweetAlertDialog dialog=new SweetAlertDialog(AlarmActivity.this,SweetAlertDialog.NORMAL_TYPE);
+        dialog.setTitleText("闹钟");
+        dialog.setContentText(mtext);
+        dialog.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                stopService(intentSV);
+                info.update(alarm);
+                AlarmActivity.this.finish();
+            }
+        });
+        dialog.show();
     }
 
 }

@@ -37,6 +37,7 @@
         <activity android:name=".Activity.AddAlarmActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
+        <activity android:name=".Activity.CollectActivity"></activity>
         <activity android:name=".Activity.ShowActivity"></activity>
         <activity android:name=".Activity.AlarmActivity">
         </activity>
@@ -51,7 +52,11 @@
             android:label=""></activity>
 
         <receiver android:name=".utils.AlarmReceiver"></receiver>
-        <service android:name=".utils.MyService"></service>
+        <service android:name=".utils.MyService"></service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
