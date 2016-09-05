@@ -1,20 +1,15 @@
 package com.plantnurse.plantnurse.utils;
-
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-
-import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.CollectModel;
-import com.plantnurse.plantnurse.model.SortModel;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -62,9 +57,12 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
     //viewHolder填充数据
     @Override
     public void onBindViewHolder(final ViewHolder holder,final int position) {
-        holder.pname.setText(mlist.get(position).getName());
-        Picasso.with(mContext).load(mlist.get(position).getUrl()).into(holder.pimage);
-        holder.ptime.setText(mlist.get(position).getAddtime());
+
+        for(int i=0;i<mlist.size();i++){
+            holder.pname.setText(mlist.get(position).getName());
+            Picasso.with(mContext).load(mlist.get(position).getUrl()).into(holder.pimage);
+            holder.ptime.setText(mlist.get(position).getAddtime());
+        }
         //设置点击事件
         holder.itemView.findViewById(R.id.collectLinearLayout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +79,8 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
     //获取循环的次数
     @Override
     public int getItemCount() {
+        String t=" "+mlist.size();
+        Log.e("souceDataList.size=",t);
         return mlist.size();
     }
 

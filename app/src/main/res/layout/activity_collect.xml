@@ -4,7 +4,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@color/background"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
@@ -24,7 +24,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/collectListView"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="wrap_content" />
 
     <!--recycleView 版本-->
     //android:divider="#d1cece"
