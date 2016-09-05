@@ -4,7 +4,7 @@ package com.plantnurse.plantnurse.utils;
  * 为了排序，对比每个植物名字的拼音，服务器不是排好了么？e
  */
 
-import com.plantnurse.plantnurse.utils.SortModel;
+import com.plantnurse.plantnurse.model.SortModel;
 
 import java.util.Comparator;
 

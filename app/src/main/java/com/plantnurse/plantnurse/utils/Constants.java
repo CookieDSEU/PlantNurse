@@ -10,12 +10,18 @@ public class Constants {
     public static final String SIGNUP_URL="http://www.plantnurse.top/signup.php";
     public static final String AVATAR_URL="http://www.plantnurse.top/avatar/avatar.php";
     public static final String AVATAR_UPLOAD_URL="http://www.plantnurse.top/avatar/upload.php";
+    public static final String PLANT_UPLOAD_URL="http://www.plantnurse.top/myplant/upload.php";
     public static final String CHECKVERSION_URL="http://www.plantnurse.top/checkversion.php";
     public static final String CHANGEINFO_URL="http://www.plantnurse.top/changeinfo.php";
     public static final String REPORT_URL="https://www.sojump.hk/jq/9513426.aspx";
     public static final String GETINDEX_URL="http://www.plantnurse.top/getindex.php";
     public static final String PLANTICON_URL="http://www.plantnurse.top/planticon/planticon.php?id=";
     public static final String PLANTPIC_URL="http://www.plantnurse.top/plantpic/plantpic.php?id=";
+    public static final String MYPLANTPIC_URL="http://www.plantnurse.top/myplant/myplantpic.php?id=";
     public static final String PLANTINFO_URL="http://www.plantnurse.top/getplantinfo.php";
-    public  static final String RESETPSD_URL="http://www.plantnurse.top/resetpwd.php";
+    public static final String RESETPSD_URL="http://www.plantnurse.top/resetpwd.php";
+    public static final String NEWSTAR_URL="http://www.plantnurse.top/newstar.php";
+    public static final String GETMYSTAR_URL="http://www.plantnurse.top/getmystar.php";
+    public static final String GETMYPLANT_URL="http://www.plantnurse.top/myplant/getmyplant.php";
+    public static final String ADDPLANT_URL="http://www.plantnurse.top/myplant/newplant.php";
 }

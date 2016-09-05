@@ -35,6 +35,7 @@ import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmReceiver;
 import com.plantnurse.plantnurse.utils.AlarmSelectPlantAdapter;
 import com.plantnurse.plantnurse.utils.CircleImg;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -100,7 +101,10 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 //    private CircleImg circleImg_yellow;
     private RecyclerView recyclerView_plant;//选择植物列表
     private AlarmSelectPlantAdapter adapter;//添加植物的图片适配器
-    private List<Integer> plantData;//添加植物的图片列表
+    private List<String> plantDatas;//用户植物的图片列表
+    private String selectedPlantName;//已选择植物的名字数据
+    private List<String> selectedPlants=new ArrayList<String>();//已选择的植物
+    private static List<Integer> select=new ArrayList<Integer>();//判断植物是否被选中
     EditText editText;//备注
     private ImageView plantView;
     private TextView selectedFrequency;//显示当前所选或已选时间
@@ -145,10 +149,15 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         Intent intent = getIntent();
         alarm_Id = intent.getIntExtra("alarm_Id", 0);
 
-        //需要从数据库中读取用户所有的植物，
-        plantData = new ArrayList<Integer>(Arrays.asList(R.drawable.sunny, R.drawable.cloudy,
-                R.drawable.cloudy_2, R.drawable.cloudy_3, R.drawable.rainy_2, R.drawable.rainy,
-                R.drawable.rainy_3));
+        //需要从数据库中读取用户所有的植物
+//        plantDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.sunny, R.drawable.cloudy,
+//                R.drawable.cloudy_2, R.drawable.cloudy_3, R.drawable.rainy_2, R.drawable.rainy,
+//                R.drawable.rainy_3));
+
+        //先初始化select，让AlarmSelectPlantAdapter可用
+        for(int i=0;i<DataManager.getMyPlant().response.size();i++){
+            select.add(0);
+        }
 
         //初始化对应闹钟
         info = new AlarmInfo(getSimpleApplicationContext());
@@ -236,25 +245,14 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView_plant.setLayoutManager(linearLayoutManager);
-        //设置recyclerView的适配器
-        adapter = new AlarmSelectPlantAdapter(this, plantData);
-        adapter.setOnItemClickLitener(new AlarmSelectPlantAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                ToastUtil.showShort(position + "");
-                plantView.setImageResource(plantData.get(position));
-            }
-        });
-        recyclerView_plant.setAdapter(adapter);
-
-
 
 
         //初始化数据
         //alarm_Id不为0则表示是打开以前的闹钟
-        if (alarm_Id != 0) {
+        if (alarm_Id != 0&&alarm_Id!=-1) {
             alarm = info.getAlarmById(alarm_Id);
             editText.setText(alarm.content);
+            selectedPlantName=alarm.plantName;
             roleColor=alarm.roleColor;
             time = alarm.time;
             currentOrSelected=time;//已选择的时间
@@ -266,17 +264,30 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             isworm_clicked = alarm.takeCare;
             ismedicine_clicked = alarm.fertilization;
 
-            //初始化已设置的闹钟按钮
-
-            repeatClickEvent(frequency);
-            actionClickEvent(iswater_clicked, button_water,R.drawable.action1_grey,R.drawable.action1);
-            actionClickEvent(issun_clicked, button_sun,R.drawable.action2_grey,R.drawable.action2);
-            actionClickEvent(isback_clicked, button_back,R.drawable.action3_grey,R.drawable.action3);
-            actionClickEvent(isworm_clicked, button_worm,R.drawable.action4_grey,R.drawable.action4);
-            actionClickEvent(ismedicine_clicked, button_medicine,R.drawable.action5_grey,R.drawable.action5);
-
         }
+        if(alarm_Id==-1){//为天气提醒的闹钟
+            Intent intent = getIntent();
+            editText.setText(intent.getIntExtra("content",0));
+            selectedPlantName=intent.getStringExtra("plants");
+            time = formatter.format(intent.getIntExtra("time",0));
+            currentOrSelected=time;//已选择的时间
+            frequency = intent.getIntExtra("frequency",0);
+            iswater_clicked = intent.getIntExtra("water",0);
+            issun_clicked = intent.getIntExtra("sun",0);
+            isback_clicked = intent.getIntExtra("back",0);
+            isworm_clicked = intent.getIntExtra("worm",0);
+            ismedicine_clicked = intent.getIntExtra("fertilization",0);
+        }
+
+
+        //初始化已设置的闹钟按钮
         setRoleColor(roleColor);
+        repeatClickEvent(frequency);
+        actionClickEvent(iswater_clicked, button_water,R.drawable.action1_grey,R.drawable.action1);
+        actionClickEvent(issun_clicked, button_sun,R.drawable.action2_grey,R.drawable.action2);
+        actionClickEvent(isback_clicked, button_back,R.drawable.action3_grey,R.drawable.action3);
+        actionClickEvent(isworm_clicked, button_worm,R.drawable.action4_grey,R.drawable.action4);
+        actionClickEvent(ismedicine_clicked, button_medicine, R.drawable.action5_grey, R.drawable.action5);
 
         //分隔日期和时间
         String strDorT[]=currentOrSelected.split(" ");
@@ -287,6 +298,15 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         String strHorM[]=selectedTime1.split(":");
         selectedHour=strHorM[0];
         selectedMin=strHorM[1];
+
+        //分隔植物
+        if(selectedPlantName!=null){
+            String strPlants[]=selectedPlantName.split(",");
+            for(int i=0;i<strPlants.length;i++){
+                selectedPlants.add(strPlants[i]);
+            }
+        }
+
 
         //初始化NumberPicker的值
 
@@ -299,9 +319,11 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         }
         numberPicker_m.setValue(Integer.parseInt(selectedMin));
 
+        //设置recyclerView的适配器
+        adapter = new AlarmSelectPlantAdapter(this, plantDatas,selectedPlants,alarm);
+        recyclerView_plant.setAdapter(adapter);
 
     }
-
 
     //角色的初始化和选择
     public void setRoleColor(int i){
@@ -693,6 +715,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             public void onClick(View v) {
 
                 finalSelectedTime();
+                finalSelectedPlants();
 
                 //获得的是最新的闹钟内容
                 alarm.roleColor=roleColor;
@@ -708,7 +731,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 alarm.takeCare=isworm_clicked;
                 alarm.fertilization=ismedicine_clicked;
 
-                if(alarm_Id==0){//新闹钟
+                if(alarm_Id==0||alarm_Id==-1){//新闹钟(自己设&天气提醒）
                     //返回插入的闹钟的alarm_id值
                     alarm_Id=info.insert(alarm);
                     //一定要传alarm_Id,这个时候alarm.alarm_id还没更新，值为0
@@ -763,6 +786,16 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     }
 
+    //最终选择的植物
+    public void finalSelectedPlants(){
+        alarm.plantName="";
+        for(int i=0;i<select.size();i++){
+           if(select.get(i)==1){//植物被选择
+               alarm.plantName+=plantDatas.get(i)+",";
+           }
+        }
+    }
+
 
     /**
      * @param frequency       周期性时间间隔的标志
@@ -807,7 +840,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             }
 //        }
     }
-
 
 
     //自定义闹钟选择
@@ -906,6 +938,14 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         ToastUtil.showShort(date);
     }
 
+    //获取select的判断
+    public static List<Integer> getSelect(){
+        return select;
+    }
+    //设置select（最终选择）
+    public void setSelect(int pos,int i){
+        select.set(pos,i);
+    }
 
     //当点击edittext以外的地方，取消焦点，隐藏输入键盘
     @Override
@@ -1010,6 +1050,12 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     @Override
     public void onLoadedNetworkData(View contentView) {
+        plantDatas = new ArrayList<String>();
+        if(DataManager.getMyPlant().response.size()!=0){
+            for (int i = 0;i<DataManager.getMyPlant().response.size();i++){
+                plantDatas.add(DataManager.getMyPlant().response.get(i).pic);
+            }
+        }
 
     }
 

@@ -30,14 +30,16 @@
             android:name=".Activity.AboutActivity"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".Activity.AddplantActivity"
-            android:hardwareAccelerated="false" />
-        <activity
-            android:name=".Activity.AddAlarmActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".Activity.ShowActivity" />
-        <activity android:name=".Activity.AlarmActivity" />
+        <activity android:name=".Activity.AddplantActivity"
+            android:hardwareAccelerated="false">
+        </activity>
+        <activity android:name=".Activity.AddAlarmActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+        <activity android:name=".Activity.CollectActivity"></activity>
+        <activity android:name=".Activity.ShowActivity"></activity>
+        <activity android:name=".Activity.AlarmActivity">
+        </activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,13 +53,9 @@
             android:theme="@style/Theme.Design.BottomSheetDialog" />
 
         <receiver android:name=".utils.AlarmReceiver" />
-
-        <service android:name=".utils.MyService" />
-
-        <activity
-            android:name=".ResetpsdActivity"
-            android:label="@string/title_activity_resetpsd" />
         <activity android:name=".Activity.ResetpsdActivity"></activity>
+        <receiver android:name=".utils.AlarmReceiver"></receiver>
+        <service android:name=".utils.MyService"></service>
     </application>
 
 </manifest>

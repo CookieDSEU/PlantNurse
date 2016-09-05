@@ -2,7 +2,6 @@ package com.plantnurse.plantnurse.Fragment;
 
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,14 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
+import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.PinyinComparator;
-import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.SideBar;
 import com.plantnurse.plantnurse.utils.SortAdapter;
-import com.plantnurse.plantnurse.utils.SortModel;
+import com.plantnurse.plantnurse.model.SortModel;
 import com.plantnurse.plantnurse.R;
 
 import java.util.ArrayList;
@@ -68,13 +68,13 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
     private List<SortModel> filledData(String param) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-        for (int i = 0; i < PlantIndexManager.getPlantIndex().response.size(); i++) {
-            if (PlantIndexManager.getPlantIndex().response.get(i).name.contains(param)) {
+        for (int i = 0; i < DataManager.getPlantIndex().response.size(); i++) {
+            if (DataManager.getPlantIndex().response.get(i).name.contains(param)) {
                 SortModel sortModel = new SortModel();
-                sortModel.setName(PlantIndexManager.getPlantIndex().response.get(i).name);
-                sortModel.setId(PlantIndexManager.getPlantIndex().response.get(i).id);
-                sortModel.setUrl(Constants.PLANTICON_URL + PlantIndexManager.getPlantIndex().response.get(i).id);
-                String pinyin = Pinyin.toPinyin(PlantIndexManager.getPlantIndex().response.get(i).name.charAt(0));
+                sortModel.setName(DataManager.getPlantIndex().response.get(i).name);
+                sortModel.setId(DataManager.getPlantIndex().response.get(i).id);
+                sortModel.setUrl(Constants.PLANTICON_URL + DataManager.getPlantIndex().response.get(i).id);
+                String pinyin = Pinyin.toPinyin(DataManager.getPlantIndex().response.get(i).name.charAt(0));
                 String sortString = pinyin.substring(0, 1).toUpperCase();
                 if (sortString.matches("[A-Z]")) {
                     sortModel.setSortLetters(sortString.toUpperCase());
@@ -87,7 +87,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         }
         if(mSortList.isEmpty()){
             SortModel sortModel = new SortModel();
-            sortModel.setName("抱歉，没有找到你想要的植物...");
+            sortModel.setName("抱歉，没有找到，点击新建");
             sortModel.setId(0);
             sortModel.setUrl(Constants.PLANTICON_URL + 0);
             String pinyin = Pinyin.toPinyin("抱歉".charAt(0));
@@ -184,11 +184,18 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //点击事件，以后会实现跳转
-                Intent intent = new Intent(getActivity(), ShowActivity.class);
-                String na = ((SortModel) adapter.getItem(position)).getName();
-                intent.putExtra("name", na);
-                intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
-                startActivity(intent);
+                if(((SortModel) adapter.getItem(position)).getId()!=0) {
+                    Intent intent = new Intent(getActivity(), ShowActivity.class);
+                    String na = ((SortModel) adapter.getItem(position)).getName();
+                    intent.putExtra("name", na);
+                    intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                    intent.putExtra("addplant",0);
+                    startActivity(intent);
+                }
             }
         });
         /**

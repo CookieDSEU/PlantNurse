@@ -24,16 +24,17 @@ import com.plantnurse.plantnurse.Fragment.MyFragment;
 import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Fragment.BookFragment;
 import com.plantnurse.plantnurse.Network.GetIndexResponse;
+import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
+import com.plantnurse.plantnurse.Network.GetMyStarResponse;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.DoubleClickExit;
-import com.plantnurse.plantnurse.utils.PlantIndexManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
-import com.plantnurse.plantnurse.utils.WeatherManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,9 +205,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     public void initController() {
-
          addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-        addTab(R.drawable.book_grey,R.drawable.book_color,"百科",Color.GRAY,Color.parseColor("#04b00f"));
+        addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
@@ -216,7 +216,57 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     public void onLoadingNetworkData() {
         getWeatherInfo();
         getPlantIndex();
+//        if(getSimpleApplicationContext().isLogined())
+        getMyPlant();
+        getMyStar();
 
+    }
+
+    private void getMyStar() {
+        HashMap param=new HashMap<>();
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else{
+            param.put("userName","blank");
+        }
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MainActivity.this, GetMyStarResponse.class,param,Constants.GETMYSTAR_URL,NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyStarResponse response = (GetMyStarResponse) result.resultObject;
+                DataManager.setMyStar(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
+    }
+
+    private void getMyPlant() {
+        HashMap param=new HashMap<>();
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else {
+            param.put("userName", "blank");
+        }
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getSimpleApplicationContext(), GetMyPlantResponse.class,
+                param,Constants.GETMYPLANT_URL,NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyPlantResponse response = (GetMyPlantResponse) result.resultObject;
+                DataManager.setMyPlant(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
     }
 
     private void getPlantIndex() {
@@ -226,7 +276,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 GetIndexResponse response = (GetIndexResponse) result.resultObject;
-                PlantIndexManager.setPlantIndex(response);
+                DataManager.setPlantIndex(response);
             }
 
             @Override
@@ -290,7 +340,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
                 WeatherResponse weatherInfo = weatherAPI.response.get(0);
-                WeatherManager.setWeatherInfo(weatherInfo);
+                DataManager.setWeatherInfo(weatherInfo);
             }
 
             @Override

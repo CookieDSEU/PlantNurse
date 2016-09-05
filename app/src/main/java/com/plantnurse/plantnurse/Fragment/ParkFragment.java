@@ -1,67 +1,67 @@
 package com.plantnurse.plantnurse.Fragment;
 
 
-import android.app.Dialog;
-import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.fourmob.datetimepicker.date.DatePickerDialog;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
+import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 //import com.plantnurse.plantnurse.Activity.AddplantActivity;
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
-import com.plantnurse.plantnurse.Activity.MainActivity;
+import com.plantnurse.plantnurse.MainApplication;
+import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.utils.AddplantAdapter;
-import com.plantnurse.plantnurse.utils.Calendar;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CircleImg;
+import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ListDialog;
 import com.plantnurse.plantnurse.utils.PlantListAdapter;
-import com.plantnurse.plantnurse.utils.WeatherAdapter;
-import com.plantnurse.plantnurse.utils.WeatherManager;
+import com.squareup.picasso.Picasso;
 
 
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
 
 
 /**
  * Created by Eason_Tao on 2016/8/26.
  */
 
-public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
+public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction,ITabPageAction{
     //view
+    private LinearLayout layout_Weather;
+    private TextView text_Hum;
+    private TextView text_Weather;
     private TextView text_Tmp;
     private ImageView image_Weather;
     private ImageButton button_tips;
@@ -70,17 +70,24 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private ListView weather_ListView;
     private PlantListAdapter mAdapter;//添加植物的图片适配器
     private RecyclerView mRecyclerView;
+    private FloatingActionsMenu float_menu;
+    private FloatingActionButton float_Addplant;
+    private FloatingActionButton float_Plantlist;
     //data
+    private String now_Hum;
+    private String now_Weather;
     private String now_Tmp;
     private String city;
     private int now_Cond;
+    private MainApplication mApp;
     private  List<Map<String,Object>> mData;
-    private List<Integer> plantList_Data;//添加植物的图片列表
+    private List<String> plantList_Data;//添加植物的图片列表
     private Context mContext;
     private WeatherListAdapter adapter;
 
     @Override
     public int initLocalData() {
+        mApp=(MainApplication)getActivity().getApplication();
         mContext=getActivity();
         return 0;
     }
@@ -90,6 +97,32 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         initDatas();
         text_Tmp = (TextView) view.findViewById(R.id.text_temp);
         text_City = (TextView) view.findViewById(R.id.text_city);
+        text_Weather = (TextView) view.findViewById(R.id.text_weather);
+        text_Hum = (TextView) view.findViewById(R.id.text_hum);
+
+        float_menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu_park);
+        float_Addplant = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant);
+        float_Plantlist = (FloatingActionButton) view.findViewById(R.id.minifloat_plantlist);
+
+//        float_Addplant.setTitle("添加植物");
+        float_Addplant.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                intent.putExtra("addplant",0);
+                startActivity(intent); // 启动Activity
+            }
+        });
+//        float_Plantlist.setTitle("植物列表");
+        float_Plantlist.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        layout_Weather = (LinearLayout) view.findViewById(R.id.layout_weather);
         image_Weather = (ImageView) view.findViewById(R.id.image_weather);
         image_Plant = (CircleImg) view.findViewById(R.id.image_flower);
         button_tips = (ImageButton) view.findViewById(R.id.tipButton);
@@ -100,32 +133,23 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         //设置适配器
-        mAdapter = new PlantListAdapter(getActivity(), plantList_Data);
-        mAdapter.setOnItemClickLitener(new PlantListAdapter.OnItemClickLitener()
-        {
-            @Override
-            public void onItemClick(View view, int position)
-            {
-                image_Plant.setImageResource(plantList_Data.get(position));
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
+
     }
 
 
     //初始化plantlist
     private void initDatas()
     {
-        plantList_Data = new ArrayList<Integer>(Arrays.asList(R.drawable.flower1_s, R.drawable.flower2_s,
-                R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s,R.drawable.flower1_s,
-                R.drawable.flower2_s, R.drawable.flower3_s, R.drawable.flower4_s, R.drawable.flower5_s));
 
     }
     @Override
     public void initController() {
-        now_Tmp = WeatherManager.getWeatherInfo().now.tmp;
-        now_Cond = Integer.parseInt(WeatherManager.getWeatherInfo().now.cond.code);
-        city = WeatherManager.getWeatherInfo().basic.city;
+        now_Tmp = DataManager.getWeatherInfo().now.tmp;
+        now_Cond = Integer.parseInt(DataManager.getWeatherInfo().now.cond.code);
+        now_Hum = DataManager.getWeatherInfo().now.hum;
+        now_Weather = DataManager.getWeatherInfo().now.cond.txt;
+
+        city = DataManager.getWeatherInfo().basic.city;
         image_Plant.setImageResource(R.drawable.flower2_s);
         image_Plant.setBorderWidth(6);
         //image_Plant.setBorderColor(R.color.flowerborder);
@@ -134,6 +158,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                intent.putExtra("addplant",0);
                 startActivity(intent); // 启动Activity
                 return false;
             }
@@ -147,7 +172,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 //            }
 //        });
 
-        image_Weather.setOnClickListener(new View.OnClickListener() {
+        layout_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
  //               Dialog calendar_Dialog = new Dialog(getActivity(), R.style.CalenderStyle);
@@ -179,7 +204,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
         });
 
-        text_Tmp.setText(now_Tmp + "℃");
+        text_Hum.setText("湿度:" + now_Hum + "%");
+        text_Weather.setText(now_Weather);
+        text_Tmp.setText(now_Tmp);
         text_City.setText(city);
 
         switch (now_Cond){
@@ -231,11 +258,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         Map<String, Object> map;
         for (int i = 0; i < 7; i++) {
             map = new HashMap<String, Object>();
-            map.put("date", WeatherManager.getWeatherInfo().dailyForecast.get(i).date);
-            map.put("tmp_min", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
-            //Log.e("test", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
-            map.put("tmp_max", WeatherManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
-            image_code = Integer.parseInt(WeatherManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
+            map.put("date", DataManager.getWeatherInfo().dailyForecast.get(i).date);
+            map.put("tmp_min", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
+            map.put("tmp_max", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
+            image_code = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
             switch (image_code) {
                 case 100:
                     map.put("img",R.drawable.sunny);
@@ -275,9 +301,43 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                     break;
            }
             list.add(map);
-            //adapter.notifyDataSetChanged();
         }
         return list;
+    }
+
+    @Override
+    public void onPageSelected() {
+        HashMap param=new HashMap<>();
+        if(mApp.isLogined()) {
+            UserInfo ui = (UserInfo) mApp.getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else {
+            param.put("userName", "blank");
+        }
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getActivity(), GetMyPlantResponse.class,
+                param, Constants.GETMYPLANT_URL, NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyPlantResponse response = (GetMyPlantResponse) result.resultObject;
+                DataManager.setMyPlant(response);
+                plantList_Data = new ArrayList<String>();
+                if (DataManager.getMyPlant().response.size() != 0) {
+                    for (int i = 0; i < DataManager.getMyPlant().response.size(); i++) {
+                        plantList_Data.add(DataManager.getMyPlant().response.get(i).pic);
+                    }
+                } else {
+//            plantList_Data.add("default1");
+                }
+                mAdapter.updatelist(plantList_Data);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
+
     }
 
     public final class ViewHolder{
@@ -323,10 +383,6 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }else{
                 holder = (ViewHolder)convertView.getTag();
             }
-
-            //String str=mData.get(position).get("img");
-            //int drawable =mContext .getResources().getIdentifier(str, "drawable", mContext.getPackageName());
-            // holder.weather_Image.setImageResource(drawable);
             holder.weather_image.setBackgroundResource((Integer) mData.get(position).get("img"));
             holder.weather_date.setText((String) mData.get(position).get("date"));
             holder.weather_tmp.setText((String)(mData.get(position).get("tmp_min")+"~"+mData.get(position).get("tmp_max")+"℃"));
@@ -342,6 +398,28 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void onLoadedNetworkData(View contentView) {
+        plantList_Data = new ArrayList<String>();
+        if(DataManager.getMyPlant().response.size()!= 0){
+            for (int i =0;i<DataManager.getMyPlant().response.size();i++) {
+                plantList_Data.add(DataManager.getMyPlant().response.get(i).pic);
+            }
+        }
+        else {
+//            plantList_Data.add("default1");
+        }
+
+        mAdapter = new PlantListAdapter(getActivity(), plantList_Data);
+        mAdapter.setOnItemClickLitener(new PlantListAdapter.OnItemClickLitener()
+        {
+            @Override
+            public void onItemClick(View view, int position)
+            {
+//                image_Plant.setImageResource(plantList_Data.get(position));
+                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(position)).into(image_Plant);
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
