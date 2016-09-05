@@ -20,9 +20,11 @@ import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmListAdapter;
+import com.plantnurse.plantnurse.utils.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Yxuan on 2016/8/26.
@@ -53,16 +55,19 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         info = new AlarmInfo(getActivity());
         alarmList =  info.getAlarmList();
 
-        //设置适配器
-        adapter = new AlarmListAdapter(AlarmFragment.this,alarmList);
+
         //设置布局管理器
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+
         //设置Item增加、移除动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        //设置适配器
+        adapter = new AlarmListAdapter(AlarmFragment.this,alarmList);
+        recyclerView.setAdapter(adapter);
 
     }
 

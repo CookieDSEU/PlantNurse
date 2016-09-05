@@ -35,6 +35,7 @@ import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmReceiver;
 import com.plantnurse.plantnurse.utils.AlarmSelectPlantAdapter;
 import com.plantnurse.plantnurse.utils.CircleImg;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
@@ -100,9 +101,9 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 //    private CircleImg circleImg_yellow;
     private RecyclerView recyclerView_plant;//选择植物列表
     private AlarmSelectPlantAdapter adapter;//添加植物的图片适配器
-    private List<Integer> plantDatas;//添加植物的图片列表
+    private List<String> plantDatas;//用户植物的图片列表
     private String selectedPlantName;//已选择植物的名字数据
-    private List<Integer> selectedPlants=new ArrayList<Integer>();//已选择的植物
+    private List<String> selectedPlants=new ArrayList<String>();//已选择的植物
     private static List<Integer> select=new ArrayList<Integer>();//判断植物是否被选中
     EditText editText;//备注
     private ImageView plantView;
@@ -149,12 +150,12 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         alarm_Id = intent.getIntExtra("alarm_Id", 0);
 
         //需要从数据库中读取用户所有的植物
-        plantDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.sunny, R.drawable.cloudy,
-                R.drawable.cloudy_2, R.drawable.cloudy_3, R.drawable.rainy_2, R.drawable.rainy,
-                R.drawable.rainy_3));
+//        plantDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.sunny, R.drawable.cloudy,
+//                R.drawable.cloudy_2, R.drawable.cloudy_3, R.drawable.rainy_2, R.drawable.rainy,
+//                R.drawable.rainy_3));
 
         //先初始化select，让AlarmSelectPlantAdapter可用
-        for(int i=0;i<plantDatas.size();i++){
+        for(int i=0;i<DataManager.getMyPlant().response.size();i++){
             select.add(0);
         }
 
@@ -300,9 +301,9 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
         //分隔植物
         if(selectedPlantName!=null){
-            String strPlants[]=selectedPlantName.split(" ");
+            String strPlants[]=selectedPlantName.split(",");
             for(int i=0;i<strPlants.length;i++){
-                selectedPlants.add(Integer.parseInt(strPlants[i]));
+                selectedPlants.add(strPlants[i]);
             }
         }
 
@@ -790,7 +791,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         alarm.plantName="";
         for(int i=0;i<select.size();i++){
            if(select.get(i)==1){//植物被选择
-               alarm.plantName+=plantDatas.get(i)+" ";
+               alarm.plantName+=plantDatas.get(i)+",";
            }
         }
     }
@@ -1049,6 +1050,12 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     @Override
     public void onLoadedNetworkData(View contentView) {
+        plantDatas = new ArrayList<String>();
+        if(DataManager.getMyPlant().response.size()!=0){
+            for (int i = 0;i<DataManager.getMyPlant().response.size();i++){
+                plantDatas.add(DataManager.getMyPlant().response.get(i).pic);
+            }
+        }
 
     }
 

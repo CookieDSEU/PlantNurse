@@ -27,6 +27,7 @@ import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
 import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.Alarm;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -61,9 +62,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
     @Override
     public AlarmItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        DbHelper dbHelper=new DbHelper(context.getActivity());
-//        SQLiteDatabase db=dbHelper.getReadableDatabase();
-//        dbHelper.onUpgrade(db,1,1);
 
         info = new AlarmInfo(context.getActivity());
         alarmList =  info.getAlarmList();
@@ -206,8 +204,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
         //初始化植物
         if(alarm.plantName!=null){
-            String strP[]=alarm.plantName.split(" ");
-            Log.e("str1",strP[0]);
+            String strP[]=alarm.plantName.split(",");
             List<CircleImg> cirImg=new ArrayList<CircleImg>(Arrays.asList
                     (holder.showPlant1,holder.showPlant2,holder.showPlant3,holder.showPlant4));
             int l=0;
@@ -217,7 +214,9 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 l=strP.length;
             }
             for(int i=0;i<l;i++){
-                cirImg.get(i).setImageResource(Integer.parseInt(strP[i]));
+                Picasso.with(context.getActivity()).load(Constants.MYPLANTPIC_URL
+                        + strP[i]).into(cirImg.get(i));
+               // cirImg.get(i).setImageResource(Integer.parseInt(strP[i]));
             }
 
         }
@@ -301,13 +300,13 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 }
                 info.delete(alarmId);
                 context.onResume();
-                sweetAlertDialog.dismiss();
+                sweetAlertDialog.dismissWithAnimation();
             }
         });
         builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                sweetAlertDialog.dismiss();
+                sweetAlertDialog.dismissWithAnimation();
             }
         });
         builder.show();
