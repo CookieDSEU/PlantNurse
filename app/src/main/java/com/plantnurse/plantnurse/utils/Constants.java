@@ -19,6 +19,7 @@ public class Constants {
     public static final String PLANTPIC_URL="http://www.plantnurse.top/plantpic/plantpic.php?id=";
     public static final String MYPLANTPIC_URL="http://www.plantnurse.top/myplant/myplantpic.php?id=";
     public static final String PLANTINFO_URL="http://www.plantnurse.top/getplantinfo.php";
+    public static final String RESETPSD_URL="http://www.plantnurse.top/resetpwd.php";
     public static final String NEWSTAR_URL="http://www.plantnurse.top/newstar.php";
     public static final String GETMYSTAR_URL="http://www.plantnurse.top/getmystar.php";
     public static final String GETMYPLANT_URL="http://www.plantnurse.top/myplant/getmyplant.php";
