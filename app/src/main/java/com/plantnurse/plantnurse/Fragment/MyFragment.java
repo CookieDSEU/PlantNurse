@@ -22,6 +22,7 @@ import com.plantnurse.plantnurse.Activity.AboutActivity;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
+import com.plantnurse.plantnurse.Activity.ResetpsdActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
@@ -49,7 +50,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private TextView usnview;
     private MainApplication mApp;
     private TableRow mycity;
-    private TableRow myaccount;
+    private TableRow mypsd;
     private TableRow myhobby;
     private TableRow sysset;
     private TableRow sysreflct;
@@ -180,7 +181,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         avatarview=(CircleImg) view.findViewById(R.id.ava_img);
         usnview=(TextView)view.findViewById(R.id.usn_txv);
         mycity=(TableRow)view.findViewById(R.id.city);
-        myaccount=(TableRow)view.findViewById(R.id.management);
+        mypsd=(TableRow)view.findViewById(R.id.resetpsd);
         myhobby=(TableRow)view.findViewById(R.id.hobby);
         sysset=(TableRow)view.findViewById(R.id.sysset);
         sysreflct=(TableRow)view.findViewById(R.id.reflect);
@@ -223,10 +224,10 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
             }
         });
-        myaccount.setOnClickListener(new View.OnClickListener(){
+        mypsd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                Intent intent = new Intent(getActivity(),ResetpsdActivity.class);
                 startActivity(intent);
 
             }
