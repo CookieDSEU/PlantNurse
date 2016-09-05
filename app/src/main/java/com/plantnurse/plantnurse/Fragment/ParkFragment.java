@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +44,9 @@ import java.util.Map;
 
 public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
     //view
+    private LinearLayout layout_Weather;
+    private TextView text_Hum;
+    private TextView text_Weather;
     private TextView text_Tmp;
     private ImageView image_Weather;
     private ImageButton button_tips;
@@ -52,6 +56,8 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private PlantListAdapter mAdapter;//添加植物的图片适配器
     private RecyclerView mRecyclerView;
     //data
+    private String now_Hum;
+    private String now_Weather;
     private String now_Tmp;
     private String city;
     private int now_Cond;
@@ -71,6 +77,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         initDatas();
         text_Tmp = (TextView) view.findViewById(R.id.text_temp);
         text_City = (TextView) view.findViewById(R.id.text_city);
+        text_Weather = (TextView) view.findViewById(R.id.text_weather);
+        text_Hum = (TextView) view.findViewById(R.id.text_hum);
+
+        layout_Weather = (LinearLayout) view.findViewById(R.id.layout_weather);
         image_Weather = (ImageView) view.findViewById(R.id.image_weather);
         image_Plant = (CircleImg) view.findViewById(R.id.image_flower);
         button_tips = (ImageButton) view.findViewById(R.id.tipButton);
@@ -106,6 +116,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     public void initController() {
         now_Tmp = DataManager.getWeatherInfo().now.tmp;
         now_Cond = Integer.parseInt(DataManager.getWeatherInfo().now.cond.code);
+        now_Hum = DataManager.getWeatherInfo().now.hum;
+        now_Weather = DataManager.getWeatherInfo().now.cond.txt;
+
         city = DataManager.getWeatherInfo().basic.city;
         image_Plant.setImageResource(R.drawable.flower2_s);
         image_Plant.setBorderWidth(6);
@@ -129,7 +142,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 //            }
 //        });
 
-        image_Weather.setOnClickListener(new View.OnClickListener() {
+        layout_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
  //               Dialog calendar_Dialog = new Dialog(getActivity(), R.style.CalenderStyle);
@@ -161,7 +174,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
         });
 
-        text_Tmp.setText(now_Tmp + "℃");
+        text_Hum.setText("湿度:" + now_Hum + "%");
+        text_Weather.setText(now_Weather);
+        text_Tmp.setText(now_Tmp);
         text_City.setText(city);
 
         switch (now_Cond){
@@ -215,7 +230,6 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             map = new HashMap<String, Object>();
             map.put("date", DataManager.getWeatherInfo().dailyForecast.get(i).date);
             map.put("tmp_min", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
-            //Log.e("test", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
             map.put("tmp_max", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
             image_code = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
             switch (image_code) {
@@ -257,7 +271,6 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                     break;
            }
             list.add(map);
-            //adapter.notifyDataSetChanged();
         }
         return list;
     }
@@ -305,10 +318,6 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }else{
                 holder = (ViewHolder)convertView.getTag();
             }
-
-            //String str=mData.get(position).get("img");
-            //int drawable =mContext .getResources().getIdentifier(str, "drawable", mContext.getPackageName());
-            // holder.weather_Image.setImageResource(drawable);
             holder.weather_image.setBackgroundResource((Integer) mData.get(position).get("img"));
             holder.weather_date.setText((String) mData.get(position).get("date"));
             holder.weather_tmp.setText((String)(mData.get(position).get("tmp_min")+"~"+mData.get(position).get("tmp_max")+"℃"));

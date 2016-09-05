@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="@mipmap/parkbackground_3">
@@ -8,6 +10,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_weather"
         android:weightSum="1"
         android:orientation="horizontal"
         android:layout_gravity="right"
@@ -17,47 +20,107 @@
             android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_weight="0.1"
-            android:orientation="vertical"
-            android:layout_marginRight="10dp">
+            android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="36℃"
+                android:layout_marginTop="-10dp"
+                android:text="36"
                 android:textColor="#ffffff"
-                android:textSize="40sp"
+                android:textSize="60sp"
                 android:id="@+id/text_temp"
                 android:layout_gravity="center" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="上海"
                 android:textColor="#ffffff"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:id="@+id/text_city"
                 android:layout_gravity="center" />
         </LinearLayout>
 
-        <ImageView
-            android:scaleType="centerInside"
-            android:layout_width="85dip"
-            android:layout_height="85dip"
-            android:id="@+id/image_weather"
-            android:layout_gravity="right|center_vertical"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="℃"
+                android:textSize="22sp"
+                android:textColor="@color/white"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/sunny"
+                    android:id="@+id/image_weather"
+                    android:layout_gravity="right|center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="晴"
+                    android:id="@+id/text_weather"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/hum_image"
+                    android:id="@+id/image_hum"
+                    android:layout_gravity="center|right"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="湿度:50%"
+                    android:id="@+id/text_hum"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/addimagebutton"
+            android:id="@+id/imageButton" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_plantlist"
             android:layout_width="wrap_content"
             android:layout_height="240dp"
             android:scrollbars="none"
-            android:layout_alignTop="@+id/image_flower"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/imageButton"
+            android:layout_alignRight="@+id/imageButton"
+            android:layout_alignEnd="@+id/imageButton" />
         <com.plantnurse.plantnurse.utils.CircleImg
             android:id="@+id/image_flower"
             android:layout_width="200dip"
@@ -81,6 +144,22 @@
             android:layout_marginLeft="90dp"
             android:layout_marginStart="11dp" />
 
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/floatingmenu_park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            fab:fab_addButtonColorNormal="@color/flowerborder"
+            fab:fab_addButtonColorPressed="@color/white"
+            fab:fab_addButtonPlusIconColor="@color/white"
+            fab:fab_addButtonSize="mini"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </RelativeLayout>
+
 </LinearLayout>
