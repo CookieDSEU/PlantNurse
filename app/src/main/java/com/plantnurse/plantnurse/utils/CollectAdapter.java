@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.model.CollectModel;
+import com.plantnurse.plantnurse.model.CollectPlantModel;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -22,11 +22,11 @@ import java.util.List;
 public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHolder>{
 
     private LayoutInflater mInflater;
-    private List<CollectModel> mlist=null;
+    private List<CollectPlantModel> mlist=null;
     private CollectActivity mContext;
 
     //构造函数
-    public CollectAdapter(CollectActivity context,List<CollectModel> list){
+    public CollectAdapter(CollectActivity context,List<CollectPlantModel> list){
         mContext=context;
         mInflater=LayoutInflater.from(mContext);
         mlist=list;
