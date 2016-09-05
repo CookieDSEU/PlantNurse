@@ -12,12 +12,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.plantnurse.plantnurse.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 
 public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.ViewHolder>
 {
+
+    private Context mcontext;
 
     public interface OnItemClickLitener
     {
@@ -32,11 +35,12 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.View
     }
 
     private LayoutInflater mInflater;
-    private List<Integer> mDatas;
+    private List<String> mDatas;
 
-    public PlantListAdapter(Context context, List<Integer> datats)
+    public PlantListAdapter(Context context, List<String> datats)
     {
         mInflater = LayoutInflater.from(context);
+        mcontext = context;
         mDatas = datats;
     }
 
@@ -56,7 +60,10 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.View
     {
         return mDatas.size();
     }
-
+    public void updatelist(List<String> a){
+        mDatas=a;
+        notifyDataSetChanged();
+    }
     /**
      * 创建ViewHolder
      */
@@ -77,7 +84,8 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i)
     {
-        viewHolder.mImg.setImageResource(mDatas.get(i));
+//        viewHolder.mImg.setImageResource(mDatas.get(i));
+        Picasso.with(mcontext).load(Constants.MYPLANTPIC_URL+mDatas.get(i)).into(viewHolder.mImg);
         //如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null)
         {

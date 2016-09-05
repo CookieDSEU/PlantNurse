@@ -62,7 +62,6 @@
                     android:scaleType="centerInside"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/sunny"
                     android:id="@+id/image_weather"
                     android:layout_gravity="right|center_vertical"/>
                 <TextView
@@ -105,29 +104,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/addimagebutton"
-            android:id="@+id/imageButton" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_plantlist"
             android:layout_width="wrap_content"
             android:layout_height="240dp"
             android:scrollbars="none"
-            android:layout_below="@+id/imageButton"
-            android:layout_alignRight="@+id/imageButton"
-            android:layout_alignEnd="@+id/imageButton" />
+            android:layout_above="@+id/tipButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+        </android.support.v7.widget.RecyclerView>
         <com.plantnurse.plantnurse.utils.CircleImg
             android:id="@+id/image_flower"
             android:layout_width="200dip"
             android:layout_height="200dip"
             android:layout_marginLeft="40dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
