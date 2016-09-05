@@ -204,9 +204,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     public void initController() {
-
          addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-        addTab(R.drawable.book_grey,R.drawable.book_color,"百科",Color.GRAY,Color.parseColor("#04b00f"));
+        addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
@@ -216,15 +215,19 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     public void onLoadingNetworkData() {
         getWeatherInfo();
         getPlantIndex();
-        if(getSimpleApplicationContext().isLogined())
         getMyPlant();
 
     }
 
     private void getMyPlant() {
         HashMap param=new HashMap<>();
-        UserInfo ui=(UserInfo)getSimpleApplicationContext().getUserModel();
-        param.put("userName",ui.getuserName());
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else {
+            param.put("userName", "blank");
+        }
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getSimpleApplicationContext(), GetMyPlantResponse.class,
                 param,Constants.GETMYPLANT_URL,NetworkTask.GET) {
             @Override
