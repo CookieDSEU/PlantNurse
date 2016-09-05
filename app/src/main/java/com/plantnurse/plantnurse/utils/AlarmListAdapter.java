@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.preference.DialogPreference;
@@ -26,7 +27,9 @@ import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
 import com.plantnurse.plantnurse.Fragment.AlarmFragment;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.Alarm;
+import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,6 +72,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
     @Override
     public void onBindViewHolder(final AlarmItemHolder holder, final int position) {
+
         //取出每一个的闹钟
         info = new AlarmInfo(context.getActivity());
         alarmList =  info.getAlarmList();
@@ -135,7 +139,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         int sun=alarm.sun;
         int back=alarm.takeBack;
         int care=alarm.takeCare;
-        int fetilization=alarm.fertilization;
+        int fertilization=alarm.fertilization;
         String tips=alarm.content;
         int roleColor=alarm.roleColor;
 
@@ -165,7 +169,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             holder.showCare.setBackgroundResource(R.drawable.alarmaction_bug);
         }
 
-        if(fetilization==0){
+        if(fertilization==0){
             holder.showFertilization.setBackgroundResource(R.drawable.alarmaction_fat_grey);
         }else{
             holder.showFertilization.setBackgroundResource(R.drawable.alarmaction_fat);
@@ -199,7 +203,23 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         }
 
         //初始化植物
-        String strP[]=selectedTime.split(" ");
+        if(alarm.plantName!=null){
+            String strP[]=alarm.plantName.split(",");
+            List<CircleImg> cirImg=new ArrayList<CircleImg>(Arrays.asList
+                    (holder.showPlant1,holder.showPlant2,holder.showPlant3,holder.showPlant4));
+            int l=0;
+            if(strP.length>4){
+                l=4;
+            }else{
+                l=strP.length;
+            }
+            for(int i=0;i<l;i++){
+                Picasso.with(context.getActivity()).load(Constants.MYPLANTPIC_URL
+                        + strP[i]).into(cirImg.get(i));
+               // cirImg.get(i).setImageResource(Integer.parseInt(strP[i]));
+            }
+
+        }
 
 
         //初始化tips
@@ -275,15 +295,18 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 alarmList = info.getAlarmList();
                 alarm_hashMap = alarmList.get(position);
                 alarmId = Integer.parseInt(alarm_hashMap.get(Alarm.KEY_ID));
+                if(alarm.isAlarm==1){//如果是个闹钟，则取消掉
+                    cancelAlarm(context.getActivity(),alarmId);
+                }
                 info.delete(alarmId);
                 context.onResume();
-                sweetAlertDialog.dismiss();
+                sweetAlertDialog.dismissWithAnimation();
             }
         });
         builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                sweetAlertDialog.dismiss();
+                sweetAlertDialog.dismissWithAnimation();
             }
         });
         builder.show();
@@ -304,6 +327,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         if (alarm.frequency == 4||alarm.frequency==0) {//自定义
             intervalMillis = 0;
         } else if (alarm.frequency == 1) {//每天
@@ -334,10 +358,9 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             }
 
         } else {
-
             if(selectedTime<=currentTime){
                 final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                selectedTime+=24*3600*1000;
+                selectedTime+=intervalMillis;//直接跳到下一次的时间
                 alarm.time=formatter.format(selectedTime);
                 am.setRepeating(AlarmManager.RTC_WAKEUP, selectedTime, intervalMillis, sender);
             }else{
@@ -408,8 +431,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             showPlant3 = (CircleImg) itemView.findViewById(R.id.alarm_plant3);
             showPlant4 = (CircleImg) itemView.findViewById(R.id.alarm_plant4);
             showTips = (TextView) itemView.findViewById(R.id.alarm_tips);
-
-
 
             //植物默认为透明
             showPlant1.setColorFilter(R.color.nocolor);
