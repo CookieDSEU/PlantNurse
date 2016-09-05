@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
@@ -71,8 +71,8 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private PlantListAdapter mAdapter;//添加植物的图片适配器
     private RecyclerView mRecyclerView;
     private FloatingActionsMenu float_menu;
-    private com.getbase.floatingactionbutton.FloatingActionButton float_Addplant;
-    private com.getbase.floatingactionbutton.FloatingActionButton float_Plantlist;
+    private FloatingActionButton float_Addplant;
+    private FloatingActionButton float_Plantlist;
     //data
     private String now_Hum;
     private String now_Weather;
@@ -101,9 +101,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         text_Hum = (TextView) view.findViewById(R.id.text_hum);
 
         float_menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu_park);
-        float_Addplant=new com.getbase.floatingactionbutton.FloatingActionButton(getActivity());
-        float_Addplant.setSize(com.getbase.floatingactionbutton.FloatingActionButton.SIZE_MINI);
-        float_Addplant.setBackgroundResource(R.drawable.float_addplant);
+        float_Addplant = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant);
+        float_Plantlist = (FloatingActionButton) view.findViewById(R.id.minifloat_plantlist);
+
+//        float_Addplant.setTitle("添加植物");
         float_Addplant.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -113,17 +114,13 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 startActivity(intent); // 启动Activity
             }
         });
-        float_Plantlist=new com.getbase.floatingactionbutton.FloatingActionButton(getActivity());
-        float_Plantlist.setSize(com.getbase.floatingactionbutton.FloatingActionButton.SIZE_MINI);
-        float_Plantlist.setBackgroundResource(R.drawable.float_plantlist);
+//        float_Plantlist.setTitle("植物列表");
         float_Plantlist.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
             }
         });
-        float_menu.addButton(float_Addplant);
-        float_menu.addButton(float_Plantlist);
 
         layout_Weather = (LinearLayout) view.findViewById(R.id.layout_weather);
         image_Weather = (ImageView) view.findViewById(R.id.image_weather);
