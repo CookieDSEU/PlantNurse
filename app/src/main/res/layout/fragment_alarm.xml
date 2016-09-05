@@ -20,13 +20,12 @@
         android:gravity="center" />
 
 
-
+<!--    android:divider="#d1cece"
+    android:dividerHeight="40dp"-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:divider="#d1cece"
-        android:dividerHeight="40dp"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.98" />
 
 
