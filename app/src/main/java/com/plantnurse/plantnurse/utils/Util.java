@@ -1,25 +1,19 @@
 package com.plantnurse.plantnurse.utils;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
-import com.kot32.ksimplelibrary.util.tools.NetworkUtil;
-import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.Network.CheckVersionResponse;
 import com.plantnurse.plantnurse.R;
 
@@ -40,6 +34,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Cookie_D on 2016/8/13.
  */
 public class Util {
+    public static int TYPE_AVATAR=1;
+    public static int TYPE_PLANT=2;
     public static String getVersion(Context context) {
         try {
             PackageManager manager = context.getPackageManager();
@@ -128,7 +124,7 @@ public class Util {
         }
         return bitmap;
     }
-    public static String uploadAvatar(String usn){
+    public static String uploadAvatar(String usn,int type){
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "******";
@@ -136,7 +132,13 @@ public class Util {
         String result="fail";
         try
         {
-            URL url = new URL(Constants.AVATAR_UPLOAD_URL);
+            URL url;
+            if(type==TYPE_AVATAR){
+                url = new URL(Constants.AVATAR_UPLOAD_URL);
+            }
+            else {
+                url = new URL(Constants.PLANT_UPLOAD_URL);
+            }
             HttpURLConnection httpURLConnection = (HttpURLConnection) url
                     .openConnection();
             // 设置每次传输的流大小，可以有效防止手机因为内存不足崩溃

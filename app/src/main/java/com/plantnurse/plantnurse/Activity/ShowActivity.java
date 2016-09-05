@@ -118,6 +118,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             }
         });
 
+
         button_adopt=new FloatingActionButton(getBaseContext());
         button_adopt.setSize(FloatingActionButton.SIZE_MINI);
         button_adopt.setTitle("我要养他");
@@ -128,10 +129,14 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             @Override
             public void onClick(View v) {
                 if(!isadopted){
-                    button_adopt.setBackground(getResources().getDrawable(R.drawable.ic_adoption2));
                     button_adopt.setTitle("我已收养");
                     isadopted=true;
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
+                    intent.putExtra("addplant",1);
+                    intent.putExtra("name",mName);
+                    intent.putExtra("sun",mSunIndex);
+                    intent.putExtra("water",mWaterIndex);
+                    intent.putExtra("snow",mColdIndex);
                     startActivity(intent);
                 }else{
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
