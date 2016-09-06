@@ -1,55 +1,65 @@
 package com.plantnurse.plantnurse.Activity;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.Alarm;
+import com.plantnurse.plantnurse.model.MusicInfo;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmReceiver;
 import com.plantnurse.plantnurse.utils.AlarmSelectPlantAdapter;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.DataManager;
+import com.plantnurse.plantnurse.utils.ListDialog;
+import com.plantnurse.plantnurse.utils.MusicListAdapter;
+import com.plantnurse.plantnurse.utils.MusicLoader;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
-
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Yxuan on 2016/8/26.
@@ -57,10 +67,6 @@ import java.util.List;
 public class AddAlarmActivity extends KSimpleBaseActivityImpl
         implements IBaseAction, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    /**
-     * Create by Heloise
-     * Begin
-     */
     private NumberPicker numberPicker_h;
     private NumberPicker numberPicker_m;
     private NumberPicker numberPicker_ampm;
@@ -89,10 +95,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
     private Calendar calendar;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-    /**
-     * End
-     * Create by Heloise
-     */
 
     private Toolbar toolbar;
     private CircleImg circleImg_green;
@@ -101,12 +103,11 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 //    private CircleImg circleImg_yellow;
     private RecyclerView recyclerView_plant;//选择植物列表
     private AlarmSelectPlantAdapter adapter;//添加植物的图片适配器
-    private List<String> plantDatas;//用户植物的图片列表
-    private String selectedPlantName;//已选择植物的名字数据
+    private List<String> plantDatas;//从服务端获取用户所拥有的植物
+    private String selectedPlantName;//从本地数据库提取已选择植物的名字数据
     private List<String> selectedPlants=new ArrayList<String>();//已选择的植物
     private static List<Integer> select=new ArrayList<Integer>();//判断植物是否被选中
     EditText editText;//备注
-    private ImageView plantView;
     private TextView selectedFrequency;//显示当前所选或已选时间
 
     private long currentTime;//当前时间
@@ -119,7 +120,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
     private long selectedTime;//重新选定的时间
     private int alarm_Id;//闹钟的ID号
     private int isAlarm = 0;//判断是否有添加闹钟,0为没有，1为有
-    private String text;//所编辑的内容
     private String date;//新选择的日期
     private String time;//新选择的时间
     private int frequency=0;//设置重复次数对应的值：每天1、隔一天2、隔两天3、自定义4、无选择默认为当天时间0
@@ -131,35 +131,29 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
     private int hour;//NumberPicker的小时
     private int min;//NumberPicker的分钟
 
-
-
-
+    private MusicLoader musicLoader;
+    private List<MusicInfo> musicInfos;
+    private MusicListAdapter musicListAdapter;
 
     @Override
     public int initLocalData() {
 
         currentTime=System.currentTimeMillis();
         currentOrSelected=formatter.format(currentTime);//当前时间
-        //分隔日期和时间
+        //分隔当前日期和时间，以便后面引用
         String str[]=currentOrSelected.split(" ");
         date=str[0];//初始化当前日期
 
-
-        //获取AlarmFragment传来的值，新建闹钟的alarm_Id=0
+        //获取AlarmFragment传来的值，新建闹钟的alarm_Id=0，天气提醒闹钟alarm_Id=-1
         Intent intent = getIntent();
         alarm_Id = intent.getIntExtra("alarm_Id", 0);
-
-        //需要从数据库中读取用户所有的植物
-//        plantDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.sunny, R.drawable.cloudy,
-//                R.drawable.cloudy_2, R.drawable.cloudy_3, R.drawable.rainy_2, R.drawable.rainy,
-//                R.drawable.rainy_3));
 
         //先初始化select，让AlarmSelectPlantAdapter可用
         for(int i=0;i<DataManager.getMyPlant().response.size();i++){
             select.add(0);
         }
 
-        //初始化对应闹钟
+        //初始化对应闹钟，后面可以直接引用
         info = new AlarmInfo(getSimpleApplicationContext());
         alarm = new Alarm();
 
@@ -168,10 +162,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     @Override
     public void initView(ViewGroup view) {
-        /**
-         * Create by Heloise
-         * Begin
-         */
+
         numberPicker_h = (NumberPicker) findViewById(R.id.numberPicker_hour);
         numberPicker_m = (NumberPicker) findViewById(R.id.numberPicker_minute);
         numberPicker_ampm = (NumberPicker) findViewById(R.id.numberPicker_AMPM);
@@ -209,10 +200,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         timePickerDialog = TimePickerDialog.newInstance(this,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), false, false);
-        /**
-         * End
-         * Create by Heloise
-         */
 
         toolbar = (Toolbar) view.findViewById(R.id.setalarm_toolbar);
         circleImg_green = (CircleImg) view.findViewById(R.id.role_green);
@@ -236,6 +223,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("闹钟设置");
+
         //设为不可编辑
         numberPicker_ampm.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         numberPicker_h.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -246,9 +234,17 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView_plant.setLayoutManager(linearLayoutManager);
 
-
         //初始化数据
-        //alarm_Id不为0则表示是打开以前的闹钟
+        initInfo();
+
+        //设置recyclerView的适配器
+        adapter = new AlarmSelectPlantAdapter(this, plantDatas,selectedPlants,alarm);
+        recyclerView_plant.setAdapter(adapter);
+    }
+
+    //初始化数据
+    public void initInfo(){
+        //alarm_Id不为0且不为-1则表示是打开以前的闹钟
         if (alarm_Id != 0&&alarm_Id!=-1) {
             alarm = info.getAlarmById(alarm_Id);
             editText.setText(alarm.content);
@@ -263,7 +259,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             isback_clicked = alarm.takeBack;
             isworm_clicked = alarm.takeCare;
             ismedicine_clicked = alarm.fertilization;
-
         }
         if(alarm_Id==-1){//为天气提醒的闹钟
             Intent intent = getIntent();
@@ -279,7 +274,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             ismedicine_clicked = intent.getIntExtra("fertilization",0);
         }
 
-
         //初始化已设置的闹钟按钮
         setRoleColor(roleColor);
         repeatClickEvent(frequency);
@@ -293,7 +287,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         String strDorT[]=currentOrSelected.split(" ");
         selectedDate=strDorT[0];
         selectedTime1=strDorT[1];
-
         //分隔时钟，分钟
         String strHorM[]=selectedTime1.split(":");
         selectedHour=strHorM[0];
@@ -307,9 +300,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             }
         }
 
-
         //初始化NumberPicker的值
-
         if (Integer.parseInt(selectedHour) < 12) {
             numberPicker_ampm.setValue(0);
             numberPicker_h.setValue(Integer.parseInt(selectedHour));
@@ -318,11 +309,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             numberPicker_h.setValue(Integer.parseInt(selectedHour)-12);
         }
         numberPicker_m.setValue(Integer.parseInt(selectedMin));
-
-        //设置recyclerView的适配器
-        adapter = new AlarmSelectPlantAdapter(this, plantDatas,selectedPlants,alarm);
-        recyclerView_plant.setAdapter(adapter);
-
     }
 
     //角色的初始化和选择
@@ -383,7 +369,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 button_userdefine.setImageResource(R.drawable.frequency4);
                 break;
         }
-
     }
 
     //选择行为按钮的初始化颜色
@@ -396,107 +381,74 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 b.setImageResource(picture);
                 break;
         }
-
     }
 
-    @Override
-    public void initController() {
-
-        circleImg_green.setOnClickListener(new View.OnClickListener() {
+    /**
+     * 角色颜色点击事件
+     * @param cimg     点击的哪个角色CircleImg
+     * @param color    角色对应的int值
+     */
+    public void role_click(CircleImg cimg, final int color){
+        cimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(roleColor==1){//取消选择
-                    ToastUtil.showShort("不选择颜色时默认为绿色~");
-                }else {
-                    roleColor=1;
-                    setRoleColor(roleColor);
-                }
-
-            }
-        });
-
-        circleImg_pink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(roleColor==2){//取消选择
+                if(roleColor==color){//取消选择
                     roleColor=1;
                     setRoleColor(roleColor);
                     ToastUtil.showShort("不选择颜色时默认为绿色~");
                 }else {
-                    roleColor=2;
+                    roleColor=color;
                     setRoleColor(roleColor);
                 }
             }
         });
+    }
 
-        circleImg_blue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(roleColor==3){//取消选择
-                    roleColor=1;
-                    setRoleColor(roleColor);
-                    ToastUtil.showShort("不选择颜色时默认为绿色~");
-                }else {
-                    roleColor=3;
-                    setRoleColor(roleColor);
-                }
-            }
-        });
-
-//        circleImg_yellow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(roleColor==4){//取消选择
-//                    roleColor=1;
-//                    setRoleColor(roleColor);
-//                    ToastUtil.showShort("不选择颜色时默认为绿色~");
-//                }else {
-//                    roleColor=4;
-//                    setRoleColor(roleColor);
-//                }
-//            }
-//        });
-
-        button_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //timePickerDialog.setVibrate(isVibrate());
-                //timePickerDialog.setCloseOnSingleTapMinute(isCloseOnSingleTapMinute());
-                timePickerDialog.show(getSupportFragmentManager(), TIMEPICKER_TAG);
-                isAlarm=1;
-            }
-        });
-
-
-        numberPicker_ampm.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+    /**
+     * 时间选择器的监听事件
+     * @param n    监听哪个NumberPicker
+     * @param i    选择改哪个值
+     */
+    public void numberPicker_click(NumberPicker n,int i){
+        final int value=i;
+        n.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 if (oldVal != newVal) {
                     isAlarm = 1;
-                    ampm = newVal;
+                    if (value == 1) {
+                        ampm = newVal;
+                    }else if(value==2){
+                        hour = newVal;
+                    }else{
+                        min = newVal;
+                    }
                 }
+            }
+        });
+    }
+
+    //public void action_click(ImageButton imgb,)
+
+    @Override
+    public void initController() {
+
+        role_click(circleImg_green, 1);
+        role_click(circleImg_pink, 2);
+        role_click(circleImg_blue, 3);
+//        role_click(circleImg_yellow,4);
+
+        button_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show(getSupportFragmentManager(), TIMEPICKER_TAG);
+                isAlarm = 1;
             }
         });
 
-        numberPicker_h.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if(oldVal!=newVal){
-                    isAlarm=1;
-                    hour=newVal;
-                }
-            }
-        });
-
-        numberPicker_m.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                if(oldVal!=newVal){
-                    isAlarm=1;
-                    min=newVal;
-                }
-            }
-        });
+        numberPicker_click(numberPicker_ampm, 1);
+        numberPicker_click(numberPicker_h, 2);
+        numberPicker_click(numberPicker_m, 3);
 
         /**
          * ButtonGroup:选择重复的按钮只能选择一个
@@ -535,9 +487,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     //自定义按钮先不亮，不为true，只有等到点击完成才会设置
                     selectedFrequency.setText("");
 
-                    //datePickerDialog.setVibrate(isVibrate());
                     datePickerDialog.setYearRange(1985, 2028);
-                    //datePickerDialog.setCloseOnSingleTapDay(isCloseOnSingleTapDay());
                     datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
 
                 }
@@ -624,7 +574,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
          * ButtonGroup End
          */
 
-
         /**
          * ButtonGroup：可同时选择多个
          */
@@ -696,7 +645,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
          * ButtonGroup End
          */
 
-
         DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag(DATEPICKER_TAG);
         if (dpd != null) {
             dpd.setOnDateSetListener(this);
@@ -706,8 +654,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         if (tpd != null) {
             tpd.setOnTimeSetListener(this);
         }
-
-
 
         //点击确认键，将所有东西存入数据库，
         button_ok.setOnClickListener(new View.OnClickListener() {
@@ -720,11 +666,9 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 //获得的是最新的闹钟内容
                 alarm.roleColor=roleColor;
                 alarm.content=editText.getText().toString();
-                //默认改时间
-                alarm.isAlarm=1;
+                alarm.isAlarm=1; //默认改时间
                 alarm.time = formatter.format(selectedTime);
                 alarm.frequency=frequency;
-                //alarm.plantName=
                 alarm.water=iswater_clicked;
                 alarm.sun=issun_clicked;
                 alarm.takeBack=isback_clicked;
@@ -746,8 +690,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 finish();
             }
         });
-
-
     }
 
     //最终的选择时间
@@ -783,7 +725,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 selectedTime+=24*3600*1000;
             }
         }
-
     }
 
     //最终选择的植物
@@ -795,7 +736,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
            }
         }
     }
-
 
     /**
      * @param frequency       周期性时间间隔的标志
@@ -830,17 +770,12 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         intent.putExtra("frequency",frequency);
 //        intent.putExtra("soundOrVibrator", soundOrVibrator);
         PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, 0);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            am.setWindow(AlarmManager.RTC_WAKEUP, selectedTime, intervalMillis, sender);
-//        } else {
             if (frequency == 4||frequency==0) {//自定义闹钟
                 am.set(AlarmManager.RTC_WAKEUP, selectedTime, sender);
             } else {
                 am.setRepeating(AlarmManager.RTC_WAKEUP, selectedTime, intervalMillis, sender);
             }
-//        }
     }
-
 
     //自定义闹钟选择
     @Override
@@ -861,18 +796,15 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         ampm=numberPicker_ampm.getValue();
         hour=numberPicker_h.getValue();
         min=numberPicker_m.getValue();
-
-        if(ampm==1){
+        //显示的时间格式
+        if(ampm==1)
             hour+=12;
-        }
         htime=""+hour;
         mtime=""+min;
-        if(hour<10){
+        if(hour<10)
             htime="0"+hour;
-        }
-        if(min<10){
+        if(min<10)
             mtime="0"+min;
-        }
 
         time= htime+":"+mtime;
         ftime=date+" "+time;
@@ -890,14 +822,12 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             date=null;
             ToastUtil.showShort("请设置大于当前时间的闹钟！");
             selectedFrequency.setText("");
-
         }else{
             ToastUtil.showShort(ftime);
         }
         isuserdefine_clicked=1;
         frequency = 4;
         selectedFrequency.setText(date);
-
     }
 
     @Override
@@ -926,7 +856,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         if(selectedTime<=currentTime) {
             selectedTime+=24*3600*1000;
         }
-
 
         if(hourOfDay<10){
             hour="0"+hourOfDay;
@@ -988,8 +917,41 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
         return false;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // 插入选择铃声的toolbar菜单
+        getMenuInflater().inflate(R.menu.addalarm_toolbar_menu, menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int menuItemId = item.getItemId();
+                if (menuItemId == R.id.action_addMusic) {
+                    ListView listView;
+                    LayoutInflater inflater = LayoutInflater.from(AddAlarmActivity.this);
+                    View viewDialog = inflater.inflate(R.layout.dialog_calender, null);
+                    listView = (ListView) viewDialog.findViewById(R.id.weather_listView);
+                    Dialog builder=new Dialog(AddAlarmActivity.this);
+                    builder.setTitle("选择铃声");
+                    builder.setContentView(viewDialog);
+//                    Window music_Window = ld.getWindow();
+//                    WindowManager.LayoutParams lp = music_Window.getAttributes();
+//                    music_Window.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+//                    lp.width = 700;
+//                    lp.height = 1500;
+
+                    musicLoader=new MusicLoader();
+                    musicInfos = musicLoader.getMusicInfo(AddAlarmActivity.this.getContentResolver());
+                    musicListAdapter =new MusicListAdapter(AddAlarmActivity.this,musicInfos);
+                    listView.setAdapter(musicListAdapter);
+                    builder.show();
+                }
+                return true;
+            }
+        });
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         if(item.getItemId() == android.R.id.home)
         {
@@ -997,23 +959,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    /**
-     * Create by Heloise
-     * Begin
-     */
-    //就是他们三个找不着
-    //莫名其妙啊
-    private boolean isVibrate() {
-        return true;
-    }
-
-    private boolean isCloseOnSingleTapDay() {
-        return true;
-    }
-
-    private boolean isCloseOnSingleTapMinute() {
-        return true;
     }
 
     private void setNumberPickerDividerColor(NumberPicker numberPicker) {
@@ -1036,12 +981,6 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
             }
         }
     }
-    /**
-     * End
-     * Create by Heloise
-     */
-
-
 
     @Override
     public void onLoadingNetworkData() {
@@ -1056,14 +995,11 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                 plantDatas.add(DataManager.getMyPlant().response.get(i).pic);
             }
         }
-
     }
 
     @Override
     public int getContentLayoutID() {
         return R.layout.activity_addalarm;
     }
-
-
 }
 

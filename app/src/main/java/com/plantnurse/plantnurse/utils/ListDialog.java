@@ -15,7 +15,6 @@ public class ListDialog extends Dialog {
         super(context,themeResId);
         setContentView(R.layout.dialog_calender);
         listView=(ListView)findViewById(R.id.weather_listView);
-
     }
     public ListView getListView(){
         return listView;

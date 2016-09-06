@@ -25,14 +25,12 @@ import com.squareup.picasso.Picasso;
 
 public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPlantAdapter.ViewHolder> {
 
-
     private LayoutInflater layoutInflater;
     private List<String> datas;
     private List<String> selectedDatas;
     private Alarm alarm;
     private AddAlarmActivity addAlarmActivity=new AddAlarmActivity();
     private Context mcontext;
-    //private List<Integer> select=new ArrayList<Integer>();
 
     public AlarmSelectPlantAdapter(Context context, List<String> datas,
                                    List<String> selectedDatas,Alarm alarm) {
@@ -48,11 +46,8 @@ public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPla
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             mImg = (CircleImg) itemView.findViewById(R.id.id_index_addplant_item_image);
         }
-
-
     }
 
     @Override
@@ -60,29 +55,21 @@ public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPla
         return datas.size();
     }
 
-    /**
-     * 创建ViewHolder
-     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         //可直接引用花园中新建植物的布局
         View view = layoutInflater.inflate(R.layout.item_addplant, viewGroup, false);
-
         ViewHolder viewHolder = new ViewHolder(view);
-
         return viewHolder;
     }
 
-    /**
-     * 设置值
-     */
+
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int positon) {
-//        viewHolder.mImg.setImageResource(datas.get(positon));
 
         Picasso.with(mcontext).load(Constants.MYPLANTPIC_URL + datas.get(positon)).into(viewHolder.mImg);
-        int i;
 
+        int i;//判断如何修改select的值
         if(selectedDatas.isEmpty()){//若没有选择的植物，则全部初始化为0
                 addAlarmActivity.setSelect(positon,0);
         }else {
@@ -99,26 +86,19 @@ public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPla
             }
         }
 
-
-
-
         viewHolder.mImg.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(AddAlarmActivity.getSelect().get(positon)==0){//未被选择
+                if(AddAlarmActivity.getSelect().get(positon)==0){//未被选择，则选择显示边框
                     viewHolder.mImg.setBorderWidth(5);
                     viewHolder.mImg.setBorderColor(R.color.greenborder);
-                    AddAlarmActivity.getSelect().set(positon, 1);
+                    AddAlarmActivity.getSelect().set(positon, 1);//select相应位置设为1
                 }else {
                     viewHolder.mImg.setBorderWidth(0);
                     viewHolder.mImg.setBorderColor(R.color.nocolor);
                     AddAlarmActivity.getSelect().set(positon, 0);
                 }
-
             }
         });
-
     }
-
-
 }

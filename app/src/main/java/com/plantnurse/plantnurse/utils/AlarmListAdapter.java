@@ -53,7 +53,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     private LayoutInflater layoutInflater;
     private Alarm alarm=new Alarm();
 
-
     public AlarmListAdapter(AlarmFragment mContext, ArrayList<HashMap<String,String>> mAlarmList){
         this.context = mContext;
         this.alarmList=mAlarmList;
@@ -72,14 +71,13 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
     @Override
     public void onBindViewHolder(final AlarmItemHolder holder, final int position) {
-
         //取出每一个的闹钟
         info = new AlarmInfo(context.getActivity());
         alarmList =  info.getAlarmList();
         alarm_hashMap=alarmList.get(position);
         alarmId=Integer.parseInt(alarm_hashMap.get(Alarm.KEY_ID));
         alarm = info.getAlarmById(alarmId);
-
+        //初始化所有的信息
         handleInfo(holder, alarm);
 
         //单击出现详细信息
@@ -89,7 +87,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 showAlarmDetail(position);
             }
         });
-
         //长按删除
         holder.itemView.findViewById(R.id.cardView).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -98,17 +95,15 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 return true;
             }
         });
-
         //单击CirecleImg选择开或者关闭闹钟（isAlarm）
         holder.itemView.findViewById(R.id.alarm_role).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //每次都要重新取对应的闹钟
+                //每次都要重新取对应的闹钟信息
                 alarm_hashMap=alarmList.get(position);
                 alarmId=Integer.parseInt(alarm_hashMap.get(Alarm.KEY_ID));
                 alarm = info.getAlarmById(alarmId);
-
 
                 if(alarm.isAlarm==1){//原先为闹钟，点击取消
                     holder.showBackground.setAlpha(0.25f);
@@ -117,21 +112,15 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                     info.update(alarm);
                     ToastUtil.showShort("闹钟已取消");
                 }else {//重新启用闹钟
-
                     setAlarm(context.getActivity(), holder, alarm, 0);
-
-
                 }
             }
         });
-
     }
-
-
 
     //初始化数据处理
     public void handleInfo(AlarmItemHolder holder,Alarm alarm){
-
+        //声明初始化所有闹钟信息
         String selectedTime=alarm.time;
         int frequency=alarm.frequency;
         String plantName=alarm.plantName;
@@ -143,43 +132,17 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         String tips=alarm.content;
         int roleColor=alarm.roleColor;
 
-
         //初始化行为
-        if(water==0){
-            holder.showWater.setImageResource(R.drawable.alarmaction_water_grey);
-        }else{
-            holder.showWater.setImageResource(R.drawable.alarmaction_water);
-        }
-
-        if(sun==0){
-            holder.showSun.setBackgroundResource(R.drawable.alarmaction_sun_grey);
-        }else{
-            holder.showSun.setBackgroundResource(R.drawable.alarmaction_sun);
-        }
-
-        if(back==0){
-            holder.showBack.setBackgroundResource(R.drawable.alarmaction_hand_grey);
-        }else{
-            holder.showBack.setBackgroundResource(R.drawable.alarmaction_hand);
-        }
-
-        if(care==0){
-            holder.showCare.setBackgroundResource(R.drawable.alarmaction_bug_grey);
-        }else{
-            holder.showCare.setBackgroundResource(R.drawable.alarmaction_bug);
-        }
-
-        if(fertilization==0){
-            holder.showFertilization.setBackgroundResource(R.drawable.alarmaction_fat_grey);
-        }else{
-            holder.showFertilization.setBackgroundResource(R.drawable.alarmaction_fat);
-        }
+        initAction(water,holder.showWater,R.drawable.alarmaction_water_grey,R.drawable.alarmaction_water);
+        initAction(water,holder.showSun,R.drawable.alarmaction_sun_grey,R.drawable.alarmaction_sun);
+        initAction(water,holder.showBack,R.drawable.alarmaction_hand_grey,R.drawable.alarmaction_hand);
+        initAction(water,holder.showCare,R.drawable.alarmaction_bug_grey,R.drawable.alarmaction_bug);
+        initAction(water,holder.showFertilization,R.drawable.alarmaction_fat_grey,R.drawable.alarmaction_fat);
 
         //分隔日期和时间
         String strDorT[]=selectedTime.split(" ");
         String date=strDorT[0];
         String time=strDorT[1];
-
         //初始化时间
         holder.showTime.setText(time);
 
@@ -208,7 +171,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             List<CircleImg> cirImg=new ArrayList<CircleImg>(Arrays.asList
                     (holder.showPlant1,holder.showPlant2,holder.showPlant3,holder.showPlant4));
             int l=0;
-            if(strP.length>4){
+            if(strP.length>4){//最多显示4盆植物
                 l=4;
             }else{
                 l=strP.length;
@@ -216,20 +179,15 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             for(int i=0;i<l;i++){
                 Picasso.with(context.getActivity()).load(Constants.MYPLANTPIC_URL
                         + strP[i]).into(cirImg.get(i));
-               // cirImg.get(i).setImageResource(Integer.parseInt(strP[i]));
             }
-
         }
-
 
         //初始化tips
         holder.showTips.setText("Tips:" + tips);
 
         //初始化角色
-
         switch (roleColor){
             case 1://选择绿色
-                //holder.showRole.setBackgroundResource(R.drawable.alarmrole_green);
                 holder.showRole.setImageResource(R.drawable.alarmrole_green);
                 holder.showRole.setBorderWidth(10);
                 holder.showRole.setBorderColor(R.color.greenborder);
@@ -256,16 +214,12 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         }
 
         //初始化背景亮度，是否为闹钟
-
         if(alarm.isAlarm==1){//是闹钟
             holder.showBackground.setAlpha(1);
         }else{
             holder.showBackground.setAlpha(0.25f);
-
         }
-
     }
-
 
     //单击事件
     public void showAlarmDetail(int pos){
@@ -284,7 +238,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     public void deleteAlarm(int pos){
         final int position=pos;
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
-
         SweetAlertDialog builder =  new SweetAlertDialog(context.getActivity(), SweetAlertDialog.NORMAL_TYPE);
         builder.setTitleText("提示");
         builder.setContentText("确定要删除闹钟吗？");
@@ -310,7 +263,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             }
         });
         builder.show();
-
     }
 
     //设置闹钟
@@ -340,7 +292,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         //发送闹钟请求
         Intent intent = new Intent(context,AlarmReceiver.class);
         intent.putExtra("alarm_Id", alarm.alarm_id);
-        intent.putExtra("frequency",alarm.frequency);
+        intent.putExtra("frequency", alarm.frequency);
 //        intent.putExtra("soundOrVibrator", soundOrVibrator);
         PendingIntent sender = PendingIntent.getBroadcast(context, alarm.alarm_id, intent, 0);
 
@@ -354,9 +306,7 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 alarm.isAlarm=1;
                 holder.showBackground.setAlpha(1);
                 ToastUtil.showShort("闹钟已重新启用");
-
             }
-
         } else {
             if(selectedTime<=currentTime){
                 final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -383,22 +333,25 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         am.cancel(pi);
     }
 
-
+    //初始化行为图标
+    public void initAction(int i,ImageView img,int grey,int nogrey){
+        if(i==0){
+            img.setImageResource(grey);
+        }else{
+           img.setImageResource(nogrey);
+        }
+    }
 
     @Override
     public int getItemCount() {
-
         info = new AlarmInfo(context.getActivity());
         alarmList =  info.getAlarmList();
         return alarmList.size();
     }
 
-
-
     public class AlarmItemHolder extends ViewHolder {
 
         LinearLayout showBackground;
-//        ImageView showBackground;
         CircleImg showRole;
         ImageView showWater;
         ImageView showSun;
@@ -413,10 +366,8 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         CircleImg showPlant4;
         TextView showTips;
 
-
         public AlarmItemHolder(View itemView) {
             super(itemView);
-
             showBackground= (LinearLayout) itemView.findViewById(R.id.container);
             showRole = (CircleImg) itemView.findViewById(R.id.alarm_role);
             showWater= (ImageView) itemView.findViewById(R.id.action_water);
@@ -437,7 +388,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
             showPlant2.setColorFilter(R.color.nocolor);
             showPlant3.setColorFilter(R.color.nocolor);
             showPlant4.setColorFilter(R.color.nocolor);
-
         }
     }
 }

@@ -38,7 +38,6 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     AlarmInfo info ;
     ArrayList<HashMap<String, String>> alarmList;
 
-
     @Override
     public int initLocalData() {
         return 0;
@@ -50,32 +49,22 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         addBtn=(Button)view.findViewById(R.id.button_addalarm);
 
-
         //获取数据库内容
         info = new AlarmInfo(getActivity());
         alarmList =  info.getAlarmList();
 
-
         //设置布局管理器
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        //设置Item增加、移除动画
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //设置适配器
         adapter = new AlarmListAdapter(AlarmFragment.this,alarmList);
         recyclerView.setAdapter(adapter);
-
     }
-
-
 
     @Override
     public void initController() {
-
         //新建闹钟
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +82,7 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     @Override
     public void onResume() {
         super.onResume();
-        //返回刷新列表
+        //返回便刷新列表
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -111,7 +100,6 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     public int getContentLayoutID() {
         return R.layout.fragment_alarm;
     }
-
 
 }
 
