@@ -98,7 +98,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
-        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog = new SweetAlertDialog(SignupActivity.this,SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitle("正在注册...");
         toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
         toolbar.setTitle("注册");
