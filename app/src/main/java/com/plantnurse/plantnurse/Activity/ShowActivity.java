@@ -75,14 +75,11 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
     private FloatingActionButton button_collect;
     private FloatingActionButton button_adopt;
     private FloatingActionsMenu menu;
-    private Context mContext;
 
     private boolean iscollected=false;
     private boolean isadopted=false;
     @Override
     public int initLocalData() {
-        //设置名字
-        mContext=this;
         return 0;
     }
 
@@ -103,9 +100,24 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         text_introdution= (TextView) view.findViewById(R.id.text_introdution);
         menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu);
 
-        button_collect=new FloatingActionButton(getBaseContext());
+        button_collect= (FloatingActionButton) view.findViewById(R.id.button_collect);
         button_collect.setSize(FloatingActionButton.SIZE_MINI);
-        button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection1));
+        iscollected = false;
+        if(getSimpleApplicationContext().isLogined()) {
+            for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
+                if (DataManager.getMyStar().response.get(i).name.equals(mName)) {
+                    iscollected = true;
+                }
+            }
+        }
+        if(iscollected){
+            button_collect.setIcon(R.drawable.ic_collection2);
+            button_collect.setTitle("取消收藏");
+        }
+        else{
+            button_collect.setIcon(R.drawable.ic_collection1);
+            button_collect.setTitle("我要收藏");
+        }
         button_collect.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -118,7 +130,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                 .setTitleText("请先登录!")
                                 .show();
                     }else {
-                        button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection2));
+                        button_collect.setIcon(R.drawable.ic_collection2);
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
                         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                         String mDate = formatter.format(curDate);
@@ -137,6 +149,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                     new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                             .setTitleText("收藏成功!")
                                             .show();
+                                      button_collect.setTitle("取消收藏");
                                 }
                             }
 
@@ -145,31 +158,51 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
 
                             }
                         });
-                        Log.e("date", mDate);
                         iscollected = true;
                     }
                 }
                 else{
-                    button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection1));
-                    button_collect.setTitle("我要收藏");
-                    Toast.makeText(mContext,"取消收藏",Toast.LENGTH_SHORT).show();
-                    iscollected=false;
+                    //取消收藏
+                    UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                    String username = userInfo.getuserName();
+                    HashMap<String, String> param = new HashMap<String, String>();
+                    param.put("userName", username);
+                    param.put("name", mName);
+                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), ShowActivity.this, ChangeInfoResponse.class, param, Constants.DELETESTAR_URL, NetworkTask.GET) {
+                        @Override
+                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                            ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                            if (response.getresponseCode() == 1) {
+                                new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("取消成功!")
+                                        .show();
+                            }
+                            button_collect.setIcon(R.drawable.ic_collection1);
+                            button_collect.setTitle("我要收藏");
+                            iscollected=false;
+                        }
+
+                        @Override
+                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                        }
+                    });
                 }
             }
         });
 
 
-        button_adopt=new FloatingActionButton(getBaseContext());
+        button_adopt= (FloatingActionButton) view.findViewById(R.id.button_adopt);
         button_adopt.setSize(FloatingActionButton.SIZE_MINI);
-        button_adopt.setTitle("我要养他");
-        button_adopt.setBackground(getResources().getDrawable(R.drawable.ic_adoption1));
+        button_adopt.setTitle("我要养它");
+        button_adopt.setIcon(R.drawable.ic_adoption1);
         //收养按钮，跳转到增加植物界面
         button_adopt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
                 if(!isadopted){
-                    button_adopt.setTitle("我已收养");
+                   // button_adopt.setTitle("我已收养");
                     isadopted=true;
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
                     intent.putExtra("addplant",1);
@@ -184,9 +217,6 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                 }
             }
         });
-
-        menu.addButton(button_collect);
-        menu.addButton(button_adopt);
     }
 
     @Override
@@ -203,16 +233,6 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         param.put("name",mName);
         //判断是否已经收藏
         //是否登录
-        iscollected = false;
-        if(getSimpleApplicationContext().isLogined()) {
-            for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
-                if (DataManager.getMyStar().response.get(i).name.equals(mName)) {
-                    iscollected = true;
-                } else {
-                    iscollected = false;
-                }
-            }
-        }
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),this, GetPlantInfoResponse.class,param, Constants.PLANTINFO_URL,NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -241,7 +261,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
 
                 mIntrodution=response.introduction;
                 toolbarLayout_name.setTitle(mName);
-                Picasso.with(mContext).load(Constants.PLANTPIC_URL+mId).into(banner_planticon);
+                Picasso.with(ShowActivity.this).load(Constants.PLANTPIC_URL+mId).into(banner_planticon);
 
         text_species.setText(mSpecies);
         text_difficulty.setText(mdifficulty);
