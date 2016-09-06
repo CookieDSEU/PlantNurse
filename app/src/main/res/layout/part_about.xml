@@ -146,7 +146,7 @@
                 android:layout_marginStart="2dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="12dp"
-                android:drawableStart="@drawable/update"
+                android:drawableStart="@drawable/ic_updata"
                 android:gravity="start|center_vertical"
                 android:text="检查软件更新"
                 android:textColor="@color/defaultTextColor"
