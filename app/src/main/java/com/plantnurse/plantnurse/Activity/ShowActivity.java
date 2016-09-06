@@ -112,11 +112,11 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         }
         if(iscollected){
             button_collect.setIcon(R.drawable.ic_collection2);
-            button_collect.setTitle("取消收藏");
+            button_collect.setTitle(" 取消收藏 ");
         }
         else{
             button_collect.setIcon(R.drawable.ic_collection1);
-            button_collect.setTitle("我要收藏");
+            button_collect.setTitle(" 我要收藏 ");
         }
         button_collect.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -149,7 +149,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                     new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                             .setTitleText("收藏成功!")
                                             .show();
-                                      button_collect.setTitle("取消收藏");
+                                      button_collect.setTitle(" 取消收藏 ");
                                 }
                             }
 
@@ -178,7 +178,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                         .show();
                             }
                             button_collect.setIcon(R.drawable.ic_collection1);
-                            button_collect.setTitle("我要收藏");
+                            button_collect.setTitle(" 我要收藏 ");
                             iscollected=false;
                         }
 
@@ -194,7 +194,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
 
         button_adopt= (FloatingActionButton) view.findViewById(R.id.button_adopt);
         button_adopt.setSize(FloatingActionButton.SIZE_MINI);
-        button_adopt.setTitle("我要养它");
+        button_adopt.setTitle(" 我要养它 ");
         button_adopt.setIcon(R.drawable.ic_adoption1);
         //收养按钮，跳转到增加植物界面
         button_adopt.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +202,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             @Override
             public void onClick(View v) {
                 if(!isadopted){
-                   // button_adopt.setTitle("我已收养");
+                    button_adopt.setTitle(" 我已收养 ");
                     isadopted=true;
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
                     intent.putExtra("addplant",1);
