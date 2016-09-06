@@ -33,7 +33,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private Toolbar toolbar;
     private Button button_signup;
     private Button button_login;
-    private SweetAlertDialog progressDialog;
+//    private SweetAlertDialog progressDialog;
     private TextView text;
     private TextView text2;
     private HashMap<String, String> loginParams;
@@ -49,8 +49,8 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         button_login = (Button) findViewById(R.id.login_button);
         text= (TextView) view.findViewById(R.id.userID);
         text2=  (TextView) view.findViewById(R.id.pwd);
-        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
-        progressDialog.setTitleText("正在登录...");
+//        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
+//        progressDialog.setTitleText("正在登录...");
         toolbar =(Toolbar)findViewById(R.id.signin_toolbar);
         toolbar.setTitle("登录");
         setSupportActionBar(toolbar);
@@ -88,50 +88,79 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
         button_login.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                progressDialog.show();
+//                progressDialog.show();
                 String username = text.getText().toString();
                 String password = text2.getText().toString();
                 loginParams.put("userName", username);
                 loginParams.put("password", password);
-                SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
-                        LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
-                    @Override
-                    public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                        LoginResponse loginResponse = (LoginResponse) result.resultObject;
-                        if (loginResponse.getresponseCode() == 1) {
-                            ToastUtil.showLong("登录成功");
-                            UserInfo ui=new UserInfo();
-                            ui.setuserName(loginResponse.getuserName());
-                            ui.setProvince(loginResponse.getprovince());
-                            ui.setcareer(loginResponse.getcareer());
-                            ui.setcity(loginResponse.getcity());
-                            ui.settoken(loginResponse.gettoken());
-                            PreferenceManager.setLocalUserModel(ui);
-                            getSimpleApplicationContext().setUserModel(ui);
-                            Intent in=getIntent();
-                            setResult(RESULT_OK,in);
+                if(check(username)&&check(password)){
+                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
+                            LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
+                        @Override
+                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                            LoginResponse loginResponse = (LoginResponse) result.resultObject;
+                            if (loginResponse.getresponseCode() == 1) {
+//                            ToastUtil.showLong("登录成功");
+                                UserInfo ui = new UserInfo();
+                                ui.setuserName(loginResponse.getuserName());
+                                ui.setProvince(loginResponse.getprovince());
+                                ui.setcareer(loginResponse.getcareer());
+                                ui.setcity(loginResponse.getcity());
+                                ui.settoken(loginResponse.gettoken());
+                                PreferenceManager.setLocalUserModel(ui);
+                                getSimpleApplicationContext().setUserModel(ui);
+
 //                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
 //                            startActivity(intent);
-                            finish();
-                            progressDialog.dismissWithAnimation();
-                        } else if (loginResponse.getresponseCode() == 0) {
-                            ToastUtil.showShort("登录失败：请先注册");
-                            progressDialog.dismissWithAnimation();
-                        } else if (loginResponse.getresponseCode() == 2) {
-                            ToastUtil.showShort("登录失败：该用户被冻结");
-                            progressDialog.dismissWithAnimation();
-                        } else if (loginResponse.getresponseCode() == 3) {
-                            ToastUtil.showShort("登录失败：密码错误");
-                            progressDialog.dismissWithAnimation();
+
+//                            ToastUtil.showShort("登录成功");
+                                new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("登陆成功")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                                                Intent in = getIntent();
+                                                setResult(RESULT_OK, in);
+                                                finish();
+                                            }
+                                        })
+                                        .show();
+
+                            } else if (loginResponse.getresponseCode() == 0) {
+                                new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("账户未注册")
+                                        .show();
+
+                            } else if (loginResponse.getresponseCode() == 2) {
+                                new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("登录失败:账户已冻结")
+                                        .show();
+
+                            } else if (loginResponse.getresponseCode() == 3) {
+                                new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                        .setTitleText("登录失败：密码错误")
+                                        .show();
+
+                            }
+
                         }
-                    }
 
-                    @Override
-                    public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                    }
+                        @Override
+                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                });
+                        }
+
+                    });
+                }
+                else  {
+                    new SweetAlertDialog(SigninActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("账号密码不能为空")
+                            .show();
+                }
+
+
             }
         });
 
@@ -162,4 +191,6 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         finish();
         super.onBackPressed();
     }
+    private boolean check(String s) {return s.matches("[a-zA-Z0-9]{1,16}");}
+
 }
