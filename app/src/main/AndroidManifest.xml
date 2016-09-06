@@ -10,7 +10,17 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:name=".MainApplication"
@@ -25,8 +35,7 @@
             android:name=".Activity.MainActivity"
             android:label="@string/app_name" />
         <activity android:name=".Activity.SigninActivity" />
-        <activity
-            android:name=".Activity.SignupActivity" />
+        <activity android:name=".Activity.SignupActivity" />
         <activity
             android:name=".Activity.AboutActivity"
             android:hardwareAccelerated="true"
@@ -37,19 +46,24 @@
         <activity android:name=".Activity.AddAlarmActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
+        <activity android:name=".Activity.CollectActivity"></activity>
         <activity android:name=".Activity.ShowActivity"></activity>
         <activity android:name=".Activity.AlarmActivity">
         </activity>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ResetcityActivity"
-            android:theme="@style/Theme.Design.BottomSheetDialog"
-            android:label=""></activity>
+        <activity
+            android:name=".Activity.ResetcityActivity"
+            android:label=""
+            android:theme="@style/Theme.Design.BottomSheetDialog" />
 
+        <receiver android:name=".utils.AlarmReceiver" />
+        <activity android:name=".Activity.ResetpsdActivity"></activity>
         <receiver android:name=".utils.AlarmReceiver"></receiver>
         <service android:name=".utils.MyService"></service>
     </application>

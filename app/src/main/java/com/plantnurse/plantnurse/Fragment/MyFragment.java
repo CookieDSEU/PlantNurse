@@ -15,18 +15,22 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
+import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
+import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
+import com.plantnurse.plantnurse.Activity.ResetpsdActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
@@ -40,14 +44,14 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by Cookie_D on 2016/8/26.
  */
-public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
+public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,ITabPageAction {
     private String urlpath;			// 图片本地路径
     private static SweetAlertDialog pd;// 等待进度圈
     private CircleImg avatarview;
     private TextView usnview;
     private MainApplication mApp;
     private TableRow mycity;
-    private TableRow myaccount;
+    private TableRow mypsd;
     private TableRow myhobby;
     private TableRow sysset;
     private TableRow sysreflct;
@@ -140,6 +144,8 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
                     String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
                     pd.dismiss();
+                    DataManager.isAvatarChanged_drawer =true;
+                    DataManager.isIsAvatarChanged_myfragment=true;
                     return null;
                 }
 
@@ -178,7 +184,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         avatarview=(CircleImg) view.findViewById(R.id.ava_img);
         usnview=(TextView)view.findViewById(R.id.usn_txv);
         mycity=(TableRow)view.findViewById(R.id.city);
-        myaccount=(TableRow)view.findViewById(R.id.management);
+        mypsd=(TableRow)view.findViewById(R.id.resetpsd);
         myhobby=(TableRow)view.findViewById(R.id.hobby);
         sysset=(TableRow)view.findViewById(R.id.sysset);
         sysreflct=(TableRow)view.findViewById(R.id.reflect);
@@ -221,10 +227,10 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
             }
         });
-        myaccount.setOnClickListener(new View.OnClickListener(){
+        mypsd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                Intent intent = new Intent(getActivity(),ResetpsdActivity.class);
                 startActivity(intent);
 
             }
@@ -232,9 +238,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         myhobby.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(intent);
-
+                if(!mApp.isLogined()){
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录!")
+                            .show();
+                }else {
+                    Intent intent = new Intent(getActivity(), CollectActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         sysset.setOnClickListener(new View.OnClickListener(){
@@ -283,7 +294,6 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         if(mApp.isLogined()){
             UserInfo userInfo=(UserInfo) mApp.getUserModel();
             String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
-            // avabitmap=Util.getHttpBitmap(temp);
             Picasso.with(getActivity()).load(temp).into(avatarview);
         }
     }
@@ -291,5 +301,15 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     @Override
     public int getContentLayoutID() {
         return R.layout.fragment_my;
+    }
+
+    @Override
+    public void onPageSelected() {
+        if(DataManager.isIsAvatarChanged_myfragment){
+            UserInfo userInfo=(UserInfo) mApp.getUserModel();
+            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+            Picasso.with(getActivity()).invalidate(temp);
+            DataManager.isIsAvatarChanged_myfragment=false;
+        }
     }
 }

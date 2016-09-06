@@ -1,4 +1,4 @@
-package com.plantnurse.plantnurse.utils;
+package com.plantnurse.plantnurse.model;
 
 import android.graphics.Bitmap;
 

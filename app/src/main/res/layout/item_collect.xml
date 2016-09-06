@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:weightSum="1"
+    android:background="@drawable/bg_collection"
+    android:layout_marginTop="10dp"
+    android:id="@+id/collectLinearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <com.plantnurse.plantnurse.utils.CircleImg
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/planticon" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/plantname"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/collectdata"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+</LinearLayout>

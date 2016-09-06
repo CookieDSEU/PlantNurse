@@ -150,7 +150,25 @@
             android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            fab:fab_labelsPosition="right">
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/minifloat_addplant"
+                fab:fab_icon="@drawable/float_addplant2"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title=" 添加植物 "
+                fab:fab_size="mini" />
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/minifloat_plantlist"
+                fab:fab_icon="@drawable/float_plantlist"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title=" 植物列表"
+                fab:fab_size="mini" />
      </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </RelativeLayout>

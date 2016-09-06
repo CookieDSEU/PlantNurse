@@ -19,13 +19,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/login_9">
         <!--<ImageView-->
-            <!--android:layout_width="140dp"-->
-            <!--android:layout_height="140dp"-->
-            <!--android:id="@+id/imageView"-->
-            <!--android:src="@drawable/logo2"-->
-            <!--android:layout_marginBottom="51dp"-->
-            <!--android:layout_above="@+id/username_layout"-->
-            <!--android:layout_centerHorizontal="true" />-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:src="@drawable/logo2"-->
+        <!--android:layout_marginBottom="51dp"-->
+        <!--android:layout_above="@+id/username_layout"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
         <LinearLayout
             android:id="@+id/username_layout"
@@ -52,7 +52,8 @@
             android:textSize="25sp"
             android:layout_alignTop="@+id/username_layout"
             android:layout_alignLeft="@+id/pwd"
-            android:layout_alignStart="@+id/pwd" />
+            android:layout_alignStart="@+id/pwd"
+            android:alpha="0.7" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -67,7 +68,8 @@
             android:allowUndo="false"
             android:layout_alignTop="@+id/username_layout"
             android:layout_alignRight="@+id/pwd"
-            android:layout_alignEnd="@+id/pwd" />
+            android:layout_alignEnd="@+id/pwd"
+            android:alpha="0.7" />
 
 
         <EditText
@@ -76,25 +78,25 @@
             android:layout_height="50dp"
             android:hint="请输入您的用户名"
             android:background="@drawable/editlayout"
-            android:paddingEnd="60dp"
             android:maxLength="20"
-            android:paddingStart="55dp"
             android:layout_gravity="center"
             android:layout_marginBottom="26dp"
             android:layout_above="@+id/pwd"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center"
+            android:alpha="0.6">
         </EditText>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="left|center_vertical"
-            android:src="@drawable/user2"
-            android:visibility="visible"
-            android:id="@+id/imageView"
-            android:layout_alignBottom="@+id/userID"
-            android:layout_toLeftOf="@+id/userID"
-            android:layout_toStartOf="@+id/userID" />
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_gravity="left|center_vertical"-->
+            <!--android:src="@drawable/user2"-->
+            <!--android:visibility="visible"-->
+            <!--android:id="@+id/imageView"-->
+            <!--android:layout_alignBottom="@+id/userID"-->
+            <!--android:layout_toLeftOf="@+id/userID"-->
+            <!--android:layout_toStartOf="@+id/userID" />-->
 
         <EditText
             android:id="@+id/pwd"
@@ -103,26 +105,27 @@
             android:layout_height="50dp"
             android:hint="请输入您的密码"
             android:inputType="textPassword"
-            android:paddingEnd="60dp"
             android:maxLength="20"
-            android:paddingStart="55dp"
-            android:layout_gravity="center"
             android:layout_marginBottom="29dp"
             android:layout_above="@+id/login_button"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView">
-         </EditText>
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center"
+            android:alpha="0.6"
+            android:layout_centerHorizontal="true">
+        </EditText>
+        <!--android:layout_toRightOf="@+id/imageView"-->
+        <!--android:layout_toEndOf="@+id/imageView"-->
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="left|center_vertical"
-            android:background="@drawable/pwd2"
-            android:visibility="visible"
-            android:id="@+id/imageView2"
-            android:layout_alignBottom="@+id/pwd"
-            android:layout_alignLeft="@+id/imageView"
-            android:layout_alignStart="@+id/imageView" />
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_gravity="left|center_vertical"-->
+            <!--android:background="@drawable/pwd2"-->
+            <!--android:visibility="visible"-->
+            <!--android:id="@+id/imageView2"-->
+            <!--android:layout_alignBottom="@+id/pwd"-->
+            <!--android:layout_alignLeft="@+id/imageView"-->
+            <!--android:layout_alignStart="@+id/imageView" />-->
 
 
     </RelativeLayout>
