@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
@@ -46,8 +47,12 @@ import com.plantnurse.plantnurse.utils.PlantListAdapter;
 import com.squareup.picasso.Picasso;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,11 +180,8 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         layout_Weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
- //               Dialog calendar_Dialog = new Dialog(getActivity(), R.style.CalenderStyle);
-//                calendar_Dialog.setContentView(R.layout.dialog_calender);
+                ListDialog ld = new ListDialog(getActivity(), R.style.CalenderStyle);
 
-                ListDialog ld=new ListDialog(getActivity(),R.style.CalenderStyle);
-//                Window calender_Window = calendar_Dialog.getWindow();
                 Window calender_Window = ld.getWindow();
                 WindowManager.LayoutParams lp = calender_Window.getAttributes();
                 calender_Window.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
@@ -208,101 +210,199 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         text_Weather.setText(now_Weather);
         text_Tmp.setText(now_Tmp);
         text_City.setText(city);
+        image_Weather.setImageResource(getWeatherImage(now_Cond));
 
-        switch (now_Cond){
+    }
+
+    private int getWeatherImage(int n){
+        int mimg = R.drawable.overcast;
+        switch (n){
             case 100:
-                image_Weather.setImageResource(R.drawable.p1);
+                mimg = R.drawable.sunny;
                 break;
             case 101:
-                image_Weather.setImageResource(R.drawable.cloudy);
+                mimg = R.drawable.cloudy;
                 break;
             case 102:
-                image_Weather.setImageResource(R.drawable.cloudy);
+                mimg = R.drawable.cloudy;
                 break;
             case 103:
-                image_Weather.setImageResource(R.drawable.cloudy_2);
+                mimg = R.drawable.partlycloudy;
                 break;
             case 104:
-                image_Weather.setImageResource(R.drawable.cloudy_3);
+                mimg = R.drawable.overcast;
                 break;
             case 300:
-                image_Weather.setImageResource(R.drawable.rainy_2);
+                mimg = R.drawable.showerrain;
+                break;
+            case 301:
+                mimg =  R.drawable.heavryrain;
                 break;
             case 302:
-                image_Weather.setImageResource(R.drawable.thunder);
+                mimg = R.drawable.thundershower;
                 break;
             case 305:
-                image_Weather.setImageResource(R.drawable.rainy_3);
+                mimg = R.drawable.lightrain;
                 break;
             case 306:
-                image_Weather.setImageResource(R.drawable.rainy_3);
+                mimg = R.drawable.moderaterain;
                 break;
             case 307:
-                image_Weather.setImageResource(R.drawable.rainy);
+                mimg = R.drawable.heavryrain;
+                break;
+            case 308:
+                mimg = R.drawable.severestorm;
+                break;
+            case 310:
+                mimg = R.drawable.severestorm;
+                break;
+            case 311:
+                mimg = R.drawable.severestorm;
+                break;
+            case 312:
+                mimg = R.drawable.severestorm;
+                break;
+            case 313:
+                mimg = R.drawable.freezingrain;
                 break;
             case 400:
-                image_Weather.setImageResource(R.drawable.snow);
+                mimg = R.drawable.lightsnow;
+                break;
+            case 401:
+                mimg = R.drawable.moderatesnow;
+                break;
+            case 402:
+                mimg = R.drawable.heavysnow;
+                break;
+            case 403:
+                mimg = R.drawable.heavysnow;
+                break;
+            case 404:
+                mimg = R.drawable.sleet;
                 break;
             case 406:
-                image_Weather.setImageResource(R.drawable.snow_2);
+                mimg = R.drawable.sleet;
                 break;
-            }
+        }
+        return mimg;
+    }
 
-
+    private int getDialogbackground(int cond,int tmp){
+        int mimg = R.drawable.dialogblue;
+        if( cond == 100){
+            if(tmp > 30)
+                mimg = R.drawable.dialogyellow;
+            else if(tmp > 25)
+                mimg =  R.drawable.dialogorange;
+            else
+                mimg = R.drawable.dialogblue;
+        }
+        else if(cond == 104)
+            mimg = R.drawable.dialogpurple;
+        else if(cond >=300 && cond <= 312)
+            mimg = R.drawable.dialoggrey;
+        else if(cond >= 400 && cond <=407)
+            mimg = R.drawable.dialogwhite;
+        return mimg;
     }
 
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
+        int image_picid;
         int image_code;
+        int tmax;
+        int bc;
         Map<String, Object> map;
         for (int i = 0; i < 7; i++) {
             map = new HashMap<String, Object>();
             map.put("date", DataManager.getWeatherInfo().dailyForecast.get(i).date);
             map.put("tmp_min", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
             map.put("tmp_max", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
+            map.put("cond",DataManager.getWeatherInfo().dailyForecast.get(i).cond.txtD);
             image_code = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
-            switch (image_code) {
-                case 100:
-                    map.put("img",R.drawable.sunny);
-                    break;
-                case 101:
-                    map.put("img", R.drawable.cloudy);
-                    break;
-                case 102:
-                    map.put("img", R.drawable.cloudy);
-                    break;
-                case 103:
-                    map.put("img", R.drawable.cloudy_2);
-                    break;
-                case 104:
-                    map.put("img", R.drawable.cloudy_3);
-                    break;
-                case 300:
-                    map.put("img", R.drawable.rainy_2);
-                    break;
-                case 302:
-                    map.put("img", R.drawable.thunder);
-                    break;
-                case 305:
-                    map.put("img", R.drawable.rainy_3);
-                    break;
-                case 306:
-                    map.put("img", R.drawable.rainy_3);
-                    break;
-                case 307:
-                    map.put("img", R.drawable.rainy);
-                    break;
-                case 400:
-                    map.put("img", R.drawable.snow);
-                    break;
-                case 406:
-                    map.put("img", R.drawable.snow_2);
-                    break;
-           }
+            image_picid = getWeatherImage(image_code);
+            map.put("img",image_picid);
+            tmax = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
+            bc = getDialogbackground(image_code, tmax);
+            map.put("background",bc);
             list.add(map);
         }
         return list;
+    }
+
+    public String StringData(String data){
+        String a[] = data.split("-");
+        String mMonth = a[1];
+        String mDay = a[2];
+        String mWay = "Sun";
+
+
+        int month = Integer.parseInt(mMonth);
+        int way = 1;
+        switch (way){
+            case 1:
+                mWay ="Sun";
+                break;
+            case 2:
+                mWay ="Mon";
+                break;
+            case 3:
+                mWay ="Tue";
+                break;
+            case 4:
+                mWay ="Wed";
+                break;
+            case 5:
+                mWay ="Thu";
+                break;
+            case 6:
+                mWay ="Fri";
+                break;
+            case 7:
+                mWay ="Sat";
+                break;
+        }
+        switch (month){
+            case 1:
+                mMonth ="Jan";
+                break;
+            case 2:
+                mMonth ="Feb";
+                break;
+            case 3:
+                mMonth ="Mar";
+                break;
+            case 4:
+                mMonth ="Apr";
+                break;
+            case 5:
+                mMonth ="May";
+                break;
+            case 6:
+                mMonth ="Jun";
+                break;
+            case 7:
+                mMonth ="Jul";
+                break;
+            case 8:
+                mMonth ="Aug";
+                break;
+            case 9:
+                mMonth ="Sep";
+                break;
+            case 10:
+                mMonth ="Oct";
+                break;
+            case 11:
+                mMonth ="Nov";
+                break;
+            case 12:
+                mMonth ="Dec";
+                break;
+        }
+
+        return mMonth+"."+mDay;
     }
 
     @Override
@@ -341,8 +441,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
 
     public final class ViewHolder{
+        public LinearLayout weather_layout;
         public ImageView weather_image;
         public TextView weather_date;
+        public TextView weather_cond;
         public TextView weather_tmp;
     }
 
@@ -376,7 +478,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 holder = new ViewHolder();
 
                 convertView = mInflater.inflate(R.layout.listview_weather,null);
+                holder.weather_layout = (LinearLayout) convertView.findViewById(R.id.list_dialog);
                 holder.weather_image = (ImageView) convertView.findViewById(R.id.list_image);
+                holder.weather_cond = (TextView) convertView.findViewById(R.id.list_weatger);
                 holder.weather_date = (TextView) convertView.findViewById(R.id.list_date);
                 holder.weather_tmp = (TextView) convertView.findViewById(R.id.list_tmp);
                 convertView.setTag(holder);
@@ -384,8 +488,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 holder = (ViewHolder)convertView.getTag();
             }
             holder.weather_image.setBackgroundResource((Integer) mData.get(position).get("img"));
-            holder.weather_date.setText((String) mData.get(position).get("date"));
+            holder.weather_date.setText(StringData((String) mData.get(position).get("date")));
             holder.weather_tmp.setText((String)(mData.get(position).get("tmp_min")+"~"+mData.get(position).get("tmp_max")+"℃"));
+            holder.weather_cond.setText((String) mData.get(position).get("cond"));
+            holder.weather_layout.setBackgroundResource((Integer) mData.get(position).get("background"));
             return convertView;
         }
     }
