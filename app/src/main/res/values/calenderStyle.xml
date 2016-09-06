@@ -3,7 +3,7 @@
     <style name="CalenderStyle" parent="android:Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowBackground">@drawable/calenderbackground_2</item>
+        <item name="android:windowBackground">@drawable/unbackground</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <!--<item name="android:backgroundDimEnabled">false</item>-->
