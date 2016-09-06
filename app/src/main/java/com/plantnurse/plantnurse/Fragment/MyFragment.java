@@ -211,6 +211,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                 }
             }
         });
+        //created by went
         mycity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -219,7 +220,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                     startActivity(intent);
                 }
                 else{
-                    ToastUtil.showShort("您尚未登录！");
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
                 }
 
             }
@@ -228,7 +231,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),ResetpsdActivity.class);
-                startActivity(intent);
+                if(mApp.isLogined()){
+                    startActivity(intent);
+                }
+               else {
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
+                }
 
             }
         });
@@ -278,6 +288,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
 
             }
         });
+        //created by went
     }
 
     @Override
