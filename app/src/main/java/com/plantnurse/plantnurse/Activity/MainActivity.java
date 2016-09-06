@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
@@ -25,6 +27,7 @@ import com.plantnurse.plantnurse.Fragment.ParkFragment;
 import com.plantnurse.plantnurse.Fragment.BookFragment;
 import com.plantnurse.plantnurse.Network.GetIndexResponse;
 import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
+import com.plantnurse.plantnurse.Network.GetMyStarResponse;
 import com.plantnurse.plantnurse.Network.WeatherAPI;
 import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
@@ -44,6 +47,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public static final int REQUEST_CODE = 0x04;
+    private DrawerComponent.DrawerHeader header;
 
     @Override
     public List<Fragment> getFragmentList() {
@@ -76,9 +80,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
             toolbar.setTitleTextColor(0xffffffff);
         }
         setTitle("PlantNurse");
-        final DrawerComponent.DrawerHeader header = new DrawerComponent.DrawerHeader(DrawerComponent.DrawerHeader.DrawerHeaderStyle.KENBURNS,
-                R.drawable.header_back,
-                this);
+        header = new DrawerComponent.DrawerHeader(DrawerComponent.DrawerHeader.DrawerHeaderStyle.KENBURNS,
+               R.drawable.header_back,
+               this);
         header.addAvatar(R.drawable.avatar, Constants.AVATAR_URL, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +109,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 .withWidth(250)
                 .addDrawerHeader(header, null)
                 .addDrawerSectionTitle("菜单", Color.parseColor("#2F4F4F"))
-                .addDrawerSubItem(R.drawable.ic_login, "登录", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.singin, "登录", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (getSimpleApplicationContext().isLogined()) {
@@ -124,7 +128,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     }
                 })
 
-                .addDrawerSubItem(R.drawable.ic_person, "注册", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.register, "注册", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //判断当前是否登录
@@ -141,7 +145,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                         }
                     }
                 })
-                .addDrawerSubItem(R.drawable.ic_logout, "注销", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.logoff, "注销", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (!getSimpleApplicationContext().isLogined()) {
@@ -162,13 +166,13 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 })
 
                 .addDrawerDivider(Color.parseColor("#EEE9E9"))
-                .addDrawerSubItem(R.drawable.ic_about, "关于本软件", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.about, "关于本软件", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
                     }
                 })
-                .addDrawerSubItem(R.drawable.ic_updata, "检查更新", null, new View.OnClickListener() {
+                .addDrawerSubItem(R.drawable.update, "检查更新", null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Util.checkVersion(MainActivity.this);
@@ -179,6 +183,11 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     public void onDrawerOpened(View kDrawerView) {
                         //打开了侧滑菜单
                         if (getSimpleApplicationContext().isLogined()) {
+                            if(DataManager.isAvatarChanged_drawer){
+                                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                                imagePipeline.clearCaches();
+                                DataManager.isAvatarChanged_drawer =false;
+                            }
                             UserInfo userInfo = (UserInfo) PreferenceManager.getLocalUserModel();
                             header.changeNickName(userInfo.getuserName());
                             String temp = Constants.AVATAR_URL + "?id=" + userInfo.getuserName();
@@ -216,7 +225,31 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         getWeatherInfo();
         getPlantIndex();
         getMyPlant();
+        getMyStar();
 
+    }
+
+    private void getMyStar() {
+        HashMap param=new HashMap<>();
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else{
+            param.put("userName","blank");
+        }
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MainActivity.this, GetMyStarResponse.class,param,Constants.GETMYSTAR_URL,NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyStarResponse response = (GetMyStarResponse) result.resultObject;
+                DataManager.setMyStar(response);
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
     }
 
     private void getMyPlant() {
@@ -288,6 +321,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     protected void onResume() {
+        getMyPlant();
+        getMyStar();
         super.onResume();
     }
 

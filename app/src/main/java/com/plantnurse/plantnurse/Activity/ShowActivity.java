@@ -27,12 +27,20 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Network.ChangeInfoResponse;
 import com.plantnurse.plantnurse.Network.GetPlantInfoResponse;
 import com.plantnurse.plantnurse.R;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.plantnurse.plantnurse.R.id.toolbar;
 import static java.security.AccessController.getContext;
@@ -46,7 +54,6 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
 
     //需要动态填充的数据
     private String mName;
-    private Bitmap mIcon;
     private String mSpecies;
     private String mdifficulty;
     private int mSunIndex;
@@ -68,14 +75,11 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
     private FloatingActionButton button_collect;
     private FloatingActionButton button_adopt;
     private FloatingActionsMenu menu;
-    private Context mContext;
 
     private boolean iscollected=false;
     private boolean isadopted=false;
     @Override
     public int initLocalData() {
-        //设置名字
-        mContext=this;
         return 0;
     }
 
@@ -96,40 +100,109 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         text_introdution= (TextView) view.findViewById(R.id.text_introdution);
         menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu);
 
-        button_collect=new FloatingActionButton(getBaseContext());
+        button_collect= (FloatingActionButton) view.findViewById(R.id.button_collect);
         button_collect.setSize(FloatingActionButton.SIZE_MINI);
-        button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection1));
+        iscollected = false;
+        if(getSimpleApplicationContext().isLogined()) {
+            for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
+                if (DataManager.getMyStar().response.get(i).name.equals(mName)) {
+                    iscollected = true;
+                }
+            }
+        }
+        if(iscollected){
+            button_collect.setIcon(R.drawable.ic_collection2);
+            button_collect.setTitle("取消收藏");
+        }
+        else{
+            button_collect.setIcon(R.drawable.ic_collection1);
+            button_collect.setTitle("我要收藏");
+        }
         button_collect.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
                 if(!iscollected){
                     //收藏按钮，实现收藏界面更新(未实现)
-                    button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection2));
-                    Toast.makeText(mContext,"已添加到收藏夹",Toast.LENGTH_SHORT).show();
-                    button_collect.setTitle("取消收藏");
-                    iscollected=true;
-                }else{
-                    button_collect.setBackground(getResources().getDrawable(R.drawable.ic_collection1));
-                    button_collect.setTitle("我要收藏");
-                    Toast.makeText(mContext,"取消收藏",Toast.LENGTH_SHORT).show();
-                    iscollected=false;
+                   //判断是否登录
+                    if(!getSimpleApplicationContext().isLogined()){
+                        new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("请先登录!")
+                                .show();
+                    }else {
+                        button_collect.setIcon(R.drawable.ic_collection2);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                        String mDate = formatter.format(curDate);
+                        UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                        String username = userInfo.getuserName();
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        param.put("owner", username);
+                        param.put("date", mDate);
+                        param.put("plant_id", mId + "");
+                        param.put("name", mName);
+                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), ShowActivity.this, ChangeInfoResponse.class, param, Constants.NEWSTAR_URL, NetworkTask.GET) {
+                            @Override
+                            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                                ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                                if (response.getresponseCode() == 1) {
+                                    new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("收藏成功!")
+                                            .show();
+                                      button_collect.setTitle("取消收藏");
+                                }
+                            }
+
+                            @Override
+                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                            }
+                        });
+                        iscollected = true;
+                    }
+                }
+                else{
+                    //取消收藏
+                    UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                    String username = userInfo.getuserName();
+                    HashMap<String, String> param = new HashMap<String, String>();
+                    param.put("userName", username);
+                    param.put("name", mName);
+                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), ShowActivity.this, ChangeInfoResponse.class, param, Constants.DELETESTAR_URL, NetworkTask.GET) {
+                        @Override
+                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                            ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                            if (response.getresponseCode() == 1) {
+                                new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("取消成功!")
+                                        .show();
+                            }
+                            button_collect.setIcon(R.drawable.ic_collection1);
+                            button_collect.setTitle("我要收藏");
+                            iscollected=false;
+                        }
+
+                        @Override
+                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                        }
+                    });
                 }
             }
         });
 
 
-        button_adopt=new FloatingActionButton(getBaseContext());
+        button_adopt= (FloatingActionButton) view.findViewById(R.id.button_adopt);
         button_adopt.setSize(FloatingActionButton.SIZE_MINI);
-        button_adopt.setTitle("我要养他");
-        button_adopt.setBackground(getResources().getDrawable(R.drawable.ic_adoption1));
+        button_adopt.setTitle("我要养它");
+        button_adopt.setIcon(R.drawable.ic_adoption1);
         //收养按钮，跳转到增加植物界面
         button_adopt.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
                 if(!isadopted){
-                    button_adopt.setTitle("我已收养");
+                   // button_adopt.setTitle("我已收养");
                     isadopted=true;
                     Intent intent=new Intent(ShowActivity.this,AddplantActivity.class);
                     intent.putExtra("addplant",1);
@@ -144,9 +217,6 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                 }
             }
         });
-
-        menu.addButton(button_collect);
-        menu.addButton(button_adopt);
     }
 
     @Override
@@ -161,6 +231,8 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         mId=intent.getIntExtra("id",0);
         HashMap<String,String> param=new HashMap<String,String>();
         param.put("name",mName);
+        //判断是否已经收藏
+        //是否登录
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),this, GetPlantInfoResponse.class,param, Constants.PLANTINFO_URL,NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -171,17 +243,17 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                 mColdIndex=response.cold;
                 int difficult=response.difficulty;
                 switch (difficult){
-                    case 0:mdifficulty="非常简单";
+                    case 0:mdifficulty="种植难度：非常简单";
                           break;
-                    case 1:mdifficulty="简单";
+                    case 1:mdifficulty="种植难度：简单";
                           break;
-                    case 2:mdifficulty="一般";
+                    case 2:mdifficulty="种植难度：一般";
                           break;
-                    case 3:mdifficulty="有点难";
+                    case 3:mdifficulty="种植难度：有点难";
                           break;
-                    case 4:mdifficulty="困难";
+                    case 4:mdifficulty="种植难度：困难";
                           break;
-                    case 5:mdifficulty="非常困难";
+                    case 5:mdifficulty="种植难度：非常困难";
                           break;
                     default:mdifficulty=" ";
                           break;
@@ -189,7 +261,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
 
                 mIntrodution=response.introduction;
                 toolbarLayout_name.setTitle(mName);
-                Picasso.with(mContext).load(Constants.PLANTPIC_URL+mId).into(banner_planticon);
+                Picasso.with(ShowActivity.this).load(Constants.PLANTPIC_URL+mId).into(banner_planticon);
 
         text_species.setText(mSpecies);
         text_difficulty.setText(mdifficulty);

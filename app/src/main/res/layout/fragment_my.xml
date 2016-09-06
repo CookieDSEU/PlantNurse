@@ -44,7 +44,7 @@
 
                         android:padding="10.0dip"
                         android:singleLine="true"
-                        android:text="尚未登陆"
+                        android:text="尚未登录"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
                 </LinearLayout>
@@ -152,7 +152,7 @@
                                 android:src="@drawable/ic_arrow" />
                         </TableRow>
                         <TableRow
-                            android:id="@+id/management"
+                            android:id="@+id/resetpsd"
                             android:layout_width="fill_parent"
                             android:background="@drawable/tablerow_click"
                             android:clickable="true"
@@ -167,7 +167,7 @@
                                 android:gravity="center_vertical"
                                 android:includeFontPadding="false"
                                 android:paddingLeft="17.0dip"
-                                android:text="账号管理"
+                                android:text="修改密码"
                                 android:textColor="#ff333333"
                                 android:textSize="16.0sp" />
 
@@ -196,7 +196,7 @@
                                 android:gravity="center_vertical"
                                 android:includeFontPadding="false"
                                 android:paddingLeft="17.0dip"
-                                android:text="个人爱好"
+                                android:text="我的收藏"
                                 android:textColor="#ff333333"
                                 android:textSize="16.0sp" />
 

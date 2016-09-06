@@ -36,4 +36,7 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
     compile 'com.github.promeg:tinypinyin:1.0.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile files('src/main/jniLibs/Msc.jar')
+    compile files('src/main/jniLibs/Sunflower.jar')
 }
