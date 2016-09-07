@@ -39,7 +39,7 @@ public class Alarm {
     public int takeCare;
     public int fertilization;
     public String weather;
-    public int music;
+    public String music;
     public String available;
 
 
