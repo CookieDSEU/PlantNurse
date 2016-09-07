@@ -25,4 +25,5 @@ public class Constants {
     public static final String GETMYPLANT_URL="http://www.plantnurse.top/myplant/getmyplant.php";
     public static final String ADDPLANT_URL="http://www.plantnurse.top/myplant/newplant.php";
     public static final String DELETESTAR_URL="http://www.plantnurse.top/deletestar.php";
+    public static final String DELETEPLANT_URL="http://www.plantnurse.top/myplant/deleteplant.php";
 }

@@ -277,7 +277,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        fab:fab_addButtonColorNormal="@color/Indigo_color_teal"
+        fab:fab_addButtonColorNormal="@color/colorblue"
         fab:fab_addButtonColorPressed="@color/white"
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
@@ -294,7 +294,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_collect"
             fab:fab_icon="@drawable/ic_collection1"
-            fab:fab_colorNormal="@color/white"
+            fab:fab_colorNormal="@color/colorblue"
+            fab:fab_colorPressed="@color/white"
             fab:fab_title=" 添加到收藏夹 "
             fab:fab_size="mini" />
 
@@ -303,21 +304,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_adopt"
             fab:fab_icon="@drawable/ic_adoption1"
-            fab:fab_colorNormal="@color/white"
+            fab:fab_colorNormal="@color/colorblue"
+            fab:fab_colorPressed="@color/white"
             fab:fab_title=" 我要收养"
             fab:fab_size="mini" />
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_width="400dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="right|bottom"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--fab:fab_addButtonColorNormal="@color/flowerborder"-->
-        <!--fab:fab_addButtonColorPressed="@color/white"-->
-        <!--fab:fab_addButtonPlusIconColor="@color/white"-->
-        <!--fab:fab_addButtonSize="mini"-->
-        <!--fab:fab_labelStyle="@style/menu_labels_style"-->
-        <!--fab:fab_labelsPosition="left"-->
-        <!--fab:fab_expandDirection="left"-->
-        <!--fab:fab_addButtonStrokeVisible="true"-->
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </android.support.design.widget.CoordinatorLayout>
