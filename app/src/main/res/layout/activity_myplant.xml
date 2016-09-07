@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/myplant_coord"
@@ -58,13 +59,13 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:weightSum="1">
 
             <LinearLayout
@@ -268,7 +269,7 @@
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/ic_color"
                         android:textSize="20dp"/>
-                    <TextView
+                    <EditText
                         android:layout_width="match_parent"
                         android:id="@+id/myplant_tagtext"
                         android:layout_height="wrap_content"
@@ -276,12 +277,23 @@
                         android:text="原产地中国山东"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/ic_color"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp" />
                 </LinearLayout>
 
 
             </LinearLayout>
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:id="@+id/myplant_button"-->
+                <!--android:background="@color/greenborder"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="保存"-->
+                <!--android:visibility="invisible"-->
+                <!--android:textSize="18sp"-->
+                <!--android:layout_gravity="bottom" />-->
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

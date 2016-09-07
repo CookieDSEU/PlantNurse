@@ -168,9 +168,13 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyPlantActivity.class);
-                intent.putExtra("id", nowPosition);
-                startActivity(intent); // 启动Activity
+                if(DataManager.getMyPlant().response.size() >0 )
+                {
+                    Intent intent = new Intent(getActivity(), MyPlantActivity.class);
+                    intent.putExtra("id", nowPosition);
+                    startActivity(intent); // 启动Activity
+                }
+
             }
         });
 
