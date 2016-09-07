@@ -35,6 +35,8 @@ import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
+import com.plantnurse.plantnurse.Activity.MyPlantActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
 import com.plantnurse.plantnurse.R;
@@ -79,6 +81,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private FloatingActionButton float_Addplant;
     private FloatingActionButton float_Plantlist;
     //data
+    private int nowPosition = 0;
     private String now_Hum;
     private String now_Weather;
     private String now_Tmp;
@@ -155,17 +158,20 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         now_Weather = DataManager.getWeatherInfo().now.cond.txt;
 
         city = DataManager.getWeatherInfo().basic.city;
-        image_Plant.setImageResource(R.drawable.flower2_s);
+        MainActivity mainActivity=(MainActivity)getActivity();
+        if(mainActivity.getSimpleApplicationContext().isLogined())
+             Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
+        else
+            image_Plant.setBackgroundResource(R.drawable.logo2);
         image_Plant.setBorderWidth(6);
-        //image_Plant.setBorderColor(R.color.flowerborder);
         image_Plant.setBorderColor(Color.WHITE);
-        image_Plant.setOnLongClickListener(new View.OnLongClickListener() {
+        image_Plant.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(getActivity(), AddplantActivity.class);
-                intent.putExtra("addplant",0);
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyPlantActivity.class);
+                intent.putExtra("id", nowPosition);
                 startActivity(intent); // 启动Activity
-                return false;
             }
         });
 
@@ -186,7 +192,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 WindowManager.LayoutParams lp = calender_Window.getAttributes();
                 calender_Window.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
                 lp.width = 1000;
-                lp.height = 500;
+                lp.height = 1000;
                 lp.y = -100;
 
                 //---1---
@@ -407,37 +413,40 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void onPageSelected() {
-        HashMap param=new HashMap<>();
-        if(mApp.isLogined()) {
-            UserInfo ui = (UserInfo) mApp.getUserModel();
-            param.put("userName", ui.getuserName());
-        }
-        else {
-            param.put("userName", "blank");
-        }
-        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getActivity(), GetMyPlantResponse.class,
-                param, Constants.GETMYPLANT_URL, NetworkTask.GET) {
-            @Override
-            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                GetMyPlantResponse response = (GetMyPlantResponse) result.resultObject;
-                DataManager.setMyPlant(response);
-                plantList_Data = new ArrayList<String>();
-                if (DataManager.getMyPlant().response.size() != 0) {
-                    for (int i = 0; i < DataManager.getMyPlant().response.size(); i++) {
-                        plantList_Data.add(DataManager.getMyPlant().response.get(i).pic);
-                    }
-                } else {
+        if(DataManager.isMyPlantChanged) {
+
+            HashMap param = new HashMap<>();
+            if (mApp.isLogined()) {
+                UserInfo ui = (UserInfo) mApp.getUserModel();
+                param.put("userName", ui.getuserName());
+            } else {
+                param.put("userName", "blank");
+            }
+            SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getActivity(), GetMyPlantResponse.class,
+                    param, Constants.GETMYPLANT_URL, NetworkTask.GET) {
+                @Override
+                public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                    GetMyPlantResponse response = (GetMyPlantResponse) result.resultObject;
+                    DataManager.setMyPlant(response);
+                    plantList_Data = new ArrayList<String>();
+                    if (DataManager.getMyPlant().response.size() != 0) {
+                        for (int i = 0; i < DataManager.getMyPlant().response.size(); i++) {
+                            plantList_Data.add(DataManager.getMyPlant().response.get(i).pic);
+                        }
+                    } else {
 //            plantList_Data.add("default1");
+                    }
+                    mAdapter.updatelist(plantList_Data);
+                    Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
                 }
-                mAdapter.updatelist(plantList_Data);
-            }
 
-            @Override
-            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                @Override
+                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-            }
-        });
-
+                }
+            });
+            DataManager.isMyPlantChanged=false;
+        }
     }
 
     public final class ViewHolder{
@@ -520,12 +529,18 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public void onItemClick(View view, int position)
             {
-//                image_Plant.setImageResource(plantList_Data.get(position));
+                nowPosition = position;
                 Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(position)).into(image_Plant);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        onPageSelected();
+        super.onResume();
     }
 
     @Override

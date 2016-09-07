@@ -57,6 +57,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.MyPlantActivity"></activity>
         <activity
             android:name=".Activity.ResetcityActivity"
             android:label=""
