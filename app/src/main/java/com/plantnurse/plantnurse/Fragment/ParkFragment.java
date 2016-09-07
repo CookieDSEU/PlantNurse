@@ -35,6 +35,7 @@ import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
 import com.plantnurse.plantnurse.R;
@@ -114,9 +115,11 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddplantActivity.class);
-                intent.putExtra("addplant",0);
-                startActivity(intent); // 启动Activity
+                MainActivity ma = (MainActivity)getActivity();
+                ma.getContainer().setCurrentItem(1);
+//                Intent intent = new Intent(getActivity(), AddplantActivity.class);
+//                intent.putExtra("addplant",0);
+//                startActivity(intent); // 启动Activity
             }
         });
 //        float_Plantlist.setTitle("植物列表");
