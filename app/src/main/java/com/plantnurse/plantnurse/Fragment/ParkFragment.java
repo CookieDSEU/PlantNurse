@@ -152,13 +152,19 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
         city = DataManager.getWeatherInfo().basic.city;
         MainActivity mainActivity=(MainActivity)getActivity();
-        if(mainActivity.getSimpleApplicationContext().isLogined())
-             Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
-        else
-            image_Plant.setBackgroundResource(R.drawable.logo2);
+        if(DataManager.getMyPlant().response.size() == 0){
+            image_Plant.setImageResource(R.drawable.logo2);
+        }
+        else {
+            if(mainActivity.getSimpleApplicationContext().isLogined())
+                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
+            else
+                image_Plant.setImageResource(R.drawable.logo2);
+        }
+
         image_Plant.setBorderWidth(6);
         image_Plant.setBorderColor(Color.WHITE);
-        image_Plant.setOnClickListener(new View.OnClickListener(){
+        image_Plant.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -430,7 +436,12 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 //            plantList_Data.add("default1");
                     }
                     mAdapter.updatelist(plantList_Data);
-                    Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
+                    if(DataManager.getMyPlant().response.size() == 0){
+                        image_Plant.setImageResource(R.drawable.logo2);
+                    }
+                    else {
+                        Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL + plantList_Data.get(0)).into(image_Plant);
+                    }
                 }
 
                 @Override
