@@ -5,13 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -20,6 +17,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
     <application
@@ -67,6 +69,55 @@
         <activity android:name=".Activity.ResetpsdActivity"></activity>
         <receiver android:name=".utils.AlarmReceiver"></receiver>
         <service android:name=".utils.MyService"></service>
+        <!-- push service start -->
+        <!-- Push 服务  -->
+        <service
+            android:name="com.iflytek.pushclient.manager.PushService"
+            android:exported="true"
+            android:process=":xpush"></service>
+
+        <!--  用于接收系统消息以保证PushService正常运行  -->
+        <receiver
+            android:name="com.iflytek.pushclient.manager.PushServiceReceiver"
+            android:process=":xpush">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.iflytek.pushclient.action.notification.SHOW" />
+            </intent-filter>
+        </receiver>
+
+
+        <!-- Push服务接收客户端发送的各种请求-->
+        <receiver
+            android:name="com.iflytek.pushclient.manager.RegistrationReceiver"
+            android:process=":xpush">
+            <intent-filter>
+                <action android:name="com.iflytek.pushclient.action.METHOD" />
+                <action android:name="com.iflytek.pushclient.action.BIND_SYNC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!--您在讯飞语音云平台申请的appkey-->
+        <meta-data  android:name="IFLYTEK_APPKEY" android:value="57ce7788"/>
+        <!-- push service end -->
+        <receiver android:name=".utils.MyPushReceiver">
+            <intent-filter>
+                <!--  接收 push消息  -->
+                <action android:name="com.iflytek.pushclient.action.MESSAGE" />
+                <!--  接收 bind、unbind等method 的返回结果  -->
+                <action android:name="com.iflytek.pushclient.action.RECEIVE" />
+                <!--  可选。接受通知点击事件,删除事件和通知自定义内容  -->
+                <action android:name="com.iflytek.pushclient.action.notification.CLICK" />
+                <action android:name="com.iflytek.pushclient.action.notification.DELETE" />
+            </intent-filter>
+        </receiver>
+
+
+
     </application>
 
 </manifest>

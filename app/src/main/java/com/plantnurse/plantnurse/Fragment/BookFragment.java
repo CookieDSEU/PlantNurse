@@ -18,7 +18,6 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.sunflower.FlowerCollector;
@@ -78,7 +77,6 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public void initView(ViewGroup view) {
-        SpeechUtility.createUtility(getActivity(),SpeechConstant.APPID+"=57ce7788");
         pinyinComparator = new PinyinComparator();
         xuanfuLayout = (LinearLayout) view.findViewById(R.id.top_layout);
         xuanfaText = (TextView) view.findViewById(R.id.top_char);
