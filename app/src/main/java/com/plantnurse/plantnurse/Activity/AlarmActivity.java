@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.plantnurse.plantnurse.model.Alarm;
@@ -19,16 +20,13 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Yxuan on 2016/8/26.
  */
 public class AlarmActivity extends Activity {
-    private DbHelper dbHelper;
-    private SQLiteDatabase db;
-    private Intent getIntent;
 
     private String mtext;//内容
     private int alarm_Id;//id
     private int frequency;
     private Alarm alarm=new Alarm();
     private AlarmInfo info;
-    //private int alarm_music;
+    private String alarm_music;
     //private String alarm_plantName;
     //private int weather;
 
@@ -47,10 +45,6 @@ public class AlarmActivity extends Activity {
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        // 播放闹铃
-        final Intent intentSV = new Intent(AlarmActivity.this, MyService.class);
-        startService(intentSV);
-
 
         Intent intent=getIntent();
         alarm_Id=intent.getIntExtra("alarm_Id", 0);
@@ -60,14 +54,19 @@ public class AlarmActivity extends Activity {
 
         alarm = info.getAlarmById(alarm_Id);
         mtext=alarm.content;
+        Log.e("text",mtext);
+        alarm_music=alarm.music;
+
+        // 播放闹铃
+        final Intent intentSV = new Intent(this, MyService.class);
+        if(alarm_music!=null){
+            intentSV.putExtra("music",alarm_music);
+        }
+        startService(intentSV);
 
         if(frequency==0||frequency==4){//一次性闹钟
             alarm.isAlarm=0;//响过后设置为0，即不再是个闹钟
-        }else{
-           // isAlarm=1;
         }
-
-
 
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
         SweetAlertDialog dialog=new SweetAlertDialog(AlarmActivity.this,SweetAlertDialog.NORMAL_TYPE);
@@ -78,11 +77,11 @@ public class AlarmActivity extends Activity {
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 stopService(intentSV);
                 info.update(alarm);
+                sweetAlertDialog.dismissWithAnimation();
                 AlarmActivity.this.finish();
             }
         });
         dialog.show();
     }
-
 }
 
