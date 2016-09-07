@@ -25,7 +25,6 @@ import java.util.List;
 final class ViewHolder{
     public TextView music_title;
     public TextView music_artist;
-    public RadioButton check_rb;
 }
 
 public class MusicListAdapter extends BaseAdapter {
@@ -54,13 +53,11 @@ public class MusicListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         holder = null;
 
-
         if(convertView == null){
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.music_list_item, null);
             holder.music_title = (TextView)convertView.findViewById(R.id.music_title);
             holder.music_artist = (TextView)convertView.findViewById(R.id.music_artist);
-            holder.check_rb = (RadioButton)convertView.findViewById(R.id.radio_button);
             convertView.setTag(holder);
         }
         else{
@@ -69,16 +66,6 @@ public class MusicListAdapter extends BaseAdapter {
         musicInfo = musicInfos.get(position);
         holder.music_title.setText(musicInfo.getTitle());         //显示标题
         holder.music_artist.setText(musicInfo.getArtist());       //显示艺术家
-
-//        holder.check_rb.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                //重置，确保最多只有一项被选中
-//                for (int i = 0; i < states.size(); i++) {
-//                    states.set(i, false);
-//                    holder.check_rb.setChecked(true);
-//                }
-//            }
-//        });
 
         return convertView;
     }

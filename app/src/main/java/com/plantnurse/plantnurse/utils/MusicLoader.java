@@ -33,7 +33,6 @@ public class MusicLoader {
             MusicInfo musicInfo = new MusicInfo();
             cursor.moveToNext();
 
-
             long id = cursor.getLong(cursor
                     .getColumnIndex(MediaStore.Audio.Media._ID));	//音乐id
 

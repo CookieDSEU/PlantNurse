@@ -167,7 +167,7 @@ public class AlarmInfo  {
                 alarm.takeCare=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_TakeCare));
                 alarm.fertilization=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Fertilization));
                 alarm.weather=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Weather));
-                alarm.music=cursor.getInt(cursor.getColumnIndex(Alarm.KEY_Music));
+                alarm.music=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Music));
                 alarm.available=cursor.getString(cursor.getColumnIndex(Alarm.KEY_Available));
             }while(cursor.moveToNext());
         }
