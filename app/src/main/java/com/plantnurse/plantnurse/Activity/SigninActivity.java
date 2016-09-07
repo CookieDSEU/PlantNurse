@@ -49,7 +49,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         button_login = (Button) findViewById(R.id.login_button);
         text= (TextView) view.findViewById(R.id.userID);
         text2=  (TextView) view.findViewById(R.id.pwd);
-        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog = new SweetAlertDialog(SigninActivity.this,SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitleText("正在登录...");
         toolbar =(Toolbar)findViewById(R.id.signin_toolbar);
         toolbar.setTitle("登录");

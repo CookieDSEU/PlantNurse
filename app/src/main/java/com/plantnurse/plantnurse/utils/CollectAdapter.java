@@ -1,17 +1,26 @@
 package com.plantnurse.plantnurse.utils;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
+import com.plantnurse.plantnurse.Network.ChangeInfoResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.CollectPlantModel;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Heloise on 2016/9/3.
@@ -24,12 +33,14 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
     private LayoutInflater mInflater;
     private List<CollectPlantModel> mlist=null;
     private CollectActivity mContext;
+    private String mUserName;
 
     //构造函数
-    public CollectAdapter(CollectActivity context,List<CollectPlantModel> list){
+    public CollectAdapter(CollectActivity context,List<CollectPlantModel> list,String username){
         mContext=context;
         mInflater=LayoutInflater.from(mContext);
         mlist=list;
+        mUserName=username;
     }
 
     //ViewHolder类
@@ -74,14 +85,58 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
                 mContext.startActivity(intent);
             }
         });
+
+        holder.itemView.findViewById(R.id.collectLinearLayout).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new SweetAlertDialog(mContext,SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText("确认删除这条收藏？")
+                        .setConfirmText("确认")
+                        .setCancelText("取消")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                //取消收藏
+                                HashMap<String, String> param = new HashMap<String, String>();
+                                param.put("userName",mUserName);
+                                param.put("name", holder.pname.getText().toString());
+                                SimpleTaskManager.startNewTask(new NetworkTask("deletestar", mContext, ChangeInfoResponse.class, param, Constants.DELETESTAR_URL, NetworkTask.GET) {
+                                    @Override
+                                    public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                                        ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                                        if (response.getresponseCode() == 1) {
+                                            new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE)
+                                                    .setTitleText("取消成功!")
+                                                    .show();
+                                            mlist.remove(position);
+                                            notifyDataSetChanged();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                                    }
+                                });
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
     }
 
     //获取循环的次数
     @Override
     public int getItemCount() {
         String t=" "+mlist.size();
-        Log.e("souceDataList.size=",t);
         return mlist.size();
+    }
+
+    public void updatelist(List<CollectPlantModel> a){
+        mlist=a;
+        notifyDataSetChanged();
     }
 
 }

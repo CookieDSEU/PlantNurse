@@ -14,13 +14,19 @@ import android.view.ViewGroup;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
+import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
+import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
+import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Network.GetMyStarResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.CollectPlantModel;
+import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CollectAdapter;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,7 +39,7 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
     private RecyclerView collectlist;
     private static CollectAdapter adapter; // 收藏的适配器
-    private List<CollectPlantModel> sourceDateList = new ArrayList<CollectPlantModel>();
+    private List<CollectPlantModel> sourceDateList;
     private Toolbar toolbar;
 
     @Override
@@ -43,7 +49,6 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
     @Override
     public void initView(ViewGroup view) {
-        Log.e("collet","initView");
         collectlist= (RecyclerView) view.findViewById(R.id.collectListView);
         toolbar =(Toolbar)view.findViewById(R.id.collect_toolbar);
         toolbar.setTitle("   植物收藏夹");
@@ -56,8 +61,8 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
     }
 
     private void filledData() {
-        Log.e("collect","filledData");
         //收藏列表数据完成
+        sourceDateList = new ArrayList<CollectPlantModel>();
         for (int i = 0; i < DataManager.getMyStar().response.size(); i++) {
             CollectPlantModel collectPlantModel = new CollectPlantModel();
             collectPlantModel.setName(DataManager.getMyStar().response.get(i).name);
@@ -66,18 +71,17 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
             +DataManager.getMyStar().response.get(i).date.substring(5,6)+"."+DataManager.getMyStar().
                     response.get(i).date.substring(7,8));
             collectPlantModel.setId(DataManager.getMyStar().response.get(i).plant_id);
-            Log.e("collect",DataManager.getMyStar().response.get(i).name);
             sourceDateList.add(collectPlantModel);
         }
     }
 
     public void updateindex() {
         // 填充数据
-        Log.e("collect","updateindex");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CollectActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         collectlist.setLayoutManager(linearLayoutManager);
-        adapter = new CollectAdapter(CollectActivity.this, sourceDateList);
+        UserInfo userInfo=(UserInfo)getSimpleApplicationContext().getUserModel();
+        adapter = new CollectAdapter(CollectActivity.this, sourceDateList,userInfo.getuserName());
         collectlist.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -122,5 +126,33 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
         setResult(RESULT_CANCELED,in);
         finish();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        HashMap param=new HashMap<>();
+        if(getSimpleApplicationContext().isLogined()) {
+            UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
+            param.put("userName", ui.getuserName());
+        }
+        else{
+            param.put("userName","blank");
+        }
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),CollectActivity.this, GetMyStarResponse.class,param,Constants.GETMYSTAR_URL,NetworkTask.GET) {
+            @Override
+            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                GetMyStarResponse response = (GetMyStarResponse) result.resultObject;
+                DataManager.setMyStar(response);
+                filledData();
+                adapter.updatelist(sourceDateList);
+
+            }
+
+            @Override
+            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+            }
+        });
+        super.onResume();
     }
 }
