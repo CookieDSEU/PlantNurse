@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -43,8 +45,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     //view
+    private Button editButton;
     private TextView birthText;
-    private TextView tagText;
+    private EditText tagText;
     private TextView nameText;
     private RatingBar ratingBar_sun;
     private RatingBar ratingBar_water;
@@ -53,6 +56,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
     private Toolbar toolbar;
     private CollapsingToolbarLayout toolbarLayout_name;//放名字的
     //data
+    private String pretext;
     private int selectedId;
     private String mName;
     private String mTag;
@@ -134,15 +138,24 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         ratingBar_water= (RatingBar) view.findViewById(R.id.myplant_rating_water);
         ratingBar_cold= (RatingBar) view.findViewById(R.id.myplant_rating_cold);
         birthText = (TextView) view.findViewById(R.id.myplant_birthtext);
-        tagText = (TextView) view.findViewById(R.id.myplant_tagtext);
+        tagText = (EditText) view.findViewById(R.id.myplant_tagtext);
         nameText = (TextView) view.findViewById(R.id.myplant_nametext);
-
+//        editButton = (Button) view.findViewById(R.id.myplant_button);
         banner_planticon= (ImageView) view.findViewById(R.id.myplant_bannner);
         toolbar=(Toolbar)view.findViewById(R.id.myplant_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         toolbarLayout_name=(CollapsingToolbarLayout)view.findViewById(R.id.myplant_toolbarlayout);
+
+        tagText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagText.setFocusable(true);
+                tagText.setClickable(true);
+            }
+        });
+
     }
 
     @Override
@@ -210,6 +223,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                 mBirth = DataManager.getMyPlant().response.get(selectedId).nickname+"已经陪伴你"+f+"天啦";
 
                 mTag = DataManager.getMyPlant().response.get(selectedId).remark;
+                pretext = mTag;
 
                 toolbarLayout_name.setTitle(DataManager.getMyPlant().response.get(selectedId).nickname);
 
@@ -249,7 +263,38 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         // TODO Auto-generated method stub
         if(item.getItemId() == android.R.id.home)
         {
-            onBackPressed();
+            if(mTag.equals(tagText.getText().toString())) {
+                onBackPressed();
+            }
+            else{
+                SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
+                builder.setTitleText("提示");
+                builder.setContentText("确定要保存编辑吗？");
+                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        tagText.setFocusable(false);
+                        tagText.setClickable(false);
+                        editButton.setVisibility(View.INVISIBLE);
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        sweetAlertDialog.dismissWithAnimation();
+                        onBackPressed();
+                    }
+                });
+                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        tagText.setFocusable(false);
+                        tagText.setClickable(false);
+                        editButton.setVisibility(View.INVISIBLE);
+                        tagText.setText(pretext);
+                        sweetAlertDialog.dismissWithAnimation();
+                        onBackPressed();
+                    }
+                });
+                builder.show();
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
