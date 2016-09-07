@@ -37,6 +37,7 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
@@ -349,6 +350,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                         public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                             ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
                             if (response.getresponseCode() == 1) {
+                                DataManager.isMyPlantChanged = true;
                                 new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("添加成功！")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
