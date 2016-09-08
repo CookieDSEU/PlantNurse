@@ -21,16 +21,21 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 public class AlarmActivity extends Activity {
 
-    private String mtext;//内容
+    private String mtext="";//内容
+    private String name="";//植物名字
+    private String action="";//行为
     private int alarm_Id;//id
     private int frequency;
     private Alarm alarm=new Alarm();
     private AlarmInfo info;
     private String alarm_music;
-    //private String alarm_plantName;
-    //private int weather;
 
-
+    //提取行为
+    public void getAction(int i,String a){
+        if(i==1){
+            action+=a+"、";
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +54,17 @@ public class AlarmActivity extends Activity {
         Intent intent=getIntent();
         alarm_Id=intent.getIntExtra("alarm_Id", 0);
         frequency = intent.getIntExtra("frequency",0);
-        //alarm_music=intent.getIntExtra("soundOrVibrator",0);
         info=new AlarmInfo(this);
 
         alarm = info.getAlarmById(alarm_Id);
         mtext=alarm.content;
-        Log.e("text",mtext);
+        name=alarm.available;
         alarm_music=alarm.music;
+        getAction(alarm.water,"浇水");
+        getAction(alarm.sun,"晒太阳");
+        getAction(alarm.takeBack,"收回");
+        getAction(alarm.takeCare,"打理");
+        getAction(alarm.fertilization,"施肥");
 
         // 播放闹铃
         final Intent intentSV = new Intent(this, MyService.class);
@@ -71,7 +80,7 @@ public class AlarmActivity extends Activity {
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
         SweetAlertDialog dialog=new SweetAlertDialog(AlarmActivity.this,SweetAlertDialog.NORMAL_TYPE);
         dialog.setTitleText("闹钟");
-        dialog.setContentText(mtext);
+        dialog.setContentText("您的"+name+"需要"+action+"\n\r"+"Tips:"+mtext);
         dialog.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {

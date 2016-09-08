@@ -56,7 +56,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
     @Override
     public AlarmItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         info = new AlarmInfo(context.getActivity());
         alarmList =  info.getAlarmList();
         View view= layoutInflater.inflate(R.layout.view_alarm_entry, parent, false);
@@ -301,7 +300,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         Intent intent = new Intent(context,AlarmReceiver.class);
         intent.putExtra("alarm_Id", alarm.alarm_id);
         intent.putExtra("frequency", alarm.frequency);
-//        intent.putExtra("soundOrVibrator", soundOrVibrator);
         PendingIntent sender = PendingIntent.getBroadcast(context, alarm.alarm_id, intent, PendingIntent
                 .FLAG_CANCEL_CURRENT);
 

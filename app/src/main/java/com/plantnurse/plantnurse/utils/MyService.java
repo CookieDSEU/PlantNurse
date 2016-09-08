@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.plantnurse.plantnurse.R;
 
@@ -69,7 +68,6 @@ public class MyService extends Service {
                 return false;
             }
         });
-
         super.onStart(intent, startId);
     }
 

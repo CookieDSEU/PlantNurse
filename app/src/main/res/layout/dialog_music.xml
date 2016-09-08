@@ -3,58 +3,62 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:weightSum="1">
+
+   <!-- <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:background="@color/white"/>-->
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:background="@color/white"/>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="3dp"
         android:id="@+id/selectedMusic" />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="3dp"
-        android:background="@color/white"/>
+        android:background="#c8b2edde"/>
 
     <ListView
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_height="wrap_content"
         android:id="@+id/music_item"
-        android:divider="#ffffff"
+        android:divider="#c8b2edde"
+        android:layout_weight="0.85"
         android:dividerHeight="3dp"
-        android:cacheColorHint="#00000000">
+        android:background="@color/white">
     </ListView>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15">
 
         <Button
+            android:text="取消"
+            android:background="@color/color_Grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取消"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="45dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/cancel_button"/>
 
         <Button
+            android:text="确定"
+            android:background="@color/greenborder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确定"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/confirm_button"/>
-
     </LinearLayout>
-
 </LinearLayout>
