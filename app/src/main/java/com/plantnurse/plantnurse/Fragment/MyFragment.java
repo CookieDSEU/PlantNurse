@@ -265,9 +265,8 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
             public void onClick(View v) {
                 DeleteActivity deleteActivity=new DeleteActivity();
                 File file=(File)mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
-                String size=deleteActivity.getCacheSize(file);
                 new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
-                        .setContentText(size)
+                        .setTitleText("清除完成")
                         .show();
 
 
