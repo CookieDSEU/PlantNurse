@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.plantnurse.plantnurse.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.math.BigDecimal;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
+
+import static java.security.AccessController.getContext;
 
 
 public class DeleteActivity {
@@ -71,6 +75,7 @@ public class DeleteActivity {
         cleanDatabases(context);
         cleanSharedPreference(context);
         cleanFiles(context);
+
 //        if (filepath == null) {
 //            return;
 //        }
@@ -159,5 +164,6 @@ public class DeleteActivity {
     public static String getCacheSize(File file)  {
         return getFormatSize(getFolderSize(file));
     }
+
 
 }
