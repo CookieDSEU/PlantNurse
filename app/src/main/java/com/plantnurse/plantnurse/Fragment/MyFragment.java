@@ -143,6 +143,10 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                 protected Object doInBackground(Object[] params) {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
                     String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
+                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                    file.delete();
+                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+userInfo.getuserName()+".png");
+                    file.delete();
                     pd.dismiss();
                     DataManager.isAvatarChanged_drawer =true;
                     DataManager.isIsAvatarChanged_myfragment=true;

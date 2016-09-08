@@ -39,4 +39,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('src/main/jniLibs/Msc.jar')
     compile files('src/main/jniLibs/Sunflower.jar')
+    compile files('src/main/jniLibs/ifly_push_sdk_1.0_1044.jar')
 }

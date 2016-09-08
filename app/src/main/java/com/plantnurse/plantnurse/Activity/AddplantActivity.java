@@ -3,6 +3,7 @@ package com.plantnurse.plantnurse.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -37,11 +38,13 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,6 +110,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
     private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
     private String urlpath;			// 图片本地路径
+    private Uri uritempFile;
 
 
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -160,19 +164,20 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                 startPhotoZoom(Uri.fromFile(temp));
                 break;
             case REQUESTCODE_CUTTING:// 取得裁剪后的图片
-                if (data != null) {
-                    setPicToView(data);
-                }
+                    setPicToView();
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void setPicToView(Intent picdata) {
-        Bundle extras = picdata.getExtras();
-        if (extras != null) {
+    private void setPicToView() {
             // 取得SDCard图片路径做显示
-            Bitmap photo = extras.getParcelable("data");
+            Bitmap photo = null;
+            try {
+                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             Drawable drawable = new BitmapDrawable(null, photo);
             uuid = UUID.randomUUID().toString();
             urlpath = FileUtil.saveFile(AddplantActivity.this, uuid +".png", photo);
@@ -186,6 +191,13 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                 @Override
                 protected Object doInBackground(Object[] params) {
                     String info= Util.uploadAvatar(uuid,Util.TYPE_PLANT);
+                    //删除上传暂存文件。
+                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                    file.delete();
+                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+uuid +".png");
+                    file.delete();
+                    file=new File(Environment.getExternalStorageDirectory() + "/"+"temp.jpg");
+                    file.delete();
                     pd.dismiss();
                     return null;
                 }
@@ -195,7 +207,6 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
                 }
             });
-        }
     }
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -208,7 +219,12 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", 500);
         intent.putExtra("outputY", 500);
-        intent.putExtra("return-data", true);
+        //MIUI无法直接返回DATA。故将图片保存在Uri中，
+        // 调用时将Uri转换为Bitmap，
+        //intent.putExtra("return-data", true);
+        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "temp.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, REQUESTCODE_CUTTING);
     }
 
@@ -349,6 +365,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                         public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                             ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
                             if (response.getresponseCode() == 1) {
+                                DataManager.isMyPlantChanged = true;
                                 new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("添加成功！")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -446,7 +463,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         }
 
         calendar = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
+        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH), true);
 
     }
 

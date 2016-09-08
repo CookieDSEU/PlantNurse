@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.plantnurse.plantnurse.model.Alarm;
@@ -19,20 +20,22 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Yxuan on 2016/8/26.
  */
 public class AlarmActivity extends Activity {
-    private DbHelper dbHelper;
-    private SQLiteDatabase db;
-    private Intent getIntent;
 
-    private String mtext;//内容
+    private String mtext="";//内容
+    private String name="";//植物名字
+    private String action="";//行为
     private int alarm_Id;//id
     private int frequency;
     private Alarm alarm=new Alarm();
     private AlarmInfo info;
-    //private int alarm_music;
-    //private String alarm_plantName;
-    //private int weather;
+    private String alarm_music;
 
-
+    //提取行为
+    public void getAction(int i,String a){
+        if(i==1){
+            action+=a+"、";
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,42 +50,47 @@ public class AlarmActivity extends Activity {
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        // 播放闹铃
-        final Intent intentSV = new Intent(AlarmActivity.this, MyService.class);
-        startService(intentSV);
-
 
         Intent intent=getIntent();
         alarm_Id=intent.getIntExtra("alarm_Id", 0);
         frequency = intent.getIntExtra("frequency",0);
-        //alarm_music=intent.getIntExtra("soundOrVibrator",0);
         info=new AlarmInfo(this);
 
         alarm = info.getAlarmById(alarm_Id);
         mtext=alarm.content;
+        name=alarm.available;
+        alarm_music=alarm.music;
+        getAction(alarm.water,"浇水");
+        getAction(alarm.sun,"晒太阳");
+        getAction(alarm.takeBack,"收回");
+        getAction(alarm.takeCare,"打理");
+        getAction(alarm.fertilization,"施肥");
+
+        // 播放闹铃
+        final Intent intentSV = new Intent(this, MyService.class);
+        if(alarm_music!=null){
+            intentSV.putExtra("music",alarm_music);
+        }
+        startService(intentSV);
 
         if(frequency==0||frequency==4){//一次性闹钟
             alarm.isAlarm=0;//响过后设置为0，即不再是个闹钟
-        }else{
-           // isAlarm=1;
         }
-
-
 
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
         SweetAlertDialog dialog=new SweetAlertDialog(AlarmActivity.this,SweetAlertDialog.NORMAL_TYPE);
         dialog.setTitleText("闹钟");
-        dialog.setContentText(mtext);
+        dialog.setContentText("您的"+name+"需要"+action+"\n\r"+"Tips:"+mtext);
         dialog.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 stopService(intentSV);
                 info.update(alarm);
+                sweetAlertDialog.dismissWithAnimation();
                 AlarmActivity.this.finish();
             }
         });
         dialog.show();
     }
-
 }
 
