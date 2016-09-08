@@ -49,7 +49,8 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity android:name=".Activity.CollectActivity"></activity>
-        <activity android:name=".Activity.ShowActivity"></activity>
+        <activity android:name=".Activity.ShowActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".Activity.AlarmActivity">
         </activity>
         <activity android:name=".Activity.SplashActivity">
