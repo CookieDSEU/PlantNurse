@@ -26,8 +26,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!--recycleView 版本-->
-    //android:divider="#d1cece"
-
 </LinearLayout>
 

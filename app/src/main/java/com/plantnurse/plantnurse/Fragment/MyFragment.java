@@ -16,6 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
+import com.kot32.ksimplelibrary.activity.i.ITabPageAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
@@ -25,13 +26,13 @@ import com.plantnurse.plantnurse.Activity.DeleteActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.ResetpsdActivity;
-import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.Activity.SigninActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CircleImg;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
 import com.plantnurse.plantnurse.utils.ToastUtil;
@@ -47,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by Cookie_D on 2016/8/26.
  */
-public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
+public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,ITabPageAction {
     private String urlpath;			// 图片本地路径
     private static SweetAlertDialog pd;// 等待进度圈
     private CircleImg avatarview;
@@ -147,7 +148,13 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
                 protected Object doInBackground(Object[] params) {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
                     String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
+                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                    file.delete();
+                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+userInfo.getuserName()+".png");
+                    file.delete();
                     pd.dismiss();
+                    DataManager.isAvatarChanged_drawer =true;
+                    DataManager.isIsAvatarChanged_myfragment=true;
                     return null;
                 }
 
@@ -315,7 +322,6 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
         if(mApp.isLogined()){
             UserInfo userInfo=(UserInfo) mApp.getUserModel();
             String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
-            // avabitmap=Util.getHttpBitmap(temp);
             Picasso.with(getActivity()).load(temp).into(avatarview);
         }
     }
@@ -323,5 +329,15 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     @Override
     public int getContentLayoutID() {
         return R.layout.fragment_my;
+    }
+
+    @Override
+    public void onPageSelected() {
+        if(DataManager.isIsAvatarChanged_myfragment){
+            UserInfo userInfo=(UserInfo) mApp.getUserModel();
+            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+            Picasso.with(getActivity()).invalidate(temp);
+            DataManager.isIsAvatarChanged_myfragment=false;
+        }
     }
 }

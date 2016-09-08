@@ -14,7 +14,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
-
         int alarm_Id=intent.getIntExtra("alarm_Id",0);
         int frequency=intent.getIntExtra("frequency",0);
         int alarm_soundOrVibrator=intent.getIntExtra("soundOrVibrator", 0);

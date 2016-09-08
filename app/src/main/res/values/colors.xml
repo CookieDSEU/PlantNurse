@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#87e07f</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="color_Grey">#c9c9c9</color>
     <color name="Indigo_color_teal">#01c6b2</color>
     <color name="Indigo_color_teal_darker">#01c6b2</color>
@@ -20,4 +20,5 @@
     <color name="yellowborder">#f9e481</color>
     <color name="nocolor">#006ADED2</color>
     <color name="textcolor">#4b4b4b</color>
+    <color name="colorblue">#44b5df</color>
 </resources>

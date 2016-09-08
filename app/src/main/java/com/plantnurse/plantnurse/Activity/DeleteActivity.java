@@ -17,7 +17,7 @@ import android.text.TextUtils;
 import static java.security.AccessController.getContext;
 
 
-public class DeleteActivity {
+public class DeleteActivity extends  AppCompatActivity{
 
      //清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *
 

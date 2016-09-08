@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KTabActivity;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
@@ -45,6 +47,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public static final int REQUEST_CODE = 0x04;
+    private DrawerComponent.DrawerHeader header;
 
     @Override
     public List<Fragment> getFragmentList() {
@@ -77,9 +80,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
             toolbar.setTitleTextColor(0xffffffff);
         }
         setTitle("PlantNurse");
-        final DrawerComponent.DrawerHeader header = new DrawerComponent.DrawerHeader(DrawerComponent.DrawerHeader.DrawerHeaderStyle.KENBURNS,
-                R.drawable.header_back,
-                this);
+        header = new DrawerComponent.DrawerHeader(DrawerComponent.DrawerHeader.DrawerHeaderStyle.KENBURNS,
+               R.drawable.header_back,
+               this);
         header.addAvatar(R.drawable.avatar, Constants.AVATAR_URL, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +183,11 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     public void onDrawerOpened(View kDrawerView) {
                         //打开了侧滑菜单
                         if (getSimpleApplicationContext().isLogined()) {
+                            if(DataManager.isAvatarChanged_drawer){
+                                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                                imagePipeline.clearCaches();
+                                DataManager.isAvatarChanged_drawer =false;
+                            }
                             UserInfo userInfo = (UserInfo) PreferenceManager.getLocalUserModel();
                             header.changeNickName(userInfo.getuserName());
                             String temp = Constants.AVATAR_URL + "?id=" + userInfo.getuserName();
@@ -206,7 +214,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     @Override
     public void initController() {
          addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-        addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
+         addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
          addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
@@ -216,7 +224,6 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     public void onLoadingNetworkData() {
         getWeatherInfo();
         getPlantIndex();
-//        if(getSimpleApplicationContext().isLogined())
         getMyPlant();
         getMyStar();
 
@@ -314,6 +321,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     protected void onResume() {
+        getMyPlant();
+        getMyStar();
         super.onResume();
     }
 

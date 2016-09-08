@@ -1,9 +1,5 @@
 package com.plantnurse.plantnurse.model;
 
-import android.util.Log;
-
-import java.util.Date;
-
 /**
  * Created by Heloise on 2016/9/3.
  */
@@ -25,7 +21,6 @@ public class CollectPlantModel {
     }
 
     public void setUrl(String url) {
-        Log.e("collectModel","setUrl");
         this.url = url;
     }
 
@@ -43,7 +38,6 @@ public class CollectPlantModel {
     }
 
     public void setName(String name) {
-        Log.e("collectModel","setName");
         this.name = name;
     }
 
