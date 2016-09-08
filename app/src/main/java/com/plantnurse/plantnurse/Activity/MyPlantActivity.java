@@ -182,7 +182,6 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
 
                 birthday = DataManager.getMyPlant().response.get(selectedId).birthday+"";
-                Log.e("test3",birthday);
                 Calendar c = Calendar.getInstance();
                 int nowyear =c.get(Calendar.YEAR);
                 int nowmonth = c.get(Calendar.MONTH);
@@ -198,19 +197,16 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                 else
                     now += nowday;
 
-                Log.e("test4",now);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");//输入日期的格式
                 Date date1 = null;
                 try {
                     date1 = simpleDateFormat.parse(birthday);
-                    Log.e("test1",date1+"");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 Date date2 = null;
                 try {
                     date2 = simpleDateFormat.parse(now);
-                    Log.e("test2",date2+"");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
