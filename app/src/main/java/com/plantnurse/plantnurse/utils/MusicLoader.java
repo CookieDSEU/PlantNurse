@@ -1,21 +1,12 @@
 package com.plantnurse.plantnurse.utils;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.Media;
-import android.util.Log;
-import android.widget.ListView;
 
 import com.plantnurse.plantnurse.model.MusicInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -61,6 +52,5 @@ public class MusicLoader {
         }
         return musicInfos;
     }
-
 }
 

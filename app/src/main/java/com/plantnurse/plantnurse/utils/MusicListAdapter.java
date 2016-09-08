@@ -1,24 +1,16 @@
 package com.plantnurse.plantnurse.utils;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.MusicInfo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 /**
  * Created by Yxuan on 2016/9/6.
  */
@@ -33,10 +25,6 @@ public class MusicListAdapter extends BaseAdapter {
     private List<MusicInfo> musicInfos;   //存放MusicInfo引用的集合
     private MusicInfo musicInfo;        //MusicInfo对象引用
     private ViewHolder holder;
-    // 用于记录每个RadioButton的状态，并保证只可选一个
-    List<Boolean> states=new ArrayList<Boolean>();
-
-
 
     public MusicListAdapter(Context context,List<MusicInfo> musicInfos){
         this.context = context;
@@ -52,7 +40,6 @@ public class MusicListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         holder = null;
-
         if(convertView == null){
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.music_list_item, null);

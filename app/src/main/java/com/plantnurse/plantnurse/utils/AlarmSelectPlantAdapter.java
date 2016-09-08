@@ -1,44 +1,34 @@
 package com.plantnurse.plantnurse.utils;
 
-/**
- * Created by Yxuan on 2016/8/30.
- */
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.Alarm;
 import com.squareup.picasso.Picasso;
-
-
+/**
+ * Created by Yxuan on 2016/8/30.
+ */
 public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPlantAdapter.ViewHolder> {
-
     private LayoutInflater layoutInflater;
     private List<String> datas;
     private List<String> selectedDatas;
-    private Alarm alarm;
     private AddAlarmActivity addAlarmActivity=new AddAlarmActivity();
     private Context mcontext;
 
     public AlarmSelectPlantAdapter(Context context, List<String> datas,
-                                   List<String> selectedDatas,Alarm alarm) {
+                                   List<String> selectedDatas) {
         this.layoutInflater = LayoutInflater.from(context);
         this.datas = datas;
         mcontext = context;
         this.selectedDatas=selectedDatas;
-        this.alarm=alarm;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,10 +53,8 @@ public class AlarmSelectPlantAdapter extends RecyclerView.Adapter<AlarmSelectPla
         return viewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int positon) {
-
         Picasso.with(mcontext).load(Constants.MYPLANTPIC_URL + datas.get(positon)).into(viewHolder.mImg);
 
         int i;//判断如何修改select的值
