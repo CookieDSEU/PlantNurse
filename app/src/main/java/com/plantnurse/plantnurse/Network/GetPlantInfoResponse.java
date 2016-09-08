@@ -1,6 +1,9 @@
 package com.plantnurse.plantnurse.Network;
 
+import com.google.gson.annotations.SerializedName;
 import com.kot32.ksimplelibrary.model.response.BaseResponse;
+
+import java.util.List;
 
 /**
  * Created by Cookie_D on 2016/9/2.
@@ -14,4 +17,11 @@ public class GetPlantInfoResponse extends BaseResponse{
     public int cold;
     public int difficulty;
     public String introduction;
+    public List<comment> commentlist;
+    public static class comment{
+        public String date;
+        public String userName;
+        public String comment;
+    }
+
 }
