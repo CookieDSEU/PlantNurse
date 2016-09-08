@@ -67,8 +67,8 @@
             android:theme="@style/Theme.Design.BottomSheetDialog" />
 
         <receiver android:name=".utils.AlarmReceiver" />
+        <activity android:name=".Activity.DeleteActivity"></activity>
         <activity android:name=".Activity.ResetpsdActivity"></activity>
-        <receiver android:name=".utils.AlarmReceiver"></receiver>
         <service android:name=".utils.MyService"></service>
         <!-- push service start -->
         <!-- Push 服务  -->

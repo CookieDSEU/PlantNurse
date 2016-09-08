@@ -1,9 +1,13 @@
 package com.plantnurse.plantnurse.Activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.net.Network;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,12 +29,16 @@ import com.plantnurse.plantnurse.utils.ToastUtil;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+//creat by went
 
 
 public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAction {
-private  String user;
+    private Toolbar toolbar;
+    private  String user;
     private  String oldpsd;
     private    String newpsd;
     private String rnewpsd;
@@ -56,6 +64,14 @@ private  String user;
 
     @Override
     public void initView(ViewGroup view) {
+        toolbar=(Toolbar)findViewById(R.id.resetpsd_toolbar) ;
+        toolbar.setTitle("修改密码");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if (actionBar!=null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+
 
         text_oldpsd=(TextView)findViewById(R.id.oldpsd);
         text_newpsd=(TextView)findViewById(R.id.newpsd);
@@ -84,15 +100,15 @@ private  String user;
                 }
                 else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("我是一个小标题")
-                            .setContentText("两次密码输入不一致")
+
+                            .setTitleText("两次密码输入不一致")
                             .show();
                 }
                 }
                 else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
 
-                            .setContentText("密码输入必须为大小写或数字且在8-16位")
+                            .setTitleText("密码输入必须为大小写或数字且在8-16位")
                             .show();
 
                 }
@@ -134,16 +150,26 @@ private  String user;
                 {
                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.SUCCESS_TYPE)
                            .setTitleText("修改密码成功")
-
+                           .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                               @Override
+                               public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                   finish();
+                               }
+                           })
                            .show();
+
+
+
                 }
                 else{ if(response.getresponseCode()== 3)
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("原密码错误")
                             .show();
+
                     else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("修改失败,用户冻结")
+
                             .show();
 
                 }
@@ -159,4 +185,38 @@ private  String user;
 
     }
     private boolean check(String s) {return s.matches("[a-zA-Z0-9]{8,16}");}
+
+//    public void finishactivity(){
+//        TimerTask task=new TimerTask() {
+//            @Override
+//            public void run() {
+//                finish();
+//            }
+//        };
+//        Timer timer=new Timer();
+//        timer.schedule(task,1200);
+//
+//
+//
+//    }
+@Override
+public boolean onOptionsItemSelected(MenuItem item)
+{
+    // TODO Auto-generated method stub
+    if(item.getItemId() == android.R.id.home)
+    {
+        finish();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+}
+//按返回键，跳转回MainActivity界面
+
+//    @Override
+//    public void onBackPressed() {
+//        Intent in=getIntent();
+//        setResult(RESULT_CANCELED,in);
+//        finish();
+//        super.onBackPressed();
+//    }
 }
