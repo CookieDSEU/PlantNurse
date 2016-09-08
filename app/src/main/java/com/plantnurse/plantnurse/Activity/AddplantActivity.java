@@ -297,6 +297,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         waterRatingBar.setProgress(mWater);
         snowRatingBar.setProgress(mSnow);
         //y-m-d初始化
+        mmonth++;
         _year.setText(myear+"");
         _month.setText(mmonth + "");
         _day.setText(mday + "");
@@ -361,7 +362,12 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                                             }
                                         })
                                         .show();
-                            } else {
+                            } else if(response.getresponseCode() == 2){
+                                new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("昵称和已有植物重复")
+                                        .show();
+                            }
+                            else{
                                 new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.ERROR_TYPE)
                                         .setTitleText("连接超时，添加失败！")
                                         .show();
@@ -448,7 +454,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         }
 
         calendar = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH), true);
+        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
 
     }
 

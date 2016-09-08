@@ -128,7 +128,7 @@
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/bubblebutton"
+            android:background="@drawable/bubblebutton_red"
             android:id="@+id/tipButton"
             android:layout_marginTop="30dp"
             android:layout_below="@+id/image_flower"
@@ -167,7 +167,7 @@
                 android:id="@+id/minifloat_plantlist"
                 fab:fab_icon="@drawable/float_plantlist"
                 fab:fab_colorNormal="@color/white"
-                fab:fab_title=" 植物列表"
+                fab:fab_title=" 未来天气"
                 fab:fab_size="mini" />
      </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
