@@ -30,7 +30,7 @@ public class MyService extends Service {
         try {
             mp = new MediaPlayer();// 创建MediaPlayer对象
             path=intent.getStringExtra("music");
-            if(path==null){//没有设置铃声则播放系统自定义铃声
+            if(path.equals("陈奕迅-稳稳的幸福（默认）")){//没有设置铃声则播放系统自定义铃声
                 mp=MediaPlayer.create(this, R.raw.music);
             }else{
                 mp.setDataSource(this, Uri.parse(path));
@@ -40,6 +40,7 @@ public class MyService extends Service {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         // 开始播放音乐
         mp.start();
         // 音乐播放完毕的事件处理
