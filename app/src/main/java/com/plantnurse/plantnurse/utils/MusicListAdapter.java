@@ -46,8 +46,7 @@ public class MusicListAdapter extends BaseAdapter {
             holder.music_title = (TextView)convertView.findViewById(R.id.music_title);
             holder.music_artist = (TextView)convertView.findViewById(R.id.music_artist);
             convertView.setTag(holder);
-        }
-        else{
+        } else{
             holder = (ViewHolder)convertView.getTag();
         }
         musicInfo = musicInfos.get(position);
@@ -66,5 +65,4 @@ public class MusicListAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return position;
     }
-
 }
