@@ -1,11 +1,4 @@
-package com.plantnurse.plantnurse.Activity;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import com.plantnurse.plantnurse.R;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
+package com.plantnurse.plantnurse.utils;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -14,10 +7,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import static java.security.AccessController.getContext;
-
-
-public class DeleteActivity extends  AppCompatActivity{
+public class DeleteData{
 
      //清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *
 

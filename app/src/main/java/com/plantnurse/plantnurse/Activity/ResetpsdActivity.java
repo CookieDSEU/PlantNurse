@@ -1,10 +1,6 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.Network;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,7 +12,6 @@ import android.widget.TextView;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.MainApplication;
@@ -24,13 +19,8 @@ import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
-import com.plantnurse.plantnurse.utils.ToastUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 //creat by went
@@ -186,19 +176,6 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
     }
     private boolean check(String s) {return s.matches("[a-zA-Z0-9]{8,16}");}
 
-//    public void finishactivity(){
-//        TimerTask task=new TimerTask() {
-//            @Override
-//            public void run() {
-//                finish();
-//            }
-//        };
-//        Timer timer=new Timer();
-//        timer.schedule(task,1200);
-//
-//
-//
-//    }
 @Override
 public boolean onOptionsItemSelected(MenuItem item)
 {
@@ -210,13 +187,4 @@ public boolean onOptionsItemSelected(MenuItem item)
     }
     return super.onOptionsItemSelected(item);
 }
-//按返回键，跳转回MainActivity界面
-
-//    @Override
-//    public void onBackPressed() {
-//        Intent in=getIntent();
-//        setResult(RESULT_CANCELED,in);
-//        finish();
-//        super.onBackPressed();
-//    }
 }

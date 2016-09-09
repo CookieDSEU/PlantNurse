@@ -109,24 +109,18 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                                 ui.settoken(loginResponse.gettoken());
                                 PreferenceManager.setLocalUserModel(ui);
                                 getSimpleApplicationContext().setUserModel(ui);
-
-//                            Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-//                            startActivity(intent);
-
-//                            ToastUtil.showShort("登录成功");
                                 new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("登陆成功")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-
                                                 Intent in = getIntent();
                                                 setResult(RESULT_OK, in);
+                                                sweetAlertDialog.dismiss();
                                                 finish();
                                             }
                                         })
                                         .show();
-
                             } else if (loginResponse.getresponseCode() == 0) {
                                 new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.WARNING_TYPE)
                                         .setTitleText("账户未注册")

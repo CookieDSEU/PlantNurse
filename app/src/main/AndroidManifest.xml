@@ -43,39 +43,33 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".Activity.AddplantActivity"
-            android:hardwareAccelerated="false">
-        </activity>
+            android:hardwareAccelerated="false"/>
         <activity android:name=".Activity.AddAlarmActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
-        <activity android:name=".Activity.CollectActivity"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".Activity.CollectActivity"/>
         <activity android:name=".Activity.ShowActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".Activity.AlarmActivity">
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".Activity.AlarmActivity"/>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MyPlantActivity"></activity>
+        <activity android:name=".Activity.MyPlantActivity"/>
         <activity
             android:name=".Activity.ResetcityActivity"
             android:label=""
             android:theme="@style/Theme.Design.BottomSheetDialog" />
-
         <receiver android:name=".utils.AlarmReceiver" />
-        <activity android:name=".Activity.DeleteActivity"></activity>
-        <activity android:name=".Activity.ResetpsdActivity"></activity>
-        <service android:name=".utils.MyService"></service>
+        <activity android:name=".Activity.ResetpsdActivity"/>
+        <service android:name=".utils.MyService"/>
         <!-- push service start -->
         <!-- Push 服务  -->
         <service
             android:name="com.iflytek.pushclient.manager.PushService"
             android:exported="true"
-            android:process=":xpush"></service>
+            android:process=":xpush"/>
 
         <!--  用于接收系统消息以保证PushService正常运行  -->
         <receiver
