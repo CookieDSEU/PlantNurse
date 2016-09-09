@@ -48,10 +48,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     private DrawerLayout drawer;
     public static final int REQUEST_CODE = 0x04;
     private DrawerComponent.DrawerHeader header;
+    ParkFragment pf;
 
     @Override
     public List<Fragment> getFragmentList() {
-        fragmentList.add(new ParkFragment());
+        pf=new ParkFragment();
+        fragmentList.add(pf);
         fragmentList.add(new BookFragment());
         fragmentList.add(new AlarmFragment());
         fragmentList.add(new MyFragment());
@@ -226,7 +228,6 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         getPlantIndex();
         getMyPlant();
         getMyStar();
-
     }
 
     private void getMyStar() {
@@ -323,6 +324,10 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     protected void onResume() {
         getMyPlant();
         getMyStar();
+        if(DataManager.isCityChanged){
+            getWeatherInfo();
+            DataManager.isCityChanged=false;
+        }
         super.onResume();
     }
 
@@ -350,6 +355,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
                 WeatherResponse weatherInfo = weatherAPI.response.get(0);
                 DataManager.setWeatherInfo(weatherInfo);
+
             }
 
             @Override
@@ -365,9 +371,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+                DataManager.isMyPlantChanged=true;
+                DataManager.isCityChanged=true;
+                pf.onPageSelected();
             } else if (resultCode == RESULT_CANCELED) {
 
             }

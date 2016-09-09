@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
-import com.plantnurse.plantnurse.Activity.DeleteActivity;
+import com.plantnurse.plantnurse.utils.DeleteData;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.ResetpsdActivity;
@@ -35,13 +34,10 @@ import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
-import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import android.content.Context;
-import android.os.Environment;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -93,6 +89,8 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             }
         }
     };
+    private DeleteData deleteData;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -270,7 +268,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
         sysset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                 final DeleteActivity deleteActivity=new DeleteActivity();
+                deleteData = new DeleteData();
                 File file=(File)mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
                 new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("是否清除所有闹钟？")
@@ -280,7 +278,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                deleteActivity.cleanApplicationData(mApp);
+                                deleteData.cleanApplicationData(mApp);
                                 new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();
@@ -290,9 +288,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                         .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                deleteActivity.cleanInternalCache(mApp);
-                                deleteActivity.cleanExternalCache(mApp);
-                                deleteActivity.cleanSharedPreference(mApp);
+                                deleteData.cleanInternalCache(mApp);
+                                deleteData.cleanExternalCache(mApp);
+                                deleteData.cleanSharedPreference(mApp);
                                 new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();
@@ -300,12 +298,6 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                             }
                         })
                         .show();
-
-
-
-
-
-
             }
         });
         sysreflct.setOnClickListener(new View.OnClickListener(){

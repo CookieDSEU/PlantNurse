@@ -155,29 +155,31 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),ShowActivity.this,ChangeInfoResponse.class,param,Constants.ADDCOMMENT_URL,NetworkTask.GET) {
                             @Override
                             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                                ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
-                                if(response.getresponseCode()==1){
+                                ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                                if (response.getresponseCode() == 1) {
                                     //发送成功
                                     CommentModel commentModel = new CommentModel();
                                     commentModel.setName(username);
-                                    commentModel.setTime(mDate.substring(0,4)+"."+ mDate.substring(4,6)+"."+ mDate.substring(6,8)
-                                            +" "+ mDate.substring(8,10)+":"+ mDate.substring(10,12));
-                                    commentModel.setIconUrl(Constants.AVATAR_URL+"?id="+ username);
+                                    commentModel.setTime(mDate.substring(0, 4) + "." + mDate.substring(4, 6) + "." + mDate.substring(6, 8)
+                                            + " " + mDate.substring(8, 10) + ":" + mDate.substring(10, 12));
+                                    commentModel.setIconUrl(Constants.AVATAR_URL + "?id=" + username);
                                     commentModel.setComment(mComment);
                                     sourceDateList.add(commentModel);
                                     adapter.updatelist(sourceDateList);
+                                    ToastUtil.showLong("发送成功，下滑刷新哦");
                                     comment.setText("");
                                     comment.setHint("说两句");
                                 }
                             }
 
-                            @Override
-                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                                @Override
+                                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
-                }
+
                 else  {
                     new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
