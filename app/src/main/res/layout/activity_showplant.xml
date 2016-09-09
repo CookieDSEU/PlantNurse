@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -387,12 +387,13 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:id="@+id/button_send"
-            android:textColor="@color/ic_color"
+            android:textColor="@color/gray_active_icon"
             android:textSize="16dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/button_send_click" />
+            android:background="@drawable/button_send_click"
+            android:text="发送" />
     </LinearLayout>
 
 </FrameLayout>

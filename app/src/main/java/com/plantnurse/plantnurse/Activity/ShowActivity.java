@@ -165,6 +165,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                 commentModel.setComment(mComment);
                                 sourceDateList.add(commentModel);
                                 adapter.updatelist(sourceDateList);
+                                ToastUtil.showLong("发送成功，下滑刷新哦");
                                 comment.setText("");
                                 comment.setHint("说两句");
                             }
