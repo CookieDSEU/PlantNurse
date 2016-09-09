@@ -16,7 +16,9 @@ public class DataManager {
     public static boolean isAvatarChanged_drawer =false;
     public static boolean isIsAvatarChanged_myfragment=false;
     public static boolean isMyPlantChanged=false;
+    public static boolean isFirstEnterParkFragment = true;
     public static boolean isCityChanged=false;
+
     public static GetMyStarResponse getMyStar(){return myStarResponse;}
     public static void setMyStar(GetMyStarResponse a){myStarResponse=a;}
     public static GetMyPlantResponse getMyPlant() {

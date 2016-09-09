@@ -122,6 +122,14 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         float_Plantlist = (FloatingActionButton) view.findViewById(R.id.minifloat_plantlist);
 
         //添加floating
+
+        if (DataManager.isFirstEnterParkFragment){
+            button_tips.setBackgroundResource(R.drawable.bubblebutton_red);
+        }
+        else {
+            button_tips.setBackgroundResource(R.drawable.bubblebutton);
+        }
+
         float_Addplant.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -155,6 +163,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @Override
             public void onClick(View v) {
                 button_tips.setBackgroundResource(R.drawable.bubblebutton);
+                DataManager.isFirstEnterParkFragment = false;
                 new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText("小提示：")
                         .setContentText(tips)
