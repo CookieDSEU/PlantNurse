@@ -1,36 +1,25 @@
 package com.plantnurse.plantnurse.Fragment;
 
 import android.content.Intent;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
-import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmListAdapter;
-import com.plantnurse.plantnurse.utils.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 /**
  * Created by Yxuan on 2016/8/26.
  */
 public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
-
     private RecyclerView recyclerView;
     private AlarmListAdapter adapter;
     private  LinearLayoutManager linearLayoutManager;
@@ -45,7 +34,6 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
 
     @Override
     public void initView(ViewGroup view) {
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         addBtn=(Button)view.findViewById(R.id.button_addalarm);
 
@@ -100,6 +88,5 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     public int getContentLayoutID() {
         return R.layout.fragment_alarm;
     }
-
 }
 

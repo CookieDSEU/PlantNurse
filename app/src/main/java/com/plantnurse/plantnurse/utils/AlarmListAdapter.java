@@ -56,9 +56,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
     @Override
     public AlarmItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        info = new AlarmInfo(context.getActivity());
-        alarmList =  info.getAlarmList();
         View view= layoutInflater.inflate(R.layout.view_alarm_entry, parent, false);
         AlarmItemHolder holder = new AlarmItemHolder(view);
         return holder;
@@ -67,8 +64,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
     @Override
     public void onBindViewHolder(final AlarmItemHolder holder, final int position) {
         //取出每一个的闹钟
-        info = new AlarmInfo(context.getActivity());
-        alarmList =  info.getAlarmList();
         alarm_hashMap=alarmList.get(position);
         alarmId=Integer.parseInt(alarm_hashMap.get(Alarm.KEY_ID));
         alarm = info.getAlarmById(alarmId);
@@ -301,7 +296,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         Intent intent = new Intent(context,AlarmReceiver.class);
         intent.putExtra("alarm_Id", alarm.alarm_id);
         intent.putExtra("frequency", alarm.frequency);
-//        intent.putExtra("soundOrVibrator", soundOrVibrator);
         PendingIntent sender = PendingIntent.getBroadcast(context, alarm.alarm_id, intent, PendingIntent
                 .FLAG_CANCEL_CURRENT);
 

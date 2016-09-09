@@ -37,6 +37,8 @@ import com.plantnurse.plantnurse.Activity.MyPlantActivity;
 
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.Network.GetMyPlantResponse;
+import com.plantnurse.plantnurse.Network.WeatherAPI;
+import com.plantnurse.plantnurse.Network.WeatherResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CircleImg;
@@ -500,6 +502,43 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 }
             });
             DataManager.isMyPlantChanged=false;
+        }
+        if(DataManager.isCityChanged){
+            HashMap<String, String> params = new HashMap<String, String>();
+            if (mApp.isLogined()) {
+                UserInfo userInfo = (UserInfo) mApp.getUserModel();
+                params.put("key", Constants.WEATHER_KEY);
+                params.put("city", userInfo.getcity());
+            } else {
+                params.put("key", Constants.WEATHER_KEY);
+                params.put("city", "北京");
+
+            }
+
+            SimpleTaskManager.startNewTask(new NetworkTask(
+                    getTaskTag(),
+                    getActivity(),
+                    WeatherAPI.class,
+                    params,
+                    Constants.WEATHER_API_URL,
+                    NetworkTask.GET) {
+                @Override
+                public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                    WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
+                    WeatherResponse weatherInfo = weatherAPI.response.get(0);
+                    DataManager.setWeatherInfo(weatherInfo);
+                    initController();
+
+                }
+
+                @Override
+                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+
+                }
+            });
+
+
+            DataManager.isCityChanged=false;
         }
     }
 

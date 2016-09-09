@@ -1,21 +1,12 @@
 package com.plantnurse.plantnurse.utils;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.Media;
-import android.util.Log;
-import android.widget.ListView;
 
 import com.plantnurse.plantnurse.model.MusicInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,6 +19,13 @@ public class MusicLoader {
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
                 MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
         List<MusicInfo> musicInfos = new ArrayList<MusicInfo>();
+        //最开始的默认音乐
+        MusicInfo musicInfo0 = new MusicInfo();
+        musicInfo0.setTitle("稳稳的幸福（默认音乐）");
+        musicInfo0.setArtist("陈奕迅");
+        musicInfo0.setUrl("陈奕迅-稳稳的幸福（默认）");
+        musicInfos.add(musicInfo0);
+        //本地歌曲
         for (int i = 0; i < cursor.getCount(); i++) {
             //新建一个歌曲对象,将从cursor里读出的信息存放进去,直到取完cursor里面的内容为止.
             MusicInfo musicInfo = new MusicInfo();
@@ -61,6 +59,5 @@ public class MusicLoader {
         }
         return musicInfos;
     }
-
 }
 

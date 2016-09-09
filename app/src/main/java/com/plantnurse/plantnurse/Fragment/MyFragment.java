@@ -21,6 +21,7 @@ import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.plantnurse.plantnurse.Activity.AboutActivity;
 import com.plantnurse.plantnurse.Activity.CollectActivity;
+import com.plantnurse.plantnurse.utils.DeleteData;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ResetcityActivity;
 import com.plantnurse.plantnurse.Activity.ResetpsdActivity;
@@ -33,7 +34,6 @@ import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.FileUtil;
 import com.plantnurse.plantnurse.utils.SelectPicPopupWindow;
-import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.plantnurse.plantnurse.utils.Util;
 import com.squareup.picasso.Picasso;
 
@@ -57,6 +57,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
     private TableRow sysreflct;
     private TableRow sysupdate;
     private TableRow sysabout;
+
 
     private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
     private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
@@ -143,6 +144,10 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                 protected Object doInBackground(Object[] params) {
                     UserInfo userInfo=(UserInfo) mApp.getUserModel();
                     String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
+                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                    file.delete();
+                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+userInfo.getuserName()+".png");
+                    file.delete();
                     pd.dismiss();
                     DataManager.isAvatarChanged_drawer =true;
                     DataManager.isIsAvatarChanged_myfragment=true;
@@ -214,6 +219,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                 }
             }
         });
+        //created by went
         mycity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -222,7 +228,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                     startActivity(intent);
                 }
                 else{
-                    ToastUtil.showShort("您尚未登录！");
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
                 }
 
             }
@@ -231,7 +239,14 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),ResetpsdActivity.class);
-                startActivity(intent);
+                if(mApp.isLogined()){
+                    startActivity(intent);
+                }
+               else {
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
+                }
 
             }
         });
@@ -251,8 +266,16 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
         sysset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(intent);
+                DeleteData deleteData =new DeleteData();
+                File file=(File)mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
+                new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("清除完成")
+                        .show();
+
+
+                deleteData.cleanApplicationData(mApp);
+
+
 
             }
         });
@@ -281,6 +304,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
             }
         });
+        //created by went
     }
 
     @Override
