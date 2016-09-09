@@ -10,12 +10,17 @@ import android.widget.Button;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
+import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
 import com.plantnurse.plantnurse.utils.AlarmListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Yxuan on 2016/8/26.
  */
@@ -25,6 +30,7 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     private  LinearLayoutManager linearLayoutManager;
     private Button addBtn;
     AlarmInfo info ;
+    private MainApplication mApp;
     ArrayList<HashMap<String, String>> alarmList;
 
     @Override
@@ -49,6 +55,7 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         //设置适配器
         adapter = new AlarmListAdapter(AlarmFragment.this,alarmList);
         recyclerView.setAdapter(adapter);
+        mApp=(MainApplication)getActivity().getApplication();
     }
 
     @Override
@@ -57,11 +64,19 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), AddAlarmActivity.class);
-                intent.putExtra("alarm_Id", 0);
+                if(mApp.isLogined()){ Intent intent = new Intent();
+                    intent.setClass(getActivity(), AddAlarmActivity.class);
+                    intent.putExtra("alarm_Id", 0);
                 /* 启动一个新的Activity */
-                AlarmFragment.this.startActivity(intent);
+                    AlarmFragment.this.startActivity(intent);
+
+                }
+                else {
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
+                }
+
             }
         });
     }
