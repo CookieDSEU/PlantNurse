@@ -133,49 +133,57 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //获取需要的信息，发给服务器
-                UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
-                username = userInfo.getuserName();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                mDate = formatter.format(curDate);
-                mComment = comment.getText().toString();
-                //名字mName，用户名username，时间mDate，内容mComment
-                Log.e("时间格式", mDate);
-                if (mComment.equals("")) {
-                    ToastUtil.showShort("发送的内容不能为空！");
-                } else {
-                    //给你空间发挥
-                    HashMap<String,String> param=new HashMap<String, String>();
-                    param.put("plantName",mName);
-                    param.put("date", mDate);
-                    param.put("userName", username);
-                    param.put("comment", mComment);
-                    SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),ShowActivity.this,ChangeInfoResponse.class,param,Constants.ADDCOMMENT_URL,NetworkTask.GET) {
-                        @Override
-                        public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                            ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
-                            if(response.getresponseCode()==1){
-                                //发送成功
-                                CommentModel commentModel = new CommentModel();
-                                commentModel.setName(username);
-                                commentModel.setTime(mDate.substring(0,4)+"."+ mDate.substring(4,6)+"."+ mDate.substring(6,8)
-                                +" "+ mDate.substring(8,10)+":"+ mDate.substring(10,12));
-                                commentModel.setIconUrl(Constants.AVATAR_URL+"?id="+ username);
-                                commentModel.setComment(mComment);
-                                sourceDateList.add(commentModel);
-                                adapter.updatelist(sourceDateList);
-                                comment.setText("");
-                                comment.setHint("说两句");
+                if(getSimpleApplicationContext().isLogined()){
+                    //获取需要的信息，发给服务器
+                    UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                    username = userInfo.getuserName();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                    mDate = formatter.format(curDate);
+                    mComment = comment.getText().toString();
+                    //名字mName，用户名username，时间mDate，内容mComment
+                    Log.e("时间格式", mDate);
+                    if (mComment.equals("")) {
+                        ToastUtil.showShort("发送的内容不能为空！");
+                    } else {
+                        //给你空间发挥
+                        HashMap<String,String> param=new HashMap<String, String>();
+                        param.put("plantName",mName);
+                        param.put("date", mDate);
+                        param.put("userName", username);
+                        param.put("comment", mComment);
+                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),ShowActivity.this,ChangeInfoResponse.class,param,Constants.ADDCOMMENT_URL,NetworkTask.GET) {
+                            @Override
+                            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                                ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
+                                if(response.getresponseCode()==1){
+                                    //发送成功
+                                    CommentModel commentModel = new CommentModel();
+                                    commentModel.setName(username);
+                                    commentModel.setTime(mDate.substring(0,4)+"."+ mDate.substring(4,6)+"."+ mDate.substring(6,8)
+                                            +" "+ mDate.substring(8,10)+":"+ mDate.substring(10,12));
+                                    commentModel.setIconUrl(Constants.AVATAR_URL+"?id="+ username);
+                                    commentModel.setComment(mComment);
+                                    sourceDateList.add(commentModel);
+                                    adapter.updatelist(sourceDateList);
+                                    comment.setText("");
+                                    comment.setHint("说两句");
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                            @Override
+                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
+                else  {
+                    new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
+                }
+
 
             }
         });
@@ -205,7 +213,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                     //收藏按钮，实现收藏界面更新(未实现)
                     //判断是否登录
                     if (!getSimpleApplicationContext().isLogined()) {
-                        new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("请先登录!")
                                 .show();
                     } else {
@@ -279,20 +287,29 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                if (!isadopted) {
-                    button_adopt.setTitle(" 我已收养 ");
-                    isadopted = true;
-                    Intent intent = new Intent(ShowActivity.this, AddplantActivity.class);
-                    intent.putExtra("addplant", 1);
-                    intent.putExtra("name", mName);
-                    intent.putExtra("sun", mSunIndex);
-                    intent.putExtra("water", mWaterIndex);
-                    intent.putExtra("snow", mColdIndex);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(ShowActivity.this, AddplantActivity.class);
-                    startActivity(intent);
+                if(getSimpleApplicationContext().isLogined())
+                {
+                    if (!isadopted) {
+                        button_adopt.setTitle(" 我已收养 ");
+                        isadopted = true;
+                        Intent intent = new Intent(ShowActivity.this, AddplantActivity.class);
+                        intent.putExtra("addplant", 1);
+                        intent.putExtra("name", mName);
+                        intent.putExtra("sun", mSunIndex);
+                        intent.putExtra("water", mWaterIndex);
+                        intent.putExtra("snow", mColdIndex);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ShowActivity.this, AddplantActivity.class);
+                        startActivity(intent);
+                    }
                 }
+                else {
+                    new  SweetAlertDialog(ShowActivity.this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("请先登录")
+                            .show();
+                }
+
             }
         });
 //
