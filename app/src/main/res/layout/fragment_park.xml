@@ -159,7 +159,7 @@
                 android:id="@+id/minifloat_addplant"
                 fab:fab_icon="@drawable/float_addplant2"
                 fab:fab_colorNormal="@color/white"
-                fab:fab_title=" 添加植物 "
+                fab:fab_title=" 添加百科植物 "
                 fab:fab_size="mini" />
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -168,6 +168,14 @@
                 fab:fab_icon="@drawable/float_plantlist"
                 fab:fab_colorNormal="@color/white"
                 fab:fab_title=" 未来天气"
+                fab:fab_size="mini" />
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/minifloat_addplant2"
+                fab:fab_icon="@drawable/float_addnewplant"
+                fab:fab_colorNormal="@color/white"
+                fab:fab_title=" 自定义植物"
                 fab:fab_size="mini" />
      </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
