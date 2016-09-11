@@ -3,9 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_editicon"
+        android:icon="@drawable/editicon"
+        android:title=""
+        app:showAsAction="ifRoom"
+    />
+
+    <item
         android:id="@+id/action_deleteplant"
         android:title=""
         android:icon="@drawable/deleteicon"
         app:showAsAction="ifRoom" />
+
+    <!--<item-->
+        <!--android:id="@+id/action_editicon"-->
+        <!--android:icon="@drawable/editicon"-->
+        <!--android:title="修改植物图片"-->
+        <!--/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/action_editname"-->
+        <!--android:icon="@drawable/editicon"-->
+        <!--android:title="修改植物昵称"-->
+        <!--/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/action_editother"-->
+        <!--android:icon="@drawable/editicon"-->
+        <!--android:title="修改备注"-->
+        <!--/>-->
 
 </menu>

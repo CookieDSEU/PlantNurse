@@ -118,7 +118,7 @@
                     android:background="@drawable/nicnameicon"
                     android:layout_gravity="center" />
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -209,7 +209,7 @@
                         android:stepSize="1"
                         android:layout_marginTop="10dp"
                         android:isIndicator="true"/>
-                    //android:numStars="5"
+
                     <RatingBar
                         android:id="@+id/myplant_rating_water"
                         android:layout_width="wrap_content"
@@ -269,6 +269,7 @@
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/ic_color"
                         android:textSize="20dp"/>
+
                     <EditText
                         android:layout_width="match_parent"
                         android:id="@+id/myplant_tagtext"
@@ -278,20 +279,21 @@
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/ic_color"
                         android:textSize="20dp" />
+
                 </LinearLayout>
 
 
             </LinearLayout>
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:id="@+id/myplant_button"-->
-                <!--android:background="@color/greenborder"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="保存"-->
-                <!--android:visibility="invisible"-->
-                <!--android:textSize="18sp"-->
-                <!--android:layout_gravity="bottom" />-->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/myplant_buttonsave"
+                android:background="@color/greenborder"
+                android:textColor="@color/white"
+                android:text="保存"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_gravity="bottom" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
