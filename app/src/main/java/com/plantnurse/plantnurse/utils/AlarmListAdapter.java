@@ -311,15 +311,15 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
                 ToastUtil.showShort("闹钟已重新启用");
             }
         } else {
+            try {
+                String time=strCDorT[0]+" "+strSDorT[1];//将当前日期和选择的时间结合
+                Date date = formatter.parse(time);
+                selectedTime = date.getTime();
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             if(selectedTime<=currentTime){
-                try {
-                    String time=strCDorT[0]+" "+strSDorT[1];//将当前日期和选择的时间结合
-                    Date date = formatter.parse(time);
-                    selectedTime = date.getTime();
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
                 selectedTime+=intervalMillis;//直接跳到下一次的时间
                 alarm.time=formatter.format(selectedTime);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
