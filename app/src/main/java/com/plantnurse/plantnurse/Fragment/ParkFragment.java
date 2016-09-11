@@ -32,6 +32,7 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.MyPlantActivity;
 
@@ -77,6 +78,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private FloatingActionsMenu float_menu;
     private FloatingActionButton float_Addplant;
     private FloatingActionButton float_Plantlist;
+    private FloatingActionButton float_Plantlist2;
     //data
     private DataAnalysis mdataAnaylsis;
     String tips;
@@ -120,7 +122,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         float_menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu_park);
         float_Addplant = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant);
         float_Plantlist = (FloatingActionButton) view.findViewById(R.id.minifloat_plantlist);
-
+        float_Plantlist2 = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant2);
         //添加floating
 
         if (DataManager.isFirstEnterParkFragment){
@@ -136,6 +138,14 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onClick(View v) {
                 MainActivity ma = (MainActivity)getActivity();
                 ma.getContainer().setCurrentItem(1);
+            }
+        });
+
+        float_Plantlist2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                startActivity(intent);
             }
         });
 
