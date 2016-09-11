@@ -18,6 +18,8 @@ import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 import java.util.HashMap;
 
+import cn.smssdk.SMSSDK;
+
 /**
  * Created by Cookie_D on 2016/8/13.
  */
@@ -82,6 +84,8 @@ public class MainApplication extends KSimpleApplication  {
         PushManager.startWork(this, "57ce7788");
         //语音识别服务初始化
         SpeechUtility.createUtility(this, SpeechConstant.APPID+"=57ce7788");
+        //短信服务初始化
+        SMSSDK.initSDK(this, "170705d821cf4", "1b1438cc5ec2303e764bfe9dbe93dab0");
     }
 
     public static Context getmAppContext() {

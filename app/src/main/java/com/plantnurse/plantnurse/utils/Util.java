@@ -4,10 +4,12 @@ package com.plantnurse.plantnurse.utils;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -69,11 +71,6 @@ public class Util {
                             .setTitleText("检测更新")
                             .setContentText("已经是最新版本！")
                             .show();
-//                    new AlertDialog.Builder(context)
-//                            .setTitle("检测更新")
-//                            .setMessage("已经是最新版！")
-//                            .setPositiveButton("确定", null)
-//                            .show();
                 }
                 else if(res.getResponseCode()==0){
                     new SweetAlertDialog(context,SweetAlertDialog.WARNING_TYPE)
@@ -83,6 +80,11 @@ public class Util {
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    Uri uri = Uri.parse("http://www.plantnurse.top/download/PlantNurse.apk");   //指定网址
+                                    Intent intent = new Intent();
+                                    intent.setAction(Intent.ACTION_VIEW);           //指定Action
+                                    intent.setData(uri);                            //设置Uri
+                                    context.startActivity(intent);        //启动Activity
                                     sweetAlertDialog.dismissWithAnimation();
                                 }
                             })

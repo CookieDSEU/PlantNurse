@@ -37,11 +37,11 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private TextView text_newpsd;
     private TextView  text_rnewpsd;
     private MainApplication mApp;
- private HashMap<String,String> resetprgms;
+    private HashMap<String,String> param;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resetpsd);
+        setContentView(R.layout.activity_resetpwd);
 
     }
 
@@ -71,7 +71,7 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
         newpsd=text_newpsd.getText().toString();
         rnewpsd=text_rnewpsd.getText().toString();
         mApp=(MainApplication)getApplication();
-        resetprgms=new HashMap<>();
+        param =new HashMap<>();
     }
 
     @Override
@@ -123,16 +123,16 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     @Override
     public int getContentLayoutID() {
-        return R.layout.activity_resetpsd;
+        return R.layout.activity_resetpwd;
     }
     public void resetpsd(){
         UserInfo userInfo=(UserInfo)mApp.getUserModel();
         user=userInfo.getuserName();
-        resetprgms.put("Userid",user);
-        resetprgms.put("Userpsd",oldpsd);
-        resetprgms.put("Rpsd",newpsd);
+        param.put("Userid",user);
+        param.put("Userpsd",oldpsd);
+        param.put("Rpsd",newpsd);
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getApplicationContext(), LoginResponse.class,
-                resetprgms, Constants.RESETPSD_URL, NetworkTask.GET) {
+                param, Constants.RESETPSD_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 LoginResponse response=(LoginResponse)result.resultObject;

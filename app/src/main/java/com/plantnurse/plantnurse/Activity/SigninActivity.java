@@ -23,6 +23,9 @@ import com.plantnurse.plantnurse.utils.Constants;
 import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
 
 /**
  * Created by Cookie_D on 2016/8/12.
@@ -30,8 +33,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction{
     private Toolbar toolbar;
     private TextView button_signup;
+    private TextView button_forget;
     private Button button_login;
-//    private SweetAlertDialog progressDialog;
     private TextView text;
     private TextView text2;
     private HashMap<String, String> loginParams;
@@ -44,12 +47,10 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     @Override
     public void initView(ViewGroup view) {
         button_signup = (TextView) findViewById(R.id.register_button);
-      //  button_signup.setText(Html.fromHtml("<u>"+"0123456"+"</u>"));
+        button_forget=(TextView)findViewById(R.id.forget_button);
         button_login = (Button) findViewById(R.id.login_button);
         text= (TextView) view.findViewById(R.id.userID);
         text2=  (TextView) view.findViewById(R.id.pwd);
-//        progressDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
-//        progressDialog.setTitleText("正在登录...");
         toolbar =(Toolbar)findViewById(R.id.signin_toolbar);
         toolbar.setTitle("登录");
         setSupportActionBar(toolbar);
@@ -73,21 +74,48 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
         button_signup.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v)
             {
-        /* 新建一个Intent对象 */
-                Intent intent = new Intent();
-                //intent.putExtra("name","LeiPei");
-        /* 指定intent要启动的类 */
-                intent.setClass(SigninActivity.this,SignupActivity.class);
-        /* 启动一个新的Activity */
-                SigninActivity.this.startActivity(intent);
-        /* 关闭当前的Activity */
-                SigninActivity.this.finish();
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.setRegisterCallback(new EventHandler() {
+                    public void afterEvent(int event, int result, Object data) {
+                        // 解析注册结果
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            @SuppressWarnings("unchecked")
+                            HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                            String phone = (String) phoneMap.get("phone");
+                            // 提交用户信息
+                            Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
+                            intent.putExtra("phone",phone);
+                            startActivity(intent);
+                        }
+                    }
+                });
+                registerPage.show(SigninActivity.this);
+            }
+        });
+        button_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.setRegisterCallback(new EventHandler() {
+                    public void afterEvent(int event, int result, Object data) {
+                        // 解析注册结果
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            @SuppressWarnings("unchecked")
+                            HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                            String phone = (String) phoneMap.get("phone");
+                            // 提交用户信息
+                            Intent intent = new Intent(SigninActivity.this, ForgetPwdActivity.class);
+                            intent.putExtra("phone",phone);
+                            startActivity(intent);
+                        }
+                    }
+                });
+                registerPage.show(SigninActivity.this);
             }
         });
 
         button_login.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-//                progressDialog.show();
                 String username = text.getText().toString();
                 String password = text2.getText().toString();
                 loginParams.put("userName", username);

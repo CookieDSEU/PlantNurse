@@ -19,6 +19,11 @@ android {
         }
     }
 }
+repositories{
+    flatDir{
+        dirs 'libs' //就是你放aar的目录地址
+    }
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -40,4 +45,6 @@ dependencies {
     compile files('src/main/jniLibs/Msc.jar')
     compile files('src/main/jniLibs/Sunflower.jar')
     compile files('src/main/jniLibs/ifly_push_sdk_1.0_1044.jar')
+    compile name:'SMSSDK-2.1.1',ext:'aar'
+    compile name:'SMSSDKGUI-2.1.1',ext:'aar'
 }

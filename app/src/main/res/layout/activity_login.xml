@@ -35,7 +35,7 @@
             android:layout_marginBottom="26dp"
             android:background="@drawable/bg_line"
             android:gravity="center_vertical|center"
-            android:hint="请输入您的用户名"
+            android:hint="请输入您的用户名或电话号码"
             android:maxLength="20"/>
 
         </android.support.design.widget.TextInputLayout>

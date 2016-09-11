@@ -22,6 +22,9 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 
     <application
@@ -61,6 +64,12 @@
             android:name=".Activity.ResetcityActivity"
             android:label=""
             android:theme="@style/Theme.Design.BottomSheetDialog" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".Activity.ForgetPwdActivity"/>
         <receiver android:name=".utils.AlarmReceiver" />
         <activity android:name=".Activity.ResetpsdActivity"/>
         <service android:name=".utils.MyService"/>
