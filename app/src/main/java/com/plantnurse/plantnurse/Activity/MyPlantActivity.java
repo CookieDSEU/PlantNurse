@@ -182,6 +182,9 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
 
                 birthday = DataManager.getMyPlant().response.get(selectedId).birthday+"";
+                int birth = Integer.parseInt(birthday);
+                birth -= 100;
+                birthday = birth+"";
                 Calendar c = Calendar.getInstance();
                 int nowyear =c.get(Calendar.YEAR);
                 int nowmonth = c.get(Calendar.MONTH);
