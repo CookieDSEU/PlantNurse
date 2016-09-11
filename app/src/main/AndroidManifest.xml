@@ -65,9 +65,10 @@
             android:name=".Activity.ResetcityActivity"
             android:label=""
             android:theme="@style/Theme.Design.BottomSheetDialog" />
-
+        <activity android:name=".Activity.ResetpsdActivity"
+            android:theme="@style/Theme.Design.BottomSheetDialog"
+            android:label=""/>
         <receiver android:name=".utils.AlarmReceiver" />
-        <activity android:name=".Activity.ResetpsdActivity"></activity>
         <receiver android:name=".utils.AlarmReceiver"></receiver>
         <service android:name=".utils.MyService"></service>
         <!-- push service start -->
