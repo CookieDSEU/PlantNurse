@@ -89,6 +89,8 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             }
         }
     };
+    private DeleteData deleteData;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -228,7 +230,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                     startActivity(intent);
                 }
                 else{
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
@@ -243,7 +245,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                     startActivity(intent);
                 }
                else {
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
@@ -254,7 +256,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             @Override
             public void onClick(View v) {
                 if(!mApp.isLogined()){
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录!")
                             .show();
                 }else {
@@ -266,17 +268,36 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
         sysset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                DeleteData deleteData =new DeleteData();
+                deleteData = new DeleteData();
                 File file=(File)mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
-                new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("清除完成")
+                new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("是否清除所有闹钟？")
+                        .showCancelButton(true)
+                        .setCancelText("否")
+                        .setConfirmText("是")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                deleteData.cleanApplicationData(mApp);
+                                new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("已完成")
+                                        .show();
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                deleteData.cleanInternalCache(mApp);
+                                deleteData.cleanExternalCache(mApp);
+                                deleteData.cleanSharedPreference(mApp);
+                                new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("已完成")
+                                        .show();
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
                         .show();
-
-
-                deleteData.cleanApplicationData(mApp);
-
-
-
             }
         });
         sysreflct.setOnClickListener(new View.OnClickListener(){

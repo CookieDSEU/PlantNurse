@@ -24,6 +24,7 @@ import com.iflytek.sunflower.FlowerCollector;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
+import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.ShowActivity;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
@@ -47,6 +48,8 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Heloise on 2016/8/31.
@@ -279,9 +282,17 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                     startActivity(intent);
                 }
                 else{
+                    MainActivity ma=(MainActivity)getActivity();
+                    if(ma.getSimpleApplicationContext().isLogined()){
                     Intent intent = new Intent(getActivity(), AddplantActivity.class);
                     intent.putExtra("addplant",0);
                     startActivity(intent);
+                    }
+                    else{
+                        new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("请先登录!")
+                                .show();
+                    }
                 }
             }
         });

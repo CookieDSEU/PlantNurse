@@ -277,6 +277,7 @@
                         android:text="原产地中国山东"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/ic_color"
+                        android:editable="false"
                         android:textSize="20dp" />
                 </LinearLayout>
 
