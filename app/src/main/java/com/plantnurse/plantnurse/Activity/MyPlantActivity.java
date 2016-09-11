@@ -1,6 +1,9 @@
 package com.plantnurse.plantnurse.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +36,9 @@ import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.DataManager;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +52,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     //view
     private Button editButton;
-    private TextView birthText;
+    private Button saveButton;
+    private EditText birthText;
     private EditText tagText;
     private TextView nameText;
     private RatingBar ratingBar_sun;
@@ -74,58 +81,71 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                SweetAlertDialog builder =  new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
-                builder.setTitleText("提示");
-                builder.setContentText("确定要删除此植物吗？");
-                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        HashMap<String,String> param=new HashMap<String, String>();
-                        UserInfo userInfo=(UserInfo)getSimpleApplicationContext().getUserModel();
-                        param.put("userName",userInfo.getuserName());
-                        param.put("nickname",DataManager.getMyPlant().response.get(selectedId).nickname);
-                        DataManager.isMyPlantChanged = true;
-                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MyPlantActivity.this, ChangeInfoResponse.class,param,Constants.DELETEPLANT_URL,NetworkTask.GET) {
-                            @Override
-                            public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                                ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
-                                if(response.getresponseCode()==1){
-                                    SweetAlertDialog builder =  new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                                    builder.setTitleText("提示");
-                                    builder.setContentText("删除成功");
-                                    builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            finish();
-                                        }
-                                    });
-                                    builder.show();
+                int menuItemId = item.getItemId();
+                if (menuItemId == R.id.action_deleteplant) {
+                    SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
+                    builder.setTitleText("提示");
+                    builder.setContentText("确定要删除此植物吗？");
+                    builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            HashMap<String, String> param = new HashMap<String, String>();
+                            UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                            param.put("userName", userInfo.getuserName());
+                            param.put("nickname", DataManager.getMyPlant().response.get(selectedId).nickname);
+                            DataManager.isMyPlantChanged = true;
+                            SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), MyPlantActivity.this, ChangeInfoResponse.class, param, Constants.DELETEPLANT_URL, NetworkTask.GET) {
+                                @Override
+                                public void onExecutedMission(NetworkExecutor.NetworkResult result) {
+                                    ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                                    if (response.getresponseCode() == 1) {
+                                        SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                        builder.setTitleText("提示");
+                                        builder.setContentText("删除成功");
+                                        builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                finish();
+                                            }
+                                        });
+                                        builder.show();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                                @Override
+                                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                            }
-                        });
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                builder.show();
-
-                return true;
+                                }
+                            });
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
+                else if(menuItemId==R.id.action_editicon)
+                {
+                    birthText.setText("");
+                    birthText.setHint("请输入新昵称");
+                    birthText.setFocusable(true);
+                    ratingBar_cold.setIsIndicator(false);
+                    ratingBar_sun.setIsIndicator(false);
+                    ratingBar_water.setIsIndicator(false);
+                    birthText.setEnabled(true);
+                    tagText.setEnabled(true);
+                    saveButton.setVisibility(View.VISIBLE);
+                }
+              return true;
             }
         });
         return true;
     }
-
-
 
     @Override
     public int initLocalData() {
@@ -134,13 +154,15 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
     @Override
     public void initView(ViewGroup view) {
+        saveButton=(Button)view.findViewById(R.id.myplant_buttonsave);
         ratingBar_sun= (RatingBar) view.findViewById(R.id.myplant_rating_sun);
         ratingBar_water= (RatingBar) view.findViewById(R.id.myplant_rating_water);
         ratingBar_cold= (RatingBar) view.findViewById(R.id.myplant_rating_cold);
-        birthText = (TextView) view.findViewById(R.id.myplant_birthtext);
+        birthText = (EditText) view.findViewById(R.id.myplant_birthtext);
         tagText = (EditText) view.findViewById(R.id.myplant_tagtext);
+        birthText.setEnabled(false);
+        tagText.setEnabled(false);
         nameText = (TextView) view.findViewById(R.id.myplant_nametext);
-//        editButton = (Button) view.findViewById(R.id.myplant_button);
         banner_planticon= (ImageView) view.findViewById(R.id.myplant_bannner);
         toolbar=(Toolbar)view.findViewById(R.id.myplant_toolbar);
         setSupportActionBar(toolbar);
@@ -148,8 +170,24 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         toolbarLayout_name=(CollapsingToolbarLayout)view.findViewById(R.id.myplant_toolbarlayout);
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveButton.setVisibility(View.GONE);
+                birthText.setEnabled(false);
+                tagText.setEnabled(false);
+                ratingBar_water.setIsIndicator(true);
+                ratingBar_sun.setIsIndicator(true);
+                ratingBar_cold.setIsIndicator(true);
+                //传给服务器的信息，我就写到这里了，其他的移交邓鹏
+                String name=birthText.getText().toString();
+                int sun=ratingBar_sun.getProgress();
+                int water=ratingBar_water.getProgress();
+                int cold=ratingBar_cold.getProgress();
+                String tag=tagText.getText().toString();
 
-
+            }
+        });
     }
 
     @Override
@@ -250,6 +288,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
     public int getContentLayoutID() {
         return R.layout.activity_myplant;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {

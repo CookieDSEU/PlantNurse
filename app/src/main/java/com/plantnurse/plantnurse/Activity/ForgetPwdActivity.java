@@ -43,7 +43,7 @@ public class ForgetPwdActivity extends KSimpleBaseActivityImpl implements IBaseA
 
     @Override
     public void initView(ViewGroup view) {
-        toolbar=(Toolbar)findViewById(R.id.resetpsd_toolbar) ;
+        toolbar=(Toolbar)findViewById(R.id.forgetpwd_toolbar) ;
         toolbar.setTitle("重置密码");
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();

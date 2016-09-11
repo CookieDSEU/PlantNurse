@@ -1,9 +1,7 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -54,15 +52,6 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     @Override
     public void initView(ViewGroup view) {
-        toolbar=(Toolbar)findViewById(R.id.resetpsd_toolbar) ;
-        toolbar.setTitle("修改密码");
-        setSupportActionBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        if (actionBar!=null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
         text_oldpsd=(TextView)findViewById(R.id.oldpsd);
         text_newpsd=(TextView)findViewById(R.id.newpsd);
         text_rnewpsd=(TextView)findViewById(R.id.rnewpsd);
@@ -175,16 +164,4 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     }
     private boolean check(String s) {return s.matches("[a-zA-Z0-9]{8,16}");}
-
-@Override
-public boolean onOptionsItemSelected(MenuItem item)
-{
-    // TODO Auto-generated method stub
-    if(item.getItemId() == android.R.id.home)
-    {
-        finish();
-        return true;
-    }
-    return super.onOptionsItemSelected(item);
-}
 }

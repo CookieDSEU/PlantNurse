@@ -64,6 +64,12 @@
             android:name=".Activity.ResetcityActivity"
             android:label=""
             android:theme="@style/Theme.Design.BottomSheetDialog" />
+        <activity android:name=".Activity.ResetpsdActivity"
+            android:theme="@style/Theme.Design.BottomSheetDialog"
+            android:label=""/>
+        <receiver android:name=".utils.AlarmReceiver" />
+        <receiver android:name=".utils.AlarmReceiver"></receiver>
+        <service android:name=".utils.MyService"></service>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
@@ -71,7 +77,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".Activity.ForgetPwdActivity"/>
         <receiver android:name=".utils.AlarmReceiver" />
-        <activity android:name=".Activity.ResetpsdActivity"/>
         <service android:name=".utils.MyService"/>
         <!-- push service start -->
         <!-- Push 服务  -->
