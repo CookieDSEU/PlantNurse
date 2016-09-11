@@ -42,16 +42,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
+
 public class MainActivity extends KTabActivity implements IBaseAction {
     private List<Fragment> fragmentList = new ArrayList<>();
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public static final int REQUEST_CODE = 0x04;
     private DrawerComponent.DrawerHeader header;
+    ParkFragment pf;
 
     @Override
     public List<Fragment> getFragmentList() {
-        fragmentList.add(new ParkFragment());
+        pf=new ParkFragment();
+        fragmentList.add(pf);
         fragmentList.add(new BookFragment());
         fragmentList.add(new AlarmFragment());
         fragmentList.add(new MyFragment());
@@ -137,8 +143,23 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                             ToastUtil.showShort("你已经登录！");
 
                         } else {
-                            Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE);
+
+                            RegisterPage registerPage = new RegisterPage();
+                            registerPage.setRegisterCallback(new EventHandler() {
+                                public void afterEvent(int event, int result, Object data) {
+                                    // 解析注册结果
+                                    if (result == SMSSDK.RESULT_COMPLETE) {
+                                        @SuppressWarnings("unchecked")
+                                        HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                                        String phone = (String) phoneMap.get("phone");
+                                        // 提交用户信息
+                                        Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                                        intent.putExtra("phone",phone);
+                                        startActivityForResult(intent, REQUEST_CODE);
+                                    }
+                                }
+                            });
+                            registerPage.show(MainActivity.this);
                             if (drawer != null) {
                                 drawer.closeDrawers();
                             }
@@ -226,7 +247,6 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         getPlantIndex();
         getMyPlant();
         getMyStar();
-
     }
 
     private void getMyStar() {
@@ -323,6 +343,10 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     protected void onResume() {
         getMyPlant();
         getMyStar();
+        if(DataManager.isCityChanged){
+            getWeatherInfo();
+            DataManager.isCityChanged=false;
+        }
         super.onResume();
     }
 
@@ -350,6 +374,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                 WeatherAPI weatherAPI = (WeatherAPI) result.resultObject;
                 WeatherResponse weatherInfo = weatherAPI.response.get(0);
                 DataManager.setWeatherInfo(weatherInfo);
+
             }
 
             @Override
@@ -365,13 +390,22 @@ public class MainActivity extends KTabActivity implements IBaseAction {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+                DataManager.isMyPlantChanged=true;
+                DataManager.isCityChanged=true;
+                pf.onPageSelected();
             } else if (resultCode == RESULT_CANCELED) {
 
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        SMSSDK.unregisterAllEventHandler();
+        super.onDestroy();
     }
 }

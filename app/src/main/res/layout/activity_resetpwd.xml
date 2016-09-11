@@ -1,18 +1,17 @@
+
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/email_login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <AutoCompleteTextView
                 android:id="@+id/oldpsd"
@@ -29,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <EditText
                 android:id="@+id/newpsd"
@@ -46,8 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
             <EditText
                 android:id="@+id/rnewpsd"
@@ -61,18 +60,19 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/button_rpsd"
-            android:background="@color/Indigo_color_teal_darker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="修改密码"
-            android:textStyle="normal"
-            android:textColor="@color/white"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+            <Button
+                android:id="@+id/button_rpsd"
+                android:background="@drawable/btnstyle1"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="修改密码"
+                android:textStyle="normal"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
-</LinearLayout>
+        </LinearLayout>
 
 

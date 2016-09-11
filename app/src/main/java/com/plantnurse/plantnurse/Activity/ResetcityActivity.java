@@ -21,6 +21,7 @@ import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
+import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
-
+//created by went
 public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseAction
 {
     private MaterialSpinner spinner_pro;
@@ -210,8 +211,9 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
                     ui.setcity(city);
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
-                    finish();
                     progressDialog.dismiss();
+                    DataManager.isCityChanged=true;
+                    finish();
                 } else if(res.getresponseCode()==2){
                     ToastUtil.showShort("更改失败，帐号冻结");
                 }

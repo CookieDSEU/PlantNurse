@@ -214,7 +214,9 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
 
                 birthday = DataManager.getMyPlant().response.get(selectedId).birthday+"";
-                Log.e("test3",birthday);
+                int birth = Integer.parseInt(birthday);
+                birth -= 100;
+                birthday = birth+"";
                 Calendar c = Calendar.getInstance();
                 int nowyear =c.get(Calendar.YEAR);
                 int nowmonth = c.get(Calendar.MONTH);
@@ -230,19 +232,16 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                 else
                     now += nowday;
 
-                Log.e("test4",now);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");//输入日期的格式
                 Date date1 = null;
                 try {
                     date1 = simpleDateFormat.parse(birthday);
-                    Log.e("test1",date1+"");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 Date date2 = null;
                 try {
                     date2 = simpleDateFormat.parse(now);
-                    Log.e("test2",date2+"");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -296,39 +295,39 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         // TODO Auto-generated method stub
         if(item.getItemId() == android.R.id.home)
         {
-            if(mTag.equals(tagText.getText().toString())) {
-                onBackPressed();
-            }
-            else{
-                SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
-                builder.setTitleText("提示");
-                builder.setContentText("确定要保存编辑吗？");
-                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        tagText.setFocusable(false);
-                        tagText.setClickable(false);
-                        editButton.setVisibility(View.INVISIBLE);
-                        HashMap<String, String> param = new HashMap<String, String>();
-                        sweetAlertDialog.dismissWithAnimation();
-                        onBackPressed();
-                    }
-                });
-                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        tagText.setFocusable(false);
-                        tagText.setClickable(false);
-                        editButton.setVisibility(View.INVISIBLE);
-                        tagText.setText(pretext);
-                        sweetAlertDialog.dismissWithAnimation();
-                        onBackPressed();
-                    }
-                });
-                builder.show();
-            }
-
-            return true;
+//            if(mTag.equals(tagText.getText().toString())) {
+//                onBackPressed();
+//            }
+//            else{
+//                SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
+//                builder.setTitleText("提示");
+//                builder.setContentText("确定要保存编辑吗？");
+//                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        tagText.setFocusable(false);
+//                        tagText.setClickable(false);
+//                        editButton.setVisibility(View.INVISIBLE);
+//                        HashMap<String, String> param = new HashMap<String, String>();
+//                        sweetAlertDialog.dismissWithAnimation();
+//                        onBackPressed();
+//                    }
+//                });
+//                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        tagText.setFocusable(false);
+//                        tagText.setClickable(false);
+//                        editButton.setVisibility(View.INVISIBLE);
+//                        tagText.setText(pretext);
+//                        sweetAlertDialog.dismissWithAnimation();
+//                        onBackPressed();
+//                    }
+//                });
+//                builder.show();
+//            }
+//
+//            return true;
         }
         return super.onOptionsItemSelected(item);
     }

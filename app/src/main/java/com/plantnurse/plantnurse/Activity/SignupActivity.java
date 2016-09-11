@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import cn.smssdk.SMSSDK;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 
@@ -65,14 +68,16 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private String province;
     private String city;
     private String career;
+    private String phone;
 
-    private SweetAlertDialog progressDialog;
     private HashMap<String, String> loginParams;
     /**
      * Created by Eason_Tao on 2016/8/12.
      */
     @Override
     public int initLocalData() {
+        Intent intent=getIntent();
+        phone=intent.getStringExtra("phone");
         loginParams = new HashMap<>();
         provinceid = new ArrayList<String>();
         provincename = new ArrayList<String>();
@@ -98,8 +103,6 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
-        progressDialog = new SweetAlertDialog(SignupActivity.this,SweetAlertDialog.PROGRESS_TYPE);
-        progressDialog.setTitle("正在注册...");
         toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
         toolbar.setTitle("注册");
         setSupportActionBar(toolbar);
@@ -149,7 +152,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 if (!checkID(id) ){
                     new AlertDialog.Builder(SignupActivity.this)
                             .setTitle("我是一个小提示")
-                            .setMessage("用户名必须是8~16位英语和数字的组合")
+                            .setMessage("用户名必须是4~10位英语和数字的组合")
                             .setPositiveButton("确定", null)
                             .show();
                 }
@@ -170,7 +173,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     }
 
     private boolean checkID(String s) {
-        return s.matches("[a-zA-Z0-9]{8,16}");
+        return s.matches("[a-zA-Z0-9]{4,10}");
     }
 
     private boolean checkPwd(String s) {
@@ -295,12 +298,12 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
      * Created by Cookie_D on 2016/8/12.
      */
     public void signup() {
-        progressDialog.show();
         loginParams.put("userName", id);
         loginParams.put("password", pwd);
         loginParams.put("province", province);
         loginParams.put("city", city);
         loginParams.put("career", career);
+        loginParams.put("phone",phone);
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
                 SignupResponse.class, loginParams, Constants.SIGNUP_URL, NetworkTask.GET) {
             @Override
@@ -321,9 +324,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     Intent in=getIntent();
                     setResult(RESULT_OK,in);
                     finish();
-                    progressDialog.dismissWithAnimation();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");
+                }
+                else if(signupResponse.getresponseCode() == 3){
+                    ToastUtil.showShort("注册失败，该电话已被注册");
                 }
             }
 
@@ -355,5 +360,11 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         setResult(RESULT_CANCELED,in);
         finish();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        SMSSDK.unregisterAllEventHandler();
+        super.onDestroy();
     }
 }

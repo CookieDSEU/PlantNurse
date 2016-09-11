@@ -1,17 +1,14 @@
 package com.plantnurse.plantnurse.Activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.plantnurse.plantnurse.model.Alarm;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
-import com.plantnurse.plantnurse.utils.DbHelper;
 import com.plantnurse.plantnurse.utils.MyService;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -51,6 +48,17 @@ public class AlarmActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
+        //获取音量
+        final AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        //得到手机音乐音量的最大值
+        final int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        //得到当前手机的音量
+        final int mCurVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if(mCurVolume==0){
+            //设置音量大小
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
+        }
+
         Intent intent=getIntent();
         alarm_Id=intent.getIntExtra("alarm_Id", 0);
         frequency = intent.getIntExtra("frequency",0);
@@ -80,12 +88,20 @@ public class AlarmActivity extends Activity {
         //创建一个闹钟提醒的对话框,点击确定关闭铃声与页面
         SweetAlertDialog dialog=new SweetAlertDialog(AlarmActivity.this,SweetAlertDialog.NORMAL_TYPE);
         dialog.setTitleText("闹钟");
-        dialog.setContentText("您的"+name+"需要"+action+"\n\r"+"Tips:"+mtext);
+        if(action==""){
+            dialog.setContentText("您的"+name+"需要照顾。"+"\n\r"+"Tips:"+mtext);
+        }else{
+            dialog.setContentText("您的"+name+"需要"+action+"\n\r"+"Tips:"+mtext);
+        }
         dialog.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 stopService(intentSV);
                 info.update(alarm);
+                //设置音量大小,使其回到原来静音状态
+                if(mCurVolume==0){
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                }
                 sweetAlertDialog.dismissWithAnimation();
                 AlarmActivity.this.finish();
             }

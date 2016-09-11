@@ -1,9 +1,7 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.app.AlertDialog;
-import android.net.Network;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.MainApplication;
@@ -20,17 +17,16 @@ import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
-import com.plantnurse.plantnurse.utils.ToastUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+//creat by went
 
 
 public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAction {
-private  String user;
+    private Toolbar toolbar;
+    private  String user;
     private  String oldpsd;
     private    String newpsd;
     private String rnewpsd;
@@ -39,11 +35,11 @@ private  String user;
     private TextView text_newpsd;
     private TextView  text_rnewpsd;
     private MainApplication mApp;
- private HashMap<String,String> resetprgms;
+    private HashMap<String,String> param;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resetpsd);
+        setContentView(R.layout.activity_resetpwd);
 
     }
 
@@ -56,7 +52,6 @@ private  String user;
 
     @Override
     public void initView(ViewGroup view) {
-
         text_oldpsd=(TextView)findViewById(R.id.oldpsd);
         text_newpsd=(TextView)findViewById(R.id.newpsd);
         text_rnewpsd=(TextView)findViewById(R.id.rnewpsd);
@@ -65,7 +60,7 @@ private  String user;
         newpsd=text_newpsd.getText().toString();
         rnewpsd=text_rnewpsd.getText().toString();
         mApp=(MainApplication)getApplication();
-        resetprgms=new HashMap<>();
+        param =new HashMap<>();
     }
 
     @Override
@@ -84,15 +79,15 @@ private  String user;
                 }
                 else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("我是一个小标题")
-                            .setContentText("两次密码输入不一致")
+
+                            .setTitleText("两次密码输入不一致")
                             .show();
                 }
                 }
                 else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
 
-                            .setContentText("密码输入必须为大小写或数字且在8-16位")
+                            .setTitleText("密码输入必须为大小写或数字且在8-16位")
                             .show();
 
                 }
@@ -117,16 +112,16 @@ private  String user;
 
     @Override
     public int getContentLayoutID() {
-        return R.layout.activity_resetpsd;
+        return R.layout.activity_resetpwd;
     }
     public void resetpsd(){
         UserInfo userInfo=(UserInfo)mApp.getUserModel();
         user=userInfo.getuserName();
-        resetprgms.put("Userid",user);
-        resetprgms.put("Userpsd",oldpsd);
-        resetprgms.put("Rpsd",newpsd);
+        param.put("Userid",user);
+        param.put("Userpsd",oldpsd);
+        param.put("Rpsd",newpsd);
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getApplicationContext(), LoginResponse.class,
-                resetprgms, Constants.RESETPSD_URL, NetworkTask.GET) {
+                param, Constants.RESETPSD_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 LoginResponse response=(LoginResponse)result.resultObject;
@@ -134,16 +129,26 @@ private  String user;
                 {
                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.SUCCESS_TYPE)
                            .setTitleText("修改密码成功")
-
+                           .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                               @Override
+                               public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                   finish();
+                               }
+                           })
                            .show();
+
+
+
                 }
                 else{ if(response.getresponseCode()== 3)
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("原密码错误")
                             .show();
+
                     else {
                     new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("修改失败,用户冻结")
+
                             .show();
 
                 }

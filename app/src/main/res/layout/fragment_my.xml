@@ -235,34 +235,7 @@
                         android:shrinkColumns="0"
                         android:stretchColumns="0">
 
-                        <TableRow
-                            android:id="@+id/sysset"
-                            android:layout_width="fill_parent"
-                            android:background="@drawable/tablerow_click"
-                            android:clickable="true"
-                            android:paddingBottom="16.0dip"
-                            android:paddingTop="16.0dip">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:drawableLeft="@drawable/ic_setting"
-                                android:drawablePadding="10.0dip"
-                                android:gravity="center_vertical"
-                                android:includeFontPadding="false"
-                                android:paddingLeft="17.0dip"
-                                android:text="系统设置"
-                                android:textColor="#ff333333"
-                                android:textSize="16.0sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:layout_gravity="right"
-                                android:gravity="center_vertical"
-                                android:paddingRight="20.0dip"
-                                android:src="@drawable/ic_arrow" />
-                        </TableRow>
 
                         <TableRow
                             android:id="@+id/reflect"
@@ -310,6 +283,34 @@
                                 android:includeFontPadding="false"
                                 android:paddingLeft="17.0dip"
                                 android:text="检测更新"
+                                android:textColor="#ff333333"
+                                android:textSize="16.0sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="right"
+                                android:gravity="center_vertical"
+                                android:paddingRight="20.0dip"
+                                android:src="@drawable/ic_arrow" />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/sysset"
+                            android:layout_width="fill_parent"
+                            android:background="@drawable/tablerow_click"
+                            android:clickable="true"
+                            android:paddingBottom="16.0dip"
+                            android:paddingTop="16.0dip">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:drawableLeft="@drawable/ic_setting"
+                                android:drawablePadding="10.0dip"
+                                android:gravity="center_vertical"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="17.0dip"
+                                android:text="清除缓存"
                                 android:textColor="#ff333333"
                                 android:textSize="16.0sp" />
 
