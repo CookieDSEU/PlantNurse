@@ -148,13 +148,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         toolbarLayout_name=(CollapsingToolbarLayout)view.findViewById(R.id.myplant_toolbarlayout);
 
-        tagText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tagText.setFocusable(true);
-                tagText.setClickable(true);
-            }
-        });
+
 
     }
 
@@ -262,39 +256,39 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         // TODO Auto-generated method stub
         if(item.getItemId() == android.R.id.home)
         {
-            if(mTag.equals(tagText.getText().toString())) {
-                onBackPressed();
-            }
-            else{
-                SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
-                builder.setTitleText("提示");
-                builder.setContentText("确定要保存编辑吗？");
-                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        tagText.setFocusable(false);
-                        tagText.setClickable(false);
-                        editButton.setVisibility(View.INVISIBLE);
-                        HashMap<String, String> param = new HashMap<String, String>();
-                        sweetAlertDialog.dismissWithAnimation();
-                        onBackPressed();
-                    }
-                });
-                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        tagText.setFocusable(false);
-                        tagText.setClickable(false);
-                        editButton.setVisibility(View.INVISIBLE);
-                        tagText.setText(pretext);
-                        sweetAlertDialog.dismissWithAnimation();
-                        onBackPressed();
-                    }
-                });
-                builder.show();
-            }
-
-            return true;
+//            if(mTag.equals(tagText.getText().toString())) {
+//                onBackPressed();
+//            }
+//            else{
+//                SweetAlertDialog builder = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.NORMAL_TYPE);
+//                builder.setTitleText("提示");
+//                builder.setContentText("确定要保存编辑吗？");
+//                builder.setConfirmText("确定").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        tagText.setFocusable(false);
+//                        tagText.setClickable(false);
+//                        editButton.setVisibility(View.INVISIBLE);
+//                        HashMap<String, String> param = new HashMap<String, String>();
+//                        sweetAlertDialog.dismissWithAnimation();
+//                        onBackPressed();
+//                    }
+//                });
+//                builder.setCancelText("取消").setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        tagText.setFocusable(false);
+//                        tagText.setClickable(false);
+//                        editButton.setVisibility(View.INVISIBLE);
+//                        tagText.setText(pretext);
+//                        sweetAlertDialog.dismissWithAnimation();
+//                        onBackPressed();
+//                    }
+//                });
+//                builder.show();
+//            }
+//
+//            return true;
         }
         return super.onOptionsItemSelected(item);
     }

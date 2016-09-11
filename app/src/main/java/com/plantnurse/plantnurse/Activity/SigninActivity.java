@@ -1,6 +1,5 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
-import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.util.HashMap;
 
@@ -31,7 +29,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction{
     private Toolbar toolbar;
-    private Button button_signup;
+    private TextView button_signup;
     private Button button_login;
 //    private SweetAlertDialog progressDialog;
     private TextView text;
@@ -45,7 +43,8 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     @Override
     public void initView(ViewGroup view) {
-        button_signup = (Button) findViewById(R.id.register_button);
+        button_signup = (TextView) findViewById(R.id.register_button);
+      //  button_signup.setText(Html.fromHtml("<u>"+"0123456"+"</u>"));
         button_login = (Button) findViewById(R.id.login_button);
         text= (TextView) view.findViewById(R.id.userID);
         text2=  (TextView) view.findViewById(R.id.pwd);
