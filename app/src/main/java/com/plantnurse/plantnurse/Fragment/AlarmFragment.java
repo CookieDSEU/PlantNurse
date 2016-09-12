@@ -40,6 +40,7 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     @Override
     public void initView(ViewGroup view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
         addBtn = (Button) view.findViewById(R.id.button_addalarm);
 
         //获取数据库内容

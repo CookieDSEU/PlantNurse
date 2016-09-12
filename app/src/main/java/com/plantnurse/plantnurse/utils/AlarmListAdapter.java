@@ -221,8 +221,6 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         alarmList = info.getAlarmList();
         alarm_hashMap = alarmList.get(pos);
         alarmId = Integer.parseInt(alarm_hashMap.get(Alarm.KEY_ID));
-        Alarm alarm = new Alarm();
-        alarm = info.getAlarmById(alarmId);
         Intent intent = new Intent(context.getActivity(), AddAlarmActivity.class);
         intent.putExtra("alarm_Id", alarmId);
         context.getActivity().startActivity(intent);

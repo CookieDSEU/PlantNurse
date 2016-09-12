@@ -54,16 +54,16 @@ public class DataAnalysis {
                 result += "今天是阴天呢，";
                 switch (pop) {
                     case 1:
-                        result += "但是今天不会下雨，\n可以带您的植物去透透风。";
+                        result += "今天不会下雨，\n可以带您的植物去透透风。";
                         break;
                     case 2:
-                        result += "不过今天有小概率下雨，\n可以带您的植物去透透风。";
+                        result += "今天有小概率下雨，\n可以带您的植物去透透风。";
                         break;
                     case 3:
-                        result += "但是今天可能下雨，\n可以带您的植物去透透风。";
+                        result += "今天可能下雨，\n可以带您的植物去透透风。";
                         break;
                     case 4:
-                        result += "但是今天很有可能下雨，\n可以带您的植物去透透风。";
+                        result += "今天很有可能下雨，\n可以带您的植物去透透风。";
                         break;
                 }
                 break;
@@ -85,13 +85,13 @@ public class DataAnalysis {
                 result += "\n" + "今晚天气一切正常，\n放心将您的植物留在外边吧";
                 break;
             case 3:
-                result += "\n" + "不过今晚有小雨，\n带您的植物去外边淋淋雨吧~";
+                result += "\n" + "今晚有小雨，\n带您的植物去外边淋淋雨吧~";
                 break;
             case 4:
-                result += "\n" + "不过今晚有大雨，\n记得把您的植物收回来哦~";
+                result += "\n" + "今晚有大雨，\n记得把您的植物收回来哦~";
                 break;
             case 5:
-                result += "\n" + "不过今晚会下雪，\n记得把您的植物收回来哦~";
+                result += "\n" + "今晚会下雪，\n记得把您的植物收回来哦~";
                 break;
         }
         return result;
@@ -108,7 +108,7 @@ public class DataAnalysis {
             x = 1;
         else if (cond == 104)
             x = 2;
-        else if (cond >= 300 && cond <= 213) {
+        else if (cond >= 300 && cond <= 313) {
             x = 4;
             if (cond == 305 || cond == 309)
                 x = 3;
