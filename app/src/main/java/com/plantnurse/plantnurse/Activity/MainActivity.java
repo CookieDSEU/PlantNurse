@@ -367,6 +367,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
             getWeatherInfo();
             DataManager.isCityChanged = false;
         }
+        pf.onPageSelected();
         super.onResume();
     }
 
