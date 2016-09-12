@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 /**
  * Created by Yxuan on 2016/8/26.
  */
@@ -119,7 +120,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
     private List<MusicInfo> musicInfos;//所有音乐列表
     private MusicInfo musicInfo;//单首歌
     private MusicListAdapter musicListAdapter;
-    private String music="陈奕迅-稳稳的幸福（默认）";
+    private String music = "陈奕迅-稳稳的幸福（默认）";
     private int isChoose = 0;
 
     @Override
@@ -303,6 +304,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 角色的初始化和选择
+     *
      * @param i 点击的第几个角色颜色
      */
     public void setRoleColor(int i) {
@@ -330,12 +332,13 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 重复闹钟按钮的初始化颜色
+     *
      * @param i 点击的第几个按钮
      */
     public void repeatClickEvent(int i) {
         switch (i) {
             case 0:
-                if(selectedDate!=null)
+                if (selectedDate != null)
                     selectedFrequency.setText(selectedDate);
                 break;
             case 1:
@@ -363,6 +366,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 选择行为按钮的初始化颜色
+     *
      * @param i            行为按钮最开始的状态
      * @param b            哪个按钮
      * @param picture_grey 灰色图片
@@ -580,6 +584,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 角色颜色点击监听事件
+     *
      * @param cimg  点击的哪个角色CircleImg
      * @param color 角色对应的int值
      */
@@ -601,6 +606,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 时间选择器的监听事件
+     *
      * @param n 监听哪个NumberPicker
      * @param i 选择改哪个值
      */
@@ -625,6 +631,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 行为点击监听事件
+     *
      * @param imgb   监听哪个按钮
      * @param grey   灰色图片
      * @param nogrey 亮色图片
@@ -698,6 +705,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
 
     /**
      * 设置闹钟
+     *
      * @param frequency       周期性时间间隔的标志
      * @param time            时间
      * @param id              闹钟的id
@@ -903,7 +911,7 @@ public class AddAlarmActivity extends KSimpleBaseActivityImpl
                     builder.setCustomTitle(tv);//不是setTitle()
                     builder.setView(viewDialog);
                     selectedMusic.setText("当前选择歌曲：" + music);
-                    final AlertDialog dialog=builder.show();
+                    final AlertDialog dialog = builder.show();
 
                     musicLoader = new MusicLoader();
                     musicInfos = musicLoader.getMusicInfo(AddAlarmActivity.this.getContentResolver());

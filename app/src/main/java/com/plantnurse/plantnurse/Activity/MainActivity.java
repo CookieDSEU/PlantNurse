@@ -56,7 +56,7 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     public List<Fragment> getFragmentList() {
-        pf=new ParkFragment();
+        pf = new ParkFragment();
         fragmentList.add(pf);
         fragmentList.add(new BookFragment());
         fragmentList.add(new AlarmFragment());
@@ -80,6 +80,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         return 0;
     }
 
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     @Override
     public void initView(ViewGroup view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -87,8 +90,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         }
         setTitle("PlantNurse");
         header = new DrawerComponent.DrawerHeader(DrawerComponent.DrawerHeader.DrawerHeaderStyle.KENBURNS,
-               R.drawable.header_back,
-               this);
+                R.drawable.header_back,
+                this);
         header.addAvatar(R.drawable.avatar, Constants.AVATAR_URL, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,11 +153,11 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                                     // 解析注册结果
                                     if (result == SMSSDK.RESULT_COMPLETE) {
                                         @SuppressWarnings("unchecked")
-                                        HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                                        HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                                         String phone = (String) phoneMap.get("phone");
                                         // 提交用户信息
                                         Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                                        intent.putExtra("phone",phone);
+                                        intent.putExtra("phone", phone);
                                         startActivityForResult(intent, REQUEST_CODE);
                                     }
                                 }
@@ -204,10 +207,10 @@ public class MainActivity extends KTabActivity implements IBaseAction {
                     public void onDrawerOpened(View kDrawerView) {
                         //打开了侧滑菜单
                         if (getSimpleApplicationContext().isLogined()) {
-                            if(DataManager.isAvatarChanged_drawer){
+                            if (DataManager.isAvatarChanged_drawer) {
                                 ImagePipeline imagePipeline = Fresco.getImagePipeline();
                                 imagePipeline.clearCaches();
-                                DataManager.isAvatarChanged_drawer =false;
+                                DataManager.isAvatarChanged_drawer = false;
                             }
                             UserInfo userInfo = (UserInfo) PreferenceManager.getLocalUserModel();
                             header.changeNickName(userInfo.getuserName());
@@ -234,13 +237,15 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     @Override
     public void initController() {
-         addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
-         addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
-         addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
-         addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.park_grey, R.drawable.park_color, "花园", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.book_grey, R.drawable.book_color, "百科", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.clock_grey, R.drawable.clock_color, "闹钟", Color.GRAY, Color.parseColor("#04b00f"));
+        addTab(R.drawable.info_grey, R.drawable.info_color, "我的", Color.GRAY, Color.parseColor("#04b00f"));
     }
 
-
+    /**
+     * Created by Cookie_D on 2016/9/10.
+     */
     @Override
     public void onLoadingNetworkData() {
         getWeatherInfo();
@@ -249,16 +254,18 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         getMyStar();
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/10.
+     */
     private void getMyStar() {
-        HashMap param=new HashMap<>();
-        if(getSimpleApplicationContext().isLogined()) {
+        HashMap param = new HashMap<>();
+        if (getSimpleApplicationContext().isLogined()) {
             UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
             param.put("userName", ui.getuserName());
+        } else {
+            param.put("userName", "blank");
         }
-        else{
-            param.put("userName","blank");
-        }
-        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MainActivity.this, GetMyStarResponse.class,param,Constants.GETMYSTAR_URL,NetworkTask.GET) {
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), MainActivity.this, GetMyStarResponse.class, param, Constants.GETMYSTAR_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 GetMyStarResponse response = (GetMyStarResponse) result.resultObject;
@@ -272,17 +279,19 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         });
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/10.
+     */
     private void getMyPlant() {
-        HashMap param=new HashMap<>();
-        if(getSimpleApplicationContext().isLogined()) {
+        HashMap param = new HashMap<>();
+        if (getSimpleApplicationContext().isLogined()) {
             UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
             param.put("userName", ui.getuserName());
-        }
-        else {
+        } else {
             param.put("userName", "blank");
         }
-        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getSimpleApplicationContext(), GetMyPlantResponse.class,
-                param,Constants.GETMYPLANT_URL,NetworkTask.GET) {
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(), GetMyPlantResponse.class,
+                param, Constants.GETMYPLANT_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 GetMyPlantResponse response = (GetMyPlantResponse) result.resultObject;
@@ -296,9 +305,12 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         });
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/10.
+     */
     private void getPlantIndex() {
-        HashMap temp=new HashMap<>();
-        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(),GetIndexResponse.class,
+        HashMap temp = new HashMap<>();
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(), GetIndexResponse.class,
                 temp, Constants.GETINDEX_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -317,7 +329,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     }
 
-
+    /**
+     * Created by Cookie_D on 2016/8/12.
+     */
     @Override
     public View getCustomContentView(View v) {
         ViewGroup vg = (ViewGroup) super.getCustomContentView(v);
@@ -326,6 +340,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         return vg;
     }
 
+    /**
+     * Created by Cookie_D on 2016/8/13.
+     */
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -339,17 +356,23 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         }
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/10.
+     */
     @Override
     protected void onResume() {
         getMyPlant();
         getMyStar();
-        if(DataManager.isCityChanged){
+        if (DataManager.isCityChanged) {
             getWeatherInfo();
-            DataManager.isCityChanged=false;
+            DataManager.isCityChanged = false;
         }
         super.onResume();
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/1.
+     */
     public void getWeatherInfo() {
         HashMap<String, String> params = new HashMap<String, String>();
         if (getSimpleApplicationContext().isLogined()) {
@@ -386,6 +409,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/3.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
@@ -393,8 +419,8 @@ public class MainActivity extends KTabActivity implements IBaseAction {
 //                Intent intent = new Intent(MainActivity.this, MainActivity.class);
 //                startActivity(intent);
 //                finish();
-                DataManager.isMyPlantChanged=true;
-                DataManager.isCityChanged=true;
+                DataManager.isMyPlantChanged = true;
+                DataManager.isCityChanged = true;
                 pf.onPageSelected();
             } else if (resultCode == RESULT_CANCELED) {
 
@@ -403,6 +429,9 @@ public class MainActivity extends KTabActivity implements IBaseAction {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/11.
+     */
     @Override
     protected void onDestroy() {
         SMSSDK.unregisterAllEventHandler();

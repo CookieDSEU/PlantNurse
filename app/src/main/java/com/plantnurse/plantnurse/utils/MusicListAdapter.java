@@ -11,10 +11,11 @@ import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.model.MusicInfo;
 
 import java.util.List;
+
 /**
  * Created by Yxuan on 2016/9/6.
  */
-final class ViewHolder{
+final class ViewHolder {
     public TextView music_title;
     public TextView music_artist;
 }
@@ -26,7 +27,7 @@ public class MusicListAdapter extends BaseAdapter {
     private MusicInfo musicInfo;        //MusicInfo对象引用
     private ViewHolder holder;
 
-    public MusicListAdapter(Context context,List<MusicInfo> musicInfos){
+    public MusicListAdapter(Context context, List<MusicInfo> musicInfos) {
         this.context = context;
         this.musicInfos = musicInfos;
         this.mInflater = LayoutInflater.from(context);
@@ -40,14 +41,14 @@ public class MusicListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         holder = null;
-        if(convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.music_list_item, null);
-            holder.music_title = (TextView)convertView.findViewById(R.id.music_title);
-            holder.music_artist = (TextView)convertView.findViewById(R.id.music_artist);
+            holder.music_title = (TextView) convertView.findViewById(R.id.music_title);
+            holder.music_artist = (TextView) convertView.findViewById(R.id.music_artist);
             convertView.setTag(holder);
-        } else{
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         musicInfo = musicInfos.get(position);
         holder.music_title.setText(musicInfo.getTitle());         //显示标题

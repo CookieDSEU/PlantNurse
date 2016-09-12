@@ -39,15 +39,15 @@ public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseActio
     @Override
     public void initView(ViewGroup view) {
 
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-        tvVersion=(TextView)findViewById(R.id.tv_version);
-        btCode=(Button)findViewById(R.id.bt_code);
-        btBlog=(Button)findViewById(R.id.bt_blog);
-        btPay=(Button)findViewById(R.id.bt_pay);
-        btShare=(Button)findViewById(R.id.bt_share);
-        btUpdate=(Button)findViewById(R.id.bt_update);
-        btBug=(Button)findViewById(R.id.bt_bug);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        tvVersion = (TextView) findViewById(R.id.tv_version);
+        btCode = (Button) findViewById(R.id.bt_code);
+        btBlog = (Button) findViewById(R.id.bt_blog);
+        btPay = (Button) findViewById(R.id.bt_pay);
+        btShare = (Button) findViewById(R.id.bt_share);
+        btUpdate = (Button) findViewById(R.id.bt_update);
+        btBug = (Button) findViewById(R.id.bt_bug);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
@@ -126,12 +126,11 @@ public class AboutActivity extends KSimpleBaseActivityImpl implements IBaseActio
         intent.setData(uri);                            //设置Uri
         startActivity(intent);        //启动Activity
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }

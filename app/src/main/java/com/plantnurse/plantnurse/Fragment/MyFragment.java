@@ -44,8 +44,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by Cookie_D on 2016/8/26.
  */
-public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,ITabPageAction {
-    private String urlpath;			// 图片本地路径
+public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction, ITabPageAction {
+    private String urlpath;            // 图片本地路径
     private static SweetAlertDialog pd;// 等待进度圈
     private CircleImg avatarview;
     private TextView usnview;
@@ -60,9 +60,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
 
     private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
-    private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
-    private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
-    private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
+    private static final int REQUESTCODE_PICK = 0;        // 相册选图标记
+    private static final int REQUESTCODE_TAKE = 1;        // 相机拍照标记
+    private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
     private SelectPicPopupWindow menuWindow;
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         @Override
@@ -112,19 +112,20 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                 }
                 break;
             case MainActivity.REQUEST_CODE:
-                if(resultCode==getActivity().RESULT_OK){
-                    Intent intent=new Intent(getActivity(),MainActivity.class);
+                if (resultCode == getActivity().RESULT_OK) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-                }
-                else if(resultCode==getActivity().RESULT_CANCELED){
+                } else if (resultCode == getActivity().RESULT_CANCELED) {
 
                 }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     /**
      * 保存裁剪之后的图片数据
+     *
      * @param picdata
      */
     private void setPicToView(Intent picdata) {
@@ -133,26 +134,26 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             // 取得SDCard图片路径做显示
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(null, photo);
-            UserInfo userInfo=(UserInfo) mApp.getUserModel();
-            urlpath = FileUtil.saveFile(getActivity(), userInfo.getuserName()+".png", photo);
+            UserInfo userInfo = (UserInfo) mApp.getUserModel();
+            urlpath = FileUtil.saveFile(getActivity(), userInfo.getuserName() + ".png", photo);
             avatarview.setImageDrawable(drawable);
 
             // 新线程后台上传服务端
-            pd = new SweetAlertDialog(getActivity(),SweetAlertDialog.PROGRESS_TYPE);
+            pd = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
             pd.setTitleText("正在上传，请稍候").show();
             SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
 
                 @Override
                 protected Object doInBackground(Object[] params) {
-                    UserInfo userInfo=(UserInfo) mApp.getUserModel();
-                    String info=Util.uploadAvatar(userInfo.getuserName(),Util.TYPE_AVATAR);
-                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                    UserInfo userInfo = (UserInfo) mApp.getUserModel();
+                    String info = Util.uploadAvatar(userInfo.getuserName(), Util.TYPE_AVATAR);
+                    File file = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                     file.delete();
-                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+userInfo.getuserName()+".png");
+                    file = new File(Environment.getExternalStorageDirectory() + "/avatar/" + userInfo.getuserName() + ".png");
                     file.delete();
                     pd.dismiss();
-                    DataManager.isAvatarChanged_drawer =true;
-                    DataManager.isIsAvatarChanged_myfragment=true;
+                    DataManager.isAvatarChanged_drawer = true;
+                    DataManager.isIsAvatarChanged_myfragment = true;
                     return null;
                 }
 
@@ -163,6 +164,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             });
         }
     }
+
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/png");
@@ -180,7 +182,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
     @Override
     public int initLocalData() {
-        mApp=(MainApplication)getActivity().getApplication();
+        mApp = (MainApplication) getActivity().getApplication();
 
         return 0;
     }
@@ -188,89 +190,89 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
     @Override
     public void initView(ViewGroup view) {
 
-        avatarview=(CircleImg) view.findViewById(R.id.ava_img);
-        usnview=(TextView)view.findViewById(R.id.usn_txv);
-        mycity=(TableRow)view.findViewById(R.id.city);
-        mypsd=(TableRow)view.findViewById(R.id.resetpsd);
-        myhobby=(TableRow)view.findViewById(R.id.hobby);
-        sysset=(TableRow)view.findViewById(R.id.sysset);
-        sysreflct=(TableRow)view.findViewById(R.id.reflect);
-        sysupdate=(TableRow)view.findViewById(R.id.update);
-        sysabout=(TableRow)view.findViewById(R.id.about);
+        avatarview = (CircleImg) view.findViewById(R.id.ava_img);
+        usnview = (TextView) view.findViewById(R.id.usn_txv);
+        mycity = (TableRow) view.findViewById(R.id.city);
+        mypsd = (TableRow) view.findViewById(R.id.resetpsd);
+        myhobby = (TableRow) view.findViewById(R.id.hobby);
+        sysset = (TableRow) view.findViewById(R.id.sysset);
+        sysreflct = (TableRow) view.findViewById(R.id.reflect);
+        sysupdate = (TableRow) view.findViewById(R.id.update);
+        sysabout = (TableRow) view.findViewById(R.id.about);
 
     }
 
     @Override
     public void initController() {
 
-        if(mApp.isLogined()){
-            UserInfo userInfo=(UserInfo) mApp.getUserModel();
-            usnview.setText("Hi,"+userInfo.getuserName());
+        if (mApp.isLogined()) {
+            UserInfo userInfo = (UserInfo) mApp.getUserModel();
+            usnview.setText("Hi," + userInfo.getuserName());
         }
         avatarview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!mApp.isLogined()){
-                    Intent intent=new Intent(getActivity(), SigninActivity.class);
+                if (!mApp.isLogined()) {
+                    Intent intent = new Intent(getActivity(), SigninActivity.class);
                     startActivityForResult(intent, MainActivity.REQUEST_CODE);
-                }
-                else{menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
+                } else {
+                    menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
                     menuWindow.showAtLocation(avatarview,
-                            Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 }
             }
         });
-        //created by went
-        mycity.setOnClickListener(new View.OnClickListener(){
+        /**
+         * Created by went on 2016/8/26.
+         */
+        mycity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mApp.isLogined()){
+                if (mApp.isLogined()) {
                     Intent intent = new Intent(getActivity(), ResetcityActivity.class);
                     startActivity(intent);
-                }
-                else{
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
 
             }
         });
-        mypsd.setOnClickListener(new View.OnClickListener(){
+        mypsd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ResetpsdActivity.class);
-                if(mApp.isLogined()){
+                Intent intent = new Intent(getActivity(), ResetpsdActivity.class);
+                if (mApp.isLogined()) {
                     startActivity(intent);
-                }
-               else {
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
 
             }
         });
-        myhobby.setOnClickListener(new View.OnClickListener(){
+        myhobby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mApp.isLogined()){
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                if (!mApp.isLogined()) {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录!")
                             .show();
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), CollectActivity.class);
                     startActivity(intent);
                 }
             }
         });
-        sysset.setOnClickListener(new View.OnClickListener(){
+        sysset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteData = new DeleteData();
-                File file= mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
-                new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
+                File file = mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("是否清除所有闹钟？")
                         .showCancelButton(true)
                         .setCancelText("否")
@@ -279,7 +281,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 DeleteData.cleanApplicationData(mApp);
-                                new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                                new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();
                                 sweetAlertDialog.dismissWithAnimation();
@@ -291,7 +293,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                                 DeleteData.cleanInternalCache(mApp);
                                 DeleteData.cleanExternalCache(mApp);
                                 DeleteData.cleanSharedPreference(mApp);
-                                new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                                new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();
                                 sweetAlertDialog.dismissWithAnimation();
@@ -300,7 +302,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                         .show();
             }
         });
-        sysreflct.setOnClickListener(new View.OnClickListener(){
+        sysreflct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse(Constants.REPORT_URL);   //指定网址
@@ -311,13 +313,13 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
             }
         });
-        sysupdate.setOnClickListener(new View.OnClickListener(){
+        sysupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Util.checkVersion(getActivity());
             }
         });
-        sysabout.setOnClickListener(new View.OnClickListener(){
+        sysabout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AboutActivity.class);
@@ -336,9 +338,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
     @Override
     public void onLoadedNetworkData(View contentView) {
-        if(mApp.isLogined()){
-            UserInfo userInfo=(UserInfo) mApp.getUserModel();
-            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+        if (mApp.isLogined()) {
+            UserInfo userInfo = (UserInfo) mApp.getUserModel();
+            String temp = Constants.AVATAR_URL + "?id=" + userInfo.getuserName();
             Picasso.with(getActivity()).load(temp).into(avatarview);
         }
     }
@@ -350,11 +352,11 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
 
     @Override
     public void onPageSelected() {
-        if(DataManager.isIsAvatarChanged_myfragment){
-            UserInfo userInfo=(UserInfo) mApp.getUserModel();
-            String temp= Constants.AVATAR_URL+"?id="+userInfo.getuserName();
+        if (DataManager.isIsAvatarChanged_myfragment) {
+            UserInfo userInfo = (UserInfo) mApp.getUserModel();
+            String temp = Constants.AVATAR_URL + "?id=" + userInfo.getuserName();
             Picasso.with(getActivity()).invalidate(temp);
-            DataManager.isIsAvatarChanged_myfragment=false;
+            DataManager.isIsAvatarChanged_myfragment = false;
         }
     }
 }

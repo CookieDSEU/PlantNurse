@@ -11,12 +11,14 @@ import com.plantnurse.plantnurse.R;
  */
 public class ListDialog extends Dialog {
     private ListView listView;
-    public ListDialog(Context context,int themeResId) {
-        super(context,themeResId);
+
+    public ListDialog(Context context, int themeResId) {
+        super(context, themeResId);
         setContentView(R.layout.dialog_calender);
-        listView=(ListView)findViewById(R.id.weather_listView);
+        listView = (ListView) findViewById(R.id.weather_listView);
     }
-    public ListView getListView(){
+
+    public ListView getListView() {
         return listView;
     }
 }

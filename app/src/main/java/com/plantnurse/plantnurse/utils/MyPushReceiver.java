@@ -7,7 +7,7 @@ import com.iflytek.pushclient.PushReceiver;
 /**
  * Created by Cookie_D on 2016/9/7.
  */
-public class MyPushReceiver extends PushReceiver{
+public class MyPushReceiver extends PushReceiver {
     @Override
     protected void onBind(Context context, String s, String s1, int i) {
 

@@ -1,37 +1,29 @@
 package com.plantnurse.plantnurse.Activity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
-import com.kot32.ksimplelibrary.cache.ACache;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.SignupResponse;
@@ -41,11 +33,12 @@ import com.plantnurse.plantnurse.utils.CityCodeDB;
 import com.plantnurse.plantnurse.utils.Constants;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.smssdk.SMSSDK;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-
+/**
+ * Created by Cookie_D on 2016/8/12.
+ */
 public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseAction {
 
     private Toolbar toolbar;
@@ -71,13 +64,14 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private String phone;
 
     private HashMap<String, String> loginParams;
+
     /**
      * Created by Eason_Tao on 2016/8/12.
      */
     @Override
     public int initLocalData() {
-        Intent intent=getIntent();
-        phone=intent.getStringExtra("phone");
+        Intent intent = getIntent();
+        phone = intent.getStringExtra("phone");
         loginParams = new HashMap<>();
         provinceid = new ArrayList<String>();
         provincename = new ArrayList<String>();
@@ -92,6 +86,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         list_career.add("居家人士");
         return 0;
     }
+
     /**
      * Created by Eason_Tao on 2016/8/12.
      */
@@ -103,7 +98,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         spinner_career = (MaterialSpinner) findViewById(R.id.spinner_career);
-        toolbar =(Toolbar)findViewById(R.id.signup_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.signup_toolbar);
         toolbar.setTitle("注册");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -122,18 +117,15 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         initProvinceSpinner(db);
 
 
-
-
         adapter_career = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_career);
         adapter_career.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_career.setAdapter(adapter_career);
         spinner_career.setSelection(1);
         spinner_career.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                if(arg2==-1){
+                if (arg2 == -1) {
                     spinner_career.setSelection(0);
-                }
-                else {
+                } else {
                     career = adapter_career.getItem(arg2);//获得职业
                     arg0.setVisibility(View.VISIBLE);
                 }
@@ -149,22 +141,20 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             public void onClick(View v) {
                 id = text_id.getText().toString();//获取id
                 pwd = text_pwd.getText().toString();//获取pwd
-                if (!checkID(id) ){
+                if (!checkID(id)) {
                     new AlertDialog.Builder(SignupActivity.this)
                             .setTitle("我是一个小提示")
                             .setMessage("用户名必须是4~10位英语和数字的组合")
                             .setPositiveButton("确定", null)
                             .show();
-                }
-                else{
-                    if(!checkPwd(pwd)){
+                } else {
+                    if (!checkPwd(pwd)) {
                         new AlertDialog.Builder(SignupActivity.this)
                                 .setTitle("我是一个小提示")
                                 .setMessage("密码必须是8~16位英语和数字的组合")
                                 .setPositiveButton("确定", null)
                                 .show();
-                    }
-                    else{
+                    } else {
                         signup();
                     }
                 }
@@ -195,6 +185,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
     public int getContentLayoutID() {
         return R.layout.activity_register;
     }
+
     /**
      * Created by Cookie_D on 2016/8/12.
      */
@@ -228,10 +219,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                if(position==-1){
+                if (position == -1) {
                     spinner_pro.setSelection(0);
-                }
-                else {
+                } else {
                     province = arg0.getItemAtPosition(position).toString();
                     initCitySpinner(db, provinceid.get(position).toString());
                 }
@@ -245,6 +235,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
         spinner_pro.setOnItemSelectedListener(listener);
     }
+
     /**
      * Created by Cookie_D on 2016/8/12.
      */
@@ -279,10 +270,9 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                if(position==-1){
+                if (position == -1) {
                     spinner_city.setSelection(0);
-                }
-                else {
+                } else {
                     city = arg0.getItemAtPosition(position).toString();
                 }
             }
@@ -294,6 +284,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         };
         spinner_city.setOnItemSelectedListener(listener);
     }
+
     /**
      * Created by Cookie_D on 2016/8/12.
      */
@@ -303,7 +294,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
         loginParams.put("province", province);
         loginParams.put("city", city);
         loginParams.put("career", career);
-        loginParams.put("phone",phone);
+        loginParams.put("phone", phone);
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
                 SignupResponse.class, loginParams, Constants.SIGNUP_URL, NetworkTask.GET) {
             @Override
@@ -311,7 +302,7 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 SignupResponse signupResponse = (SignupResponse) result.resultObject;
                 if (signupResponse.getresponseCode() == 1) {
                     ToastUtil.showShort("注册成功");
-                    UserInfo ui=new UserInfo();
+                    UserInfo ui = new UserInfo();
                     ui.setuserName(id);
                     ui.setProvince(province);
                     ui.setcareer(career);
@@ -319,15 +310,14 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
                     ui.settoken(signupResponse.gettoken());
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
-                   // Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                   // startActivity(intent);
-                    Intent in=getIntent();
-                    setResult(RESULT_OK,in);
+                    // Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    // startActivity(intent);
+                    Intent in = getIntent();
+                    setResult(RESULT_OK, in);
                     finish();
                 } else if (signupResponse.getresponseCode() == 2) {
                     ToastUtil.showShort("注册失败：该用户名已被注册");
-                }
-                else if(signupResponse.getresponseCode() == 3){
+                } else if (signupResponse.getresponseCode() == 3) {
                     ToastUtil.showShort("注册失败，该电话已被注册");
                 }
             }
@@ -338,15 +328,14 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
             }
         });
     }
+
     /**
      * Created by Cookie_D on 2016/8/12.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -356,8 +345,8 @@ public class SignupActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     @Override
     public void onBackPressed() {
-        Intent in=getIntent();
-        setResult(RESULT_CANCELED,in);
+        Intent in = getIntent();
+        setResult(RESULT_CANCELED, in);
         finish();
         super.onBackPressed();
     }

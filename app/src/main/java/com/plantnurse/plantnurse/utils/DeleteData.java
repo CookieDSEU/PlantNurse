@@ -7,22 +7,25 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
-public class DeleteData{
+/**
+ * Created by went on 2016/9/9.
+ */
+public class DeleteData {
 
-     //清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *
+    //清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *
 
     public static void cleanInternalCache(Context context) {
         deleteFilesByDirectory(context.getCacheDir());
     }
 
-  //清除本应用所有数据库(/data/data/com.xxx.xxx/databases) * *
+    //清除本应用所有数据库(/data/data/com.xxx.xxx/databases) * *
     public static void cleanDatabases(Context context) {
         deleteFilesByDirectory(new File("/data/data/"
                 + context.getPackageName() + "/databases"));
     }
 
 
-      //清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs) *
+    //清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs) *
 
 
     public static void cleanSharedPreference(Context context) {
@@ -32,7 +35,6 @@ public class DeleteData{
 
     /**
      * * 按名字清除本应用数据库 * *
-
      */
     public static void cleanDatabaseByName(Context context, String dbName) {
         context.deleteDatabase(dbName);
@@ -43,7 +45,7 @@ public class DeleteData{
         deleteFilesByDirectory(context.getFilesDir());
     }
 
-     //清除外部cache下的内容(/mnt/sdcard/android/data/com.xxx.xxx/cache)
+    //清除外部cache下的内容(/mnt/sdcard/android/data/com.xxx.xxx/cache)
 
 
     public static void cleanExternalCache(Context context) {
@@ -58,7 +60,7 @@ public class DeleteData{
 //        deleteFilesByDirectory(new File(filePath));
 //    }
 
-     //清除本应用所有的数据
+    //清除本应用所有的数据
     public static void cleanApplicationData(Context context) {
         cleanInternalCache(context);
         cleanExternalCache(context);
@@ -88,25 +90,25 @@ public class DeleteData{
     // 获取文件
 //    Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
-    public static long getFolderSize(File file)  {
+    public static long getFolderSize(File file) {
 
         long size = 0;
 
-            File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
-                // 如果下面还有文件
-                if (fileList[i].isDirectory()) {
-                    size = size + getFolderSize(fileList[i]);
-                } else {
-                    size = size + fileList[i].length();
-                }
+        File[] fileList = file.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            // 如果下面还有文件
+            if (fileList[i].isDirectory()) {
+                size = size + getFolderSize(fileList[i]);
+            } else {
+                size = size + fileList[i].length();
             }
+        }
 
         return size;
     }
 
 
-     // 删除指定目录下文件及目录
+    // 删除指定目录下文件及目录
 
     public static void deleteFolderFile(String filePath, boolean deleteThisPath) {
         if (!TextUtils.isEmpty(filePath)) {
@@ -151,7 +153,8 @@ public class DeleteData{
         return result.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "MB";
     }
-    public static String getCacheSize(File file)  {
+
+    public static String getCacheSize(File file) {
         return getFormatSize(getFolderSize(file));
     }
 

@@ -29,10 +29,10 @@ public class MyService extends Service {
         // 初始化音乐资源
         try {
             mp = new MediaPlayer();// 创建MediaPlayer对象
-            path=intent.getStringExtra("music");
-            if(path.equals("陈奕迅-稳稳的幸福（默认）")){//没有设置铃声则播放系统自定义铃声
-                mp=MediaPlayer.create(this, R.raw.music);
-            }else{
+            path = intent.getStringExtra("music");
+            if (path.equals("陈奕迅-稳稳的幸福（默认）")) {//没有设置铃声则播放系统自定义铃声
+                mp = MediaPlayer.create(this, R.raw.music);
+            } else {
                 mp.setDataSource(this, Uri.parse(path));
                 mp.prepare();//缓冲
             }
@@ -77,10 +77,10 @@ public class MyService extends Service {
         // TODO Auto-generated method stub
         super.onDestroy();
         // 服务停止时停止播放音乐并释放资源
-        if(mp!=null){
+        if (mp != null) {
             mp.stop();
             mp.release();
-            mp=null;
+            mp = null;
         }
     }
 

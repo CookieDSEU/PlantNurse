@@ -7,7 +7,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.kot32.ksimplelibrary.manager.preference.PreferenceManager;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
-import com.kot32.ksimplelibrary.model.domain.BaseUserModel;
 
 import java.util.HashMap;
 
@@ -91,6 +90,9 @@ public abstract class KSimpleApplication extends Application {
     }
 
     //注销
+    /**
+     * Created by Cookie_D on 2016/8/26.
+     */
     public void logout() {
         userModel = null;
         //PreferenceManager.setLocalUserModel(new BaseUserModel(){});

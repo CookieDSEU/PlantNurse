@@ -32,7 +32,7 @@ public class MusicLoader {
             cursor.moveToNext();
 
             long id = cursor.getLong(cursor
-                    .getColumnIndex(MediaStore.Audio.Media._ID));	//音乐id
+                    .getColumnIndex(MediaStore.Audio.Media._ID));    //音乐id
 
             String title = cursor.getString((cursor
                     .getColumnIndex(MediaStore.Audio.Media.TITLE)));//音乐标题
@@ -44,12 +44,12 @@ public class MusicLoader {
                     .getColumnIndex(MediaStore.Audio.Media.DURATION));//时长
 
             String url = cursor.getString(cursor
-                    .getColumnIndex(MediaStore.Audio.Media.DATA));	//文件路径
+                    .getColumnIndex(MediaStore.Audio.Media.DATA));    //文件路径
 
             int isMusic = cursor.getInt(cursor
                     .getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));//是否为音乐
 
-            if (isMusic != 0 && duration/(1000 * 60) >= 1) {		//只把1分钟以上的音乐添加到集合当中
+            if (isMusic != 0 && duration / (1000 * 60) >= 1) {        //只把1分钟以上的音乐添加到集合当中
                 musicInfo.setId(id);
                 musicInfo.setTitle(title);
                 musicInfo.setArtist(artist);

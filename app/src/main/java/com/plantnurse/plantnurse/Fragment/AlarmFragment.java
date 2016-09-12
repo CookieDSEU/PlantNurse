@@ -10,7 +10,6 @@ import android.widget.Button;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
-import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.MainApplication;
 import com.plantnurse.plantnurse.R;
 import com.plantnurse.plantnurse.utils.AlarmInfo;
@@ -24,12 +23,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by Yxuan on 2016/8/26.
  */
-public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseAction{
+public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseAction {
     private RecyclerView recyclerView;
     private AlarmListAdapter adapter;
-    private  LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
     private Button addBtn;
-    AlarmInfo info ;
+    AlarmInfo info;
     private MainApplication mApp;
     ArrayList<HashMap<String, String>> alarmList;
 
@@ -41,11 +40,11 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
     @Override
     public void initView(ViewGroup view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        addBtn=(Button)view.findViewById(R.id.button_addalarm);
+        addBtn = (Button) view.findViewById(R.id.button_addalarm);
 
         //获取数据库内容
         info = new AlarmInfo(getActivity());
-        alarmList =  info.getAlarmList();
+        alarmList = info.getAlarmList();
 
         //设置布局管理器
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -53,9 +52,9 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //设置适配器
-        adapter = new AlarmListAdapter(AlarmFragment.this,alarmList);
+        adapter = new AlarmListAdapter(AlarmFragment.this, alarmList);
         recyclerView.setAdapter(adapter);
-        mApp=(MainApplication)getActivity().getApplication();
+        mApp = (MainApplication) getActivity().getApplication();
     }
 
     @Override
@@ -64,15 +63,15 @@ public class AlarmFragment extends KSimpleBaseFragmentImpl implements IBaseActio
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mApp.isLogined()){ Intent intent = new Intent();
+                if (mApp.isLogined()) {
+                    Intent intent = new Intent();
                     intent.setClass(getActivity(), AddAlarmActivity.class);
                     intent.putExtra("alarm_Id", 0);
                 /* 启动一个新的Activity */
                     AlarmFragment.this.startActivity(intent);
 
-                }
-                else {
-                    new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }

@@ -52,6 +52,9 @@ import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * Created by Eason_Tao on 2016/8/27.
+ */
 public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     //view
     private Button saveButton;
@@ -78,13 +81,16 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
 
     //修改图片功能
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     private static final String IMAGE_FILE_NAME = "plantImage.jpg";// 头像文件名称
-    private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
-    private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
-    private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
-    private String urlpath;			// 图片本地路径
+    private static final int REQUESTCODE_PICK = 0;        // 相册选图标记
+    private static final int REQUESTCODE_TAKE = 1;        // 相机拍照标记
+    private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
+    private String urlpath;            // 图片本地路径
     private Uri uritempFile;
-    private String uuid="default2";
+    private String uuid = "default2";
     private SelectPicPopupWindow menuWindow;
     private static SweetAlertDialog pd;// 等待进度圈
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
@@ -113,6 +119,9 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         }
     };
 
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -134,6 +143,10 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     private void setPicToView() {
         // 取得SDCard图片路径做显示
         Bitmap photo = null;
@@ -143,20 +156,19 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
             e.printStackTrace();
         }
         Drawable drawable = new BitmapDrawable(null, photo);
-        if(DataManager.getMyPlant().response.get(selectedId).pic.contains("default"))
-        {
+        if (DataManager.getMyPlant().response.get(selectedId).pic.contains("default")) {
             uuid = UUID.randomUUID().toString();
             UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
-            HashMap<String,String> param=new HashMap<>();
-            param.put("nickname",DataManager.getMyPlant().response.get(selectedId).nickname);
-            param.put("owner",userInfo.getuserName());
-            param.put("pic",uuid);
-            SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MyPlantActivity.this,ChangeInfoResponse.class,param,Constants.CHANGEPLANTPIC_URL,NetworkTask.GET) {
+            HashMap<String, String> param = new HashMap<>();
+            param.put("nickname", DataManager.getMyPlant().response.get(selectedId).nickname);
+            param.put("owner", userInfo.getuserName());
+            param.put("pic", uuid);
+            SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), MyPlantActivity.this, ChangeInfoResponse.class, param, Constants.CHANGEPLANTPIC_URL, NetworkTask.GET) {
                 @Override
                 public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                    ChangeInfoResponse response=(ChangeInfoResponse)result.resultObject;
-                    if(response.getresponseCode()==1){
-                        DataManager.isMyPlantChanged=true;
+                    ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                    if (response.getresponseCode() == 1) {
+                        DataManager.isMyPlantChanged = true;
                     }
                 }
 
@@ -165,32 +177,30 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
                 }
             });
+        } else {
+            uuid = DataManager.getMyPlant().response.get(selectedId).pic;
         }
-        else
-        {
-        uuid = DataManager.getMyPlant().response.get(selectedId).pic;
-        }
-        urlpath = FileUtil.saveFile(MyPlantActivity.this, uuid +".png", photo);
+        urlpath = FileUtil.saveFile(MyPlantActivity.this, uuid + ".png", photo);
         banner_planticon.setImageDrawable(drawable);
 
         // 新线程后台上传服务端
-        pd = new SweetAlertDialog(MyPlantActivity.this,SweetAlertDialog.PROGRESS_TYPE);
+        pd = new SweetAlertDialog(MyPlantActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pd.setTitleText("正在上传，请稍候").show();
         SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
 
             @Override
             protected Object doInBackground(Object[] params) {
-                String info= Util.uploadAvatar(uuid,Util.TYPE_PLANT);
+                String info = Util.uploadAvatar(uuid, Util.TYPE_PLANT);
                 //删除上传暂存文件。
-                File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                 file.delete();
-                file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+uuid +".png");
+                file = new File(Environment.getExternalStorageDirectory() + "/avatar/" + uuid + ".png");
                 file.delete();
-                file=new File(Environment.getExternalStorageDirectory() + "/"+"temp.jpg");
+                file = new File(Environment.getExternalStorageDirectory() + "/" + "temp.jpg");
                 file.delete();
-                String temp= Constants.MYPLANTPIC_URL + DataManager.getMyPlant().response.get(selectedId).pic;
+                String temp = Constants.MYPLANTPIC_URL + DataManager.getMyPlant().response.get(selectedId).pic;
                 Picasso.with(MyPlantActivity.this).invalidate(temp);
-                DataManager.isMyPlantPicChanged=true;
+                DataManager.isMyPlantPicChanged = true;
                 pd.dismiss();
                 return null;
             }
@@ -201,6 +211,10 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
             }
         });
     }
+
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/png");
@@ -275,9 +289,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                     });
                     builder.show();
                     return true;
-                }
-                else if(menuItemId==R.id.action_editicon)
-                {
+                } else if (menuItemId == R.id.action_editicon) {
                     birthText.setText("");
                     birthText.setHint("请输入新昵称");
                     ratingBar_cold.setIsIndicator(false);
@@ -287,7 +299,7 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                     tagText.setEnabled(true);
                     saveButton.setVisibility(View.VISIBLE);
                 }
-              return true;
+                return true;
             }
         });
         return true;
@@ -300,21 +312,21 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
 
     @Override
     public void initView(ViewGroup view) {
-        saveButton=(Button)view.findViewById(R.id.myplant_buttonsave);
-        ratingBar_sun= (RatingBar) view.findViewById(R.id.myplant_rating_sun);
-        ratingBar_water= (RatingBar) view.findViewById(R.id.myplant_rating_water);
-        ratingBar_cold= (RatingBar) view.findViewById(R.id.myplant_rating_cold);
+        saveButton = (Button) view.findViewById(R.id.myplant_buttonsave);
+        ratingBar_sun = (RatingBar) view.findViewById(R.id.myplant_rating_sun);
+        ratingBar_water = (RatingBar) view.findViewById(R.id.myplant_rating_water);
+        ratingBar_cold = (RatingBar) view.findViewById(R.id.myplant_rating_cold);
         birthText = (EditText) view.findViewById(R.id.myplant_birthtext);
         tagText = (EditText) view.findViewById(R.id.myplant_tagtext);
         birthText.setEnabled(false);
         tagText.setEnabled(false);
         nameText = (TextView) view.findViewById(R.id.myplant_nametext);
-        banner_planticon= (ImageView) view.findViewById(R.id.myplant_bannner);
-        toolbar=(Toolbar)view.findViewById(R.id.myplant_toolbar);
+        banner_planticon = (ImageView) view.findViewById(R.id.myplant_bannner);
+        toolbar = (Toolbar) view.findViewById(R.id.myplant_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbarLayout_name=(CollapsingToolbarLayout)view.findViewById(R.id.myplant_toolbarlayout);
+        toolbarLayout_name = (CollapsingToolbarLayout) view.findViewById(R.id.myplant_toolbarlayout);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,33 +339,31 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                 ratingBar_cold.setIsIndicator(true);
                 //传给服务器的信息，我就写到这里了，其他的移交邓鹏
                 newname = birthText.getText().toString();
-                int sun=ratingBar_sun.getProgress();
-                int water=ratingBar_water.getProgress();
-                int cold=ratingBar_cold.getProgress();
-                String tag=tagText.getText().toString();
+                int sun = ratingBar_sun.getProgress();
+                int water = ratingBar_water.getProgress();
+                int cold = ratingBar_cold.getProgress();
+                String tag = tagText.getText().toString();
 
                 UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
-                HashMap<String,String> param=new HashMap<String, String>();
+                HashMap<String, String> param = new HashMap<String, String>();
                 param.put("nickname", newname);
-                param.put("sun",sun+"");
-                param.put("water",water+"");
-                param.put("cold",cold+"");
-                param.put("remark",tag);
-                param.put("owner",userInfo.getuserName());
-                param.put("oldname",DataManager.getMyPlant().response.get(selectedId).nickname);
-                SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),MyPlantActivity.this,ChangeInfoResponse.class,param,Constants.CHANGEPLANTINFO_URL, NetworkTask.GET) {
+                param.put("sun", sun + "");
+                param.put("water", water + "");
+                param.put("cold", cold + "");
+                param.put("remark", tag);
+                param.put("owner", userInfo.getuserName());
+                param.put("oldname", DataManager.getMyPlant().response.get(selectedId).nickname);
+                SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), MyPlantActivity.this, ChangeInfoResponse.class, param, Constants.CHANGEPLANTINFO_URL, NetworkTask.GET) {
                     @Override
                     public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                        ChangeInfoResponse response=(ChangeInfoResponse) result.resultObject;
-                        if(response.getresponseCode()==1){
-                            birthText.setText(newname +"已经陪伴你"+ companyday +"天啦");
+                        ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
+                        if (response.getresponseCode() == 1) {
+                            birthText.setText(newname + "已经陪伴你" + companyday + "天啦");
                             ToastUtil.showShort("修改成功！");
-                        }
-                        else if(response.getresponseCode()==2) {
-                            birthText.setText(DataManager.getMyPlant().response.get(selectedId).nickname+"已经陪伴你"+ companyday +"天啦");
+                        } else if (response.getresponseCode() == 2) {
+                            birthText.setText(DataManager.getMyPlant().response.get(selectedId).nickname + "已经陪伴你" + companyday + "天啦");
                             ToastUtil.showShort("和已有昵称重复！");
-                        }
-                        else {
+                        } else {
                             ToastUtil.showShort("修改失败！");
                         }
                     }
@@ -375,45 +385,45 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
             public void onClick(View v) {
                 menuWindow = new SelectPicPopupWindow(MyPlantActivity.this, itemsOnClick);
                 menuWindow.showAtLocation(banner_planticon,
-                        Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
     }
 
     @Override
     public void onLoadingNetworkData() {
-        Intent intent=getIntent();
-        selectedId = intent.getIntExtra("id",0);
-        HashMap<String,String> param=new HashMap<String,String>();
-        param.put("name",mName);
+        Intent intent = getIntent();
+        selectedId = intent.getIntExtra("id", 0);
+        HashMap<String, String> param = new HashMap<String, String>();
+        param.put("name", mName);
         //判断是否已经收藏
         //是否登录
         SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), this, GetPlantInfoResponse.class, param, Constants.PLANTINFO_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                 GetPlantInfoResponse bookResponse = (GetPlantInfoResponse) result.resultObject;
-                mName = "学名: "+DataManager.getMyPlant().response.get(selectedId).name;
+                mName = "学名: " + DataManager.getMyPlant().response.get(selectedId).name;
                 mSunIndex = DataManager.getMyPlant().response.get(selectedId).sun;
                 mWaterIndex = DataManager.getMyPlant().response.get(selectedId).water;
                 mColdIndex = DataManager.getMyPlant().response.get(selectedId).cold;
 
 
-                birthday = DataManager.getMyPlant().response.get(selectedId).birthday+"";
+                birthday = DataManager.getMyPlant().response.get(selectedId).birthday + "";
                 int birth = Integer.parseInt(birthday);
                 birth -= 100;
-                birthday = birth+"";
+                birthday = birth + "";
                 Calendar c = Calendar.getInstance();
-                int nowyear =c.get(Calendar.YEAR);
+                int nowyear = c.get(Calendar.YEAR);
                 int nowmonth = c.get(Calendar.MONTH);
-                int nowday =  c.get(Calendar.DAY_OF_MONTH);
-                String now = ""+nowyear;
-                if(nowmonth<10)
-                    now+="0"+nowmonth;
+                int nowday = c.get(Calendar.DAY_OF_MONTH);
+                String now = "" + nowyear;
+                if (nowmonth < 10)
+                    now += "0" + nowmonth;
                 else
-                    now+=nowmonth;
+                    now += nowmonth;
 
-                if(nowday<10)
-                    now+="0"+nowday;
+                if (nowday < 10)
+                    now += "0" + nowday;
                 else
                     now += nowday;
 
@@ -434,9 +444,9 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
                 GregorianCalendar cal2 = new GregorianCalendar();
                 cal1.setTime(date1);
                 cal2.setTime(date2);
-                double dayCount = (cal2.getTimeInMillis()-cal1.getTimeInMillis())/(1000*3600*24);//从间隔毫秒变成间隔天数
-                companyday = (int)dayCount+1;
-                mBirth = DataManager.getMyPlant().response.get(selectedId).nickname+"已经陪伴你"+ companyday +"天啦";
+                double dayCount = (cal2.getTimeInMillis() - cal1.getTimeInMillis()) / (1000 * 3600 * 24);//从间隔毫秒变成间隔天数
+                companyday = (int) dayCount + 1;
+                mBirth = DataManager.getMyPlant().response.get(selectedId).nickname + "已经陪伴你" + companyday + "天啦";
 
                 mTag = DataManager.getMyPlant().response.get(selectedId).remark;
 
@@ -461,8 +471,6 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
     }
 
 
-
-
     @Override
     public void onLoadedNetworkData(View contentView) {
 
@@ -474,11 +482,9 @@ public class MyPlantActivity extends KSimpleBaseActivityImpl implements IBaseAct
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

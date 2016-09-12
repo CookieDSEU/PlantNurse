@@ -96,6 +96,9 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     /**
      * 初始化监听器。
      */
+    /**
+     * Created by Cookie_D on 2016/9/7.
+     */
     private InitListener mInitListener = new InitListener() {
 
         @Override
@@ -128,7 +131,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 mSortList.add(sortModel);
             }
         }
-        if(mSortList.isEmpty()){
+        if (mSortList.isEmpty()) {
             SortModel sortModel = new SortModel();
             sortModel.setName("抱歉，没有找到，点击新建");
             sortModel.setId(0);
@@ -147,7 +150,9 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     }
     //核心 成功生成了List<SortModel>,去生成那一排排列表状的东西
 
-
+    /**
+     * Created by Cookie_D on 2016/9/7.
+     */
     @Override
     public void initController() {
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -168,7 +173,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                     mIatResults.clear();
                     // 设置参数
                     setParam();
-                        // 显示听写对话框
+                    // 显示听写对话框
                     mIatDialog.setListener(mRecognizerDialogListener);
                     mIatDialog.show();
                     ToastUtil.showShort("请开始说话...");
@@ -176,6 +181,10 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             }
         });
     }
+
+    /**
+     * Created by Cookie_D on 2016/9/7.
+     */
     private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
         public void onResult(RecognizerResult results, boolean isLast) {
             printResult(results);
@@ -189,6 +198,10 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         }
 
     };
+
+    /**
+     * Created by Cookie_D on 2016/9/7.
+     */
     private void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
 
@@ -274,21 +287,19 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //点击事件，以后会实现跳转
-                if(((SortModel) adapter.getItem(position)).getId()!=0) {
+                if (((SortModel) adapter.getItem(position)).getId() != 0) {
                     Intent intent = new Intent(getActivity(), ShowActivity.class);
                     String na = ((SortModel) adapter.getItem(position)).getName();
                     intent.putExtra("name", na);
                     intent.putExtra("id", ((SortModel) adapter.getItem(position)).getId());
                     startActivity(intent);
-                }
-                else{
-                    MainActivity ma=(MainActivity)getActivity();
-                    if(ma.getSimpleApplicationContext().isLogined()){
-                    Intent intent = new Intent(getActivity(), AddplantActivity.class);
-                    intent.putExtra("addplant",0);
-                    startActivity(intent);
-                    }
-                    else{
+                } else {
+                    MainActivity ma = (MainActivity) getActivity();
+                    if (ma.getSimpleApplicationContext().isLogined()) {
+                        Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                        intent.putExtra("addplant", 0);
+                        startActivity(intent);
+                    } else {
                         new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("请先登录!")
                                 .show();
@@ -322,10 +333,14 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     public int getContentLayoutID() {
         return R.layout.fragment_book;
     }
+
+    /**
+     * Created by Cookie_D on 2016/9/7.
+     */
     public void setParam() {
         // 清空参数
         mIat.setParameter(SpeechConstant.PARAMS, null);
-        mIatDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
+        mIatDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
         mIatDialog.setParameter(SpeechConstant.ACCENT, "mandarin");
 
         // 设置听写引擎
@@ -333,12 +348,12 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         // 设置返回结果格式
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
 
-            mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-            // 设置语言区域
-            mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
+        mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        // 设置语言区域
+        mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        mIat.setParameter(SpeechConstant.VAD_BOS,"4000");
+        mIat.setParameter(SpeechConstant.VAD_BOS, "4000");
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
         mIat.setParameter(SpeechConstant.VAD_EOS, "1000");
@@ -348,7 +363,7 @@ public class BookFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
-        mIat.setParameter(SpeechConstant.AUDIO_FORMAT,"wav");
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/iat.wav");
+        mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
 }

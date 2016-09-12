@@ -1,11 +1,7 @@
 package com.plantnurse.plantnurse.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
@@ -21,14 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.kot32.ksimplelibrary.activity.e.KSimpleBaseActivity;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
-import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
@@ -43,25 +36,15 @@ import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.SimpleTimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static com.iflytek.sunflower.config.b.m;
 import static com.plantnurse.plantnurse.R.id.button_send;
-import static com.plantnurse.plantnurse.R.id.text_comment;
-import static com.plantnurse.plantnurse.R.id.toolbar;
-import static java.security.AccessController.getContext;
 
 
 /**
@@ -133,7 +116,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getSimpleApplicationContext().isLogined()){
+                if (getSimpleApplicationContext().isLogined()) {
                     //获取需要的信息，发给服务器
                     UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
                     username = userInfo.getuserName();
@@ -147,12 +130,12 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                         ToastUtil.showShort("发送的内容不能为空！");
                     } else {
                         //给你空间发挥
-                        HashMap<String,String> param=new HashMap<String, String>();
-                        param.put("plantName",mName);
+                        HashMap<String, String> param = new HashMap<String, String>();
+                        param.put("plantName", mName);
                         param.put("date", mDate);
                         param.put("userName", username);
                         param.put("comment", mComment);
-                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),ShowActivity.this,ChangeInfoResponse.class,param,Constants.ADDCOMMENT_URL,NetworkTask.GET) {
+                        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), ShowActivity.this, ChangeInfoResponse.class, param, Constants.ADDCOMMENT_URL, NetworkTask.GET) {
                             @Override
                             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
                                 ChangeInfoResponse response = (ChangeInfoResponse) result.resultObject;
@@ -172,16 +155,14 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                                 }
                             }
 
-                                @Override
-                                public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
+                            @Override
+                            public void onExecutedFailed(NetworkExecutor.NetworkResult result) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
                     }
-
-                else  {
-                    new SweetAlertDialog(ShowActivity.this,SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
@@ -289,8 +270,7 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                if(getSimpleApplicationContext().isLogined())
-                {
+                if (getSimpleApplicationContext().isLogined()) {
                     if (!isadopted) {
                         button_adopt.setTitle(" 我已收养 ");
                         isadopted = true;
@@ -305,9 +285,8 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                         Intent intent = new Intent(ShowActivity.this, AddplantActivity.class);
                         startActivity(intent);
                     }
-                }
-                else {
-                    new  SweetAlertDialog(ShowActivity.this,SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(ShowActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录")
                             .show();
                 }
@@ -391,10 +370,10 @@ public class ShowActivity extends KSimpleBaseActivityImpl implements IBaseAction
                     commentModel.setName(response.commentlist.get(i).userName);
                     commentModel.setTime(response.commentlist.get(i).date.substring(0, 4) + "."
                             + response.commentlist.get(i).date.substring(4, 6) + "." +
-                            response.commentlist.get(i).date.substring(6, 8)+" "+response.
-                            commentlist.get(i).date.substring(8, 10)+":"+response.commentlist.
+                            response.commentlist.get(i).date.substring(6, 8) + " " + response.
+                            commentlist.get(i).date.substring(8, 10) + ":" + response.commentlist.
                             get(i).date.substring(10, 12));
-                    commentModel.setIconUrl(Constants.AVATAR_URL+"?id="+response.commentlist.get(i).userName);
+                    commentModel.setIconUrl(Constants.AVATAR_URL + "?id=" + response.commentlist.get(i).userName);
                     commentModel.setComment(response.commentlist.get(i).comment);
                     sourceDateList.add(commentModel);
                 }

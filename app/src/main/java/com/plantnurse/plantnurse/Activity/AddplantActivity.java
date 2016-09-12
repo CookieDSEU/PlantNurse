@@ -7,13 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
@@ -45,7 +44,6 @@ import com.plantnurse.plantnurse.utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,7 +64,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * Created by Eason_Tao on 2016/8/27.
  */
-public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAction,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAction, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Toolbar toolbar;
     private List<Integer> mData;//添加植物的图片列表
@@ -103,18 +101,20 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private int mSun;
     private int mWater;
     private int mSnow;
-    private String uuid="default2";
+    private String uuid = "default2";
     private static final String IMAGE_FILE_NAME = "plantImage.jpg";// 头像文件名称
-    private static final int REQUESTCODE_PICK = 0;		// 相册选图标记
-    private static final int REQUESTCODE_TAKE = 1;		// 相机拍照标记
-    private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
-    private String urlpath;			// 图片本地路径
+    private static final int REQUESTCODE_PICK = 0;        // 相册选图标记
+    private static final int REQUESTCODE_TAKE = 1;        // 相机拍照标记
+    private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
+    private String urlpath;            // 图片本地路径
     private Uri uritempFile;
     Calendar c = Calendar.getInstance();
     int myear = c.get(Calendar.YEAR);
     int mmonth = c.get(Calendar.MONTH);
     int mday = c.get(Calendar.DAY_OF_MONTH);
-
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -141,7 +141,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         }
     };
 
-
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -158,50 +160,57 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                 startPhotoZoom(Uri.fromFile(temp));
                 break;
             case REQUESTCODE_CUTTING:// 取得裁剪后的图片
-                    setPicToView();
+                setPicToView();
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     private void setPicToView() {
-            // 取得SDCard图片路径做显示
-            Bitmap photo = null;
-            try {
-                photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        // 取得SDCard图片路径做显示
+        Bitmap photo = null;
+        try {
+            photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Drawable drawable = new BitmapDrawable(null, photo);
+        uuid = UUID.randomUUID().toString();
+        urlpath = FileUtil.saveFile(AddplantActivity.this, uuid + ".png", photo);
+        mImg.setImageDrawable(drawable);
+
+        // 新线程后台上传服务端
+        pd = new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pd.setTitleText("正在上传，请稍候").show();
+        SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                String info = Util.uploadAvatar(uuid, Util.TYPE_PLANT);
+                //删除上传暂存文件。
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                file.delete();
+                file = new File(Environment.getExternalStorageDirectory() + "/avatar/" + uuid + ".png");
+                file.delete();
+                file = new File(Environment.getExternalStorageDirectory() + "/" + "temp.jpg");
+                file.delete();
+                pd.dismiss();
+                return null;
             }
-            Drawable drawable = new BitmapDrawable(null, photo);
-            uuid = UUID.randomUUID().toString();
-            urlpath = FileUtil.saveFile(AddplantActivity.this, uuid +".png", photo);
-            mImg.setImageDrawable(drawable);
 
-            // 新线程后台上传服务端
-            pd = new SweetAlertDialog(AddplantActivity.this,SweetAlertDialog.PROGRESS_TYPE);
-            pd.setTitleText("正在上传，请稍候").show();
-            SimpleTaskManager.startNewTask(new SimpleTask(getTaskTag()) {
+            @Override
+            protected void onPostExecute(Object o) {
 
-                @Override
-                protected Object doInBackground(Object[] params) {
-                    String info= Util.uploadAvatar(uuid,Util.TYPE_PLANT);
-                    //删除上传暂存文件。
-                    File file=new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
-                    file.delete();
-                    file=new File(Environment.getExternalStorageDirectory() + "/avatar/"+uuid +".png");
-                    file.delete();
-                    file=new File(Environment.getExternalStorageDirectory() + "/"+"temp.jpg");
-                    file.delete();
-                    pd.dismiss();
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Object o) {
-
-                }
-            });
+            }
+        });
     }
+
+    /**
+     * Created by Cookie_D on 2016/9/12.
+     */
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/png");
@@ -224,11 +233,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     //返回键
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -256,9 +263,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         return onTouchEvent(ev);
     }
 
-    public  boolean isShouldHideInput(View v, MotionEvent event) {
+    public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] leftTop = { 0, 0 };
+            int[] leftTop = {0, 0};
             //获取输入框当前的location位置
             v.getLocationInWindow(leftTop);
             int left = leftTop[0];
@@ -270,6 +277,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         }
         return false;
     }
+
     @Override
     public int initLocalData() {
         return 0;
@@ -302,7 +310,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         snowRatingBar.setProgress(mSnow);
         //y-m-d初始化
         mmonth++;
-        _year.setText(myear+"");
+        _year.setText(myear + "");
         _month.setText(mmonth + "");
         _day.setText(mday + "");
 
@@ -315,22 +323,21 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         overButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nameText.getText().equals("")||nicnameText.getText().equals("")||nameText.getText().equals("")||_year.getText().equals("")||_month.getText().equals("")||_day.getText().equals("")){
+                if (nameText.getText().equals("") || nicnameText.getText().equals("") || nameText.getText().equals("") || _year.getText().equals("") || _month.getText().equals("") || _day.getText().equals("")) {
                     ToastUtil.showLong("请多留下一些它的信息吧...");
-                }
-                else {
+                } else {
                     //get birthday
-                    birth = ""+_year.getText();
+                    birth = "" + _year.getText();
                     birthmonth = Integer.parseInt(_month.getText().toString());
                     birthday = Integer.parseInt(_day.getText().toString());
-                    if(birthmonth<10)
-                        birth = birth+"0"+birthmonth;
+                    if (birthmonth < 10)
+                        birth = birth + "0" + birthmonth;
                     else
-                        birth = birth+birthmonth;
-                    if(birthday<10)
-                        birth = birth+"0"+birthday;
+                        birth = birth + birthmonth;
+                    if (birthday < 10)
+                        birth = birth + "0" + birthday;
                     else
-                        birth = birth+birthday;
+                        birth = birth + birthday;
                     //get name ...
                     name = nameText.getText().toString();
                     nicname = nicnameText.getText().toString();
@@ -339,17 +346,17 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                     sun = sunRatingBar.getProgress();
                     water = waterRatingBar.getProgress();
                     snow = waterRatingBar.getProgress();
-                    HashMap<String,String> param=new HashMap<String,  String>();
-                    param.put("nickname",nicname);
-                    param.put("name",name);
-                    param.put("birthday",birth);
-                    param.put("sun",sun+"");
-                    param.put("water",water+"");
-                    param.put("cold",snow+"");
-                    param.put("remark",other);
-                    UserInfo userInfo=(UserInfo)getSimpleApplicationContext().getUserModel();
-                    param.put("owner",userInfo.getuserName());
-                    param.put("pic",uuid);
+                    HashMap<String, String> param = new HashMap<String, String>();
+                    param.put("nickname", nicname);
+                    param.put("name", name);
+                    param.put("birthday", birth);
+                    param.put("sun", sun + "");
+                    param.put("water", water + "");
+                    param.put("cold", snow + "");
+                    param.put("remark", other);
+                    UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+                    param.put("owner", userInfo.getuserName());
+                    param.put("pic", uuid);
                     SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getSimpleApplicationContext(), ChangeInfoResponse.class, param, Constants.ADDPLANT_URL, NetworkTask.GET) {
                         @Override
                         public void onExecutedMission(NetworkExecutor.NetworkResult result) {
@@ -366,12 +373,11 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
                                             }
                                         })
                                         .show();
-                            } else if(response.getresponseCode() == 2){
+                            } else if (response.getresponseCode() == 2) {
                                 new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.ERROR_TYPE)
                                         .setTitleText("昵称和已有植物重复")
                                         .show();
-                            }
-                            else{
+                            } else {
                                 new SweetAlertDialog(AddplantActivity.this, SweetAlertDialog.ERROR_TYPE)
                                         .setTitleText("连接超时，添加失败！")
                                         .show();
@@ -392,7 +398,7 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
             public void onClick(View v) {
                 menuWindow = new SelectPicPopupWindow(AddplantActivity.this, itemsOnClick);
                 menuWindow.showAtLocation(mImg,
-                        Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
 
@@ -432,28 +438,25 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         mRecyclerView.setLayoutManager(linearLayoutManager);
         //设置适配器
         mAdapter = new AddplantAdapter(this, mData);
-        mAdapter.setOnItemClickLitener(new AddplantAdapter.OnItemClickLitener()
-        {
+        mAdapter.setOnItemClickLitener(new AddplantAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(View view, int position)
-            {
+            public void onItemClick(View view, int position) {
                 mImg.setImageResource(mData.get(position));
-                uuid="default"+(position+1);
+                uuid = "default" + (position + 1);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void initDatas()
-    {
+    private void initDatas() {
         mData = new ArrayList<Integer>(Arrays.asList(R.drawable.flower1_s, R.drawable.flower2_s,
-                R.drawable.flower3_s,R.drawable.flower4_s, R.drawable.flower5_s));
+                R.drawable.flower3_s, R.drawable.flower4_s, R.drawable.flower5_s));
         Intent mIntent = getIntent();
         int type = mIntent.getIntExtra("addplant", 0);
-        if(type == 1){
+        if (type == 1) {
             mName = mIntent.getStringExtra("name");
-            mSun = mIntent.getIntExtra("sun",1);
-            mWater = mIntent.getIntExtra("water",1);
+            mSun = mIntent.getIntExtra("sun", 1);
+            mWater = mIntent.getIntExtra("water", 1);
             mSnow = mIntent.getIntExtra("snow", 1);
         }
 
@@ -463,24 +466,23 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     }
 
 
-
     @Override
-    public void initController () {
+    public void initController() {
     }
 
     @Override
-    public void onLoadingNetworkData () {
+    public void onLoadingNetworkData() {
 
     }
 
     @Override
-    public void onLoadedNetworkData (View contentView){
+    public void onLoadedNetworkData(View contentView) {
 
     }
 
 
     @Override
-    public int getContentLayoutID () {
+    public int getContentLayoutID() {
         return R.layout.activity_addplant;
     }
 
@@ -488,9 +490,9 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         month++;
-        _year.setText(""+year);
-        _month.setText(""+month);
-        _day.setText(""+day);
+        _year.setText("" + year);
+        _month.setText("" + month);
+        _day.setText("" + day);
     }
 
     @Override

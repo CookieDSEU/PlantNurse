@@ -3,7 +3,6 @@ package com.plantnurse.plantnurse.Activity;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,35 +28,38 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
-//created by went
-public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseAction
-{
+
+/**
+ * Created by went on 2016/9/5.
+ */
+public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     private MaterialSpinner spinner_pro;
     private MaterialSpinner spinner_city;
-    private List<String>  provincename,provinceid;
-    private List<String>  cityname,cityid;
-    private CityCodeDB cityCodeDB=null;
+    private List<String> provincename, provinceid;
+    private List<String> cityname, cityid;
+    private CityCodeDB cityCodeDB = null;
     private SQLiteDatabase db = null;
     private Button button;
-    private  String province;
-    private  String city;
+    private String province;
+    private String city;
     private ProgressDialog progressDialog;
     private HashMap<String, String> loginParams;
+
     @Override
-    public int initLocalData(){
+    public int initLocalData() {
         loginParams = new HashMap<>();
-        provincename=new ArrayList<String>();
-        provinceid=new ArrayList<String>();
-        cityname=new ArrayList<String>();
+        provincename = new ArrayList<String>();
+        provinceid = new ArrayList<String>();
+        cityname = new ArrayList<String>();
         cityid = new ArrayList<String>();
         cityCodeDB = new CityCodeDB(ResetcityActivity.this);
         db = cityCodeDB.getDatabase("data.db");
 
-       return 0;
+        return 0;
     }
 
     public void initView(ViewGroup view) {
-        button=(Button)findViewById(R.id.reset);
+        button = (Button) findViewById(R.id.reset);
         spinner_pro = (MaterialSpinner) findViewById(R.id.spinner_province);
         spinner_city = (MaterialSpinner) findViewById(R.id.spinner_city);
         progressDialog = new ProgressDialog(this);
@@ -70,14 +72,15 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
         initProvinceSpinner(db);
 
         button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                citychange();
-          }
+                                      @Override
+                                      public void onClick(View v) {
+                                          citychange();
+                                      }
 
-            }
+                                  }
         );
     }
+
     @Override
     public void onLoadingNetworkData() {
 
@@ -92,7 +95,6 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
     public int getContentLayoutID() {
         return R.layout.activity_reset_city;
     }
-
 
 
     void initProvinceSpinner(SQLiteDatabase database) {
@@ -125,11 +127,10 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                if(position==-1){
+                if (position == -1) {
                     spinner_pro.setSelection(0);
-                }
-                else{
-                    province =arg0.getItemAtPosition(position).toString();
+                } else {
+                    province = arg0.getItemAtPosition(position).toString();
                     initCitySpinner(db, provinceid.get(position).toString());
                 }
 
@@ -173,11 +174,10 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
             public void onItemSelected(AdapterView<?> arg0, View v,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-                if(position==-1){
+                if (position == -1) {
                     spinner_city.setSelection(0);
-                }
-                else {
-                    city=arg0.getItemAtPosition(position).toString();
+                } else {
+                    city = arg0.getItemAtPosition(position).toString();
                 }
 
             }
@@ -193,9 +193,9 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
 
     public void citychange() {
         progressDialog.show();
-        UserInfo userInfo=(UserInfo) getSimpleApplicationContext().getUserModel();
-        loginParams.put("userName",userInfo.getuserName());
-        loginParams.put("token",userInfo.gettoken());
+        UserInfo userInfo = (UserInfo) getSimpleApplicationContext().getUserModel();
+        loginParams.put("userName", userInfo.getuserName());
+        loginParams.put("token", userInfo.gettoken());
         loginParams.put("province", province);
         loginParams.put("city", city);
 
@@ -206,21 +206,19 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
                 ChangeInfoResponse res = (ChangeInfoResponse) result.resultObject;
                 if (res.getresponseCode() == 1) {
                     ToastUtil.showShort("更改成功");
-                    UserInfo ui=(UserInfo) getSimpleApplicationContext().getUserModel();
+                    UserInfo ui = (UserInfo) getSimpleApplicationContext().getUserModel();
                     ui.setProvince(province);
                     ui.setcity(city);
                     PreferenceManager.setLocalUserModel(ui);
                     getSimpleApplicationContext().setUserModel(ui);
                     progressDialog.dismiss();
-                    DataManager.isCityChanged=true;
+                    DataManager.isCityChanged = true;
                     finish();
-                } else if(res.getresponseCode()==2){
+                } else if (res.getresponseCode() == 2) {
                     ToastUtil.showShort("更改失败，帐号冻结");
-                }
-                else if(res.getresponseCode()==3){
+                } else if (res.getresponseCode() == 3) {
                     ToastUtil.showShort("更改失败，用户信息错误");
-                }
-                else{
+                } else {
                     ToastUtil.showShort("更改失败，未知错误");
                 }
             }
@@ -231,6 +229,6 @@ public class ResetcityActivity extends KSimpleBaseActivityImpl implements IBaseA
             }
         });
     }
-    }
+}
 
 

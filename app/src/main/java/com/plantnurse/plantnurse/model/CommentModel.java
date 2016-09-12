@@ -1,7 +1,5 @@
 package com.plantnurse.plantnurse.model;
 
-import static com.iflytek.sunflower.config.b.d;
-
 /**
  * Created by Heloise on 2016/9/7.
  */

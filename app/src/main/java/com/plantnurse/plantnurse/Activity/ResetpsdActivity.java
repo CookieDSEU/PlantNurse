@@ -21,21 +21,23 @@ import com.plantnurse.plantnurse.utils.Constants;
 import java.util.HashMap;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-//creat by went
 
-
+/**
+ * Created by went on 2016/9/6.
+ */
 public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     private Toolbar toolbar;
-    private  String user;
-    private  String oldpsd;
-    private    String newpsd;
+    private String user;
+    private String oldpsd;
+    private String newpsd;
     private String rnewpsd;
     private Button button;
     private TextView text_oldpsd;
     private TextView text_newpsd;
-    private TextView  text_rnewpsd;
+    private TextView text_rnewpsd;
     private MainApplication mApp;
-    private HashMap<String,String> param;
+    private HashMap<String, String> param;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,50 +54,48 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
 
     @Override
     public void initView(ViewGroup view) {
-        text_oldpsd=(TextView)findViewById(R.id.oldpsd);
-        text_newpsd=(TextView)findViewById(R.id.newpsd);
-        text_rnewpsd=(TextView)findViewById(R.id.rnewpsd);
-        button=(Button)findViewById(R.id.button_rpsd);
-        oldpsd=text_oldpsd.getText().toString();
-        newpsd=text_newpsd.getText().toString();
-        rnewpsd=text_rnewpsd.getText().toString();
-        mApp=(MainApplication)getApplication();
-        param =new HashMap<>();
+        text_oldpsd = (TextView) findViewById(R.id.oldpsd);
+        text_newpsd = (TextView) findViewById(R.id.newpsd);
+        text_rnewpsd = (TextView) findViewById(R.id.rnewpsd);
+        button = (Button) findViewById(R.id.button_rpsd);
+        oldpsd = text_oldpsd.getText().toString();
+        newpsd = text_newpsd.getText().toString();
+        rnewpsd = text_rnewpsd.getText().toString();
+        mApp = (MainApplication) getApplication();
+        param = new HashMap<>();
     }
 
     @Override
     public void initController() {
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public  void onClick(View v){
-                oldpsd=text_oldpsd.getText().toString();
-                newpsd=text_newpsd.getText().toString();
-                rnewpsd=text_rnewpsd.getText().toString();
-                if(check(newpsd)){
-                    if(newpsd.equals(rnewpsd)){
+        button.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          oldpsd = text_oldpsd.getText().toString();
+                                          newpsd = text_newpsd.getText().toString();
+                                          rnewpsd = text_rnewpsd.getText().toString();
+                                          if (check(newpsd)) {
+                                              if (newpsd.equals(rnewpsd)) {
 
-                    resetpsd();
+                                                  resetpsd();
 
-                }
-                else {
-                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
+                                              } else {
+                                                  new SweetAlertDialog(ResetpsdActivity.this, SweetAlertDialog.WARNING_TYPE)
 
-                            .setTitleText("两次密码输入不一致")
-                            .show();
-                }
-                }
-                else {
-                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
+                                                          .setTitleText("两次密码输入不一致")
+                                                          .show();
+                                              }
+                                          } else {
+                                              new SweetAlertDialog(ResetpsdActivity.this, SweetAlertDialog.WARNING_TYPE)
 
-                            .setTitleText("密码输入必须为大小写或数字且在8-16位")
-                            .show();
+                                                      .setTitleText("密码输入必须为大小写或数字且在8-16位")
+                                                      .show();
 
-                }
+                                          }
 
-            }
+                                      }
 
 
-        }
+                                  }
         );
 
     }
@@ -114,44 +114,43 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
     public int getContentLayoutID() {
         return R.layout.activity_resetpwd;
     }
-    public void resetpsd(){
-        UserInfo userInfo=(UserInfo)mApp.getUserModel();
-        user=userInfo.getuserName();
-        param.put("Userid",user);
-        param.put("Userpsd",oldpsd);
-        param.put("Rpsd",newpsd);
-        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(),getApplicationContext(), LoginResponse.class,
+
+    public void resetpsd() {
+        UserInfo userInfo = (UserInfo) mApp.getUserModel();
+        user = userInfo.getuserName();
+        param.put("Userid", user);
+        param.put("Userpsd", oldpsd);
+        param.put("Rpsd", newpsd);
+        SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(), LoginResponse.class,
                 param, Constants.RESETPSD_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                LoginResponse response=(LoginResponse)result.resultObject;
-                if(response.getresponseCode()== 1)
-                {
-                   new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.SUCCESS_TYPE)
-                           .setTitleText("修改密码成功")
-                           .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                               @Override
-                               public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                   finish();
-                               }
-                           })
-                           .show();
-
-
-
-                }
-                else{ if(response.getresponseCode()== 3)
-                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("原密码错误")
+                LoginResponse response = (LoginResponse) result.resultObject;
+                if (response.getresponseCode() == 1) {
+                    new SweetAlertDialog(ResetpsdActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("修改密码成功")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    finish();
+                                }
+                            })
                             .show();
+
+
+                } else {
+                    if (response.getresponseCode() == 3)
+                        new SweetAlertDialog(ResetpsdActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("原密码错误")
+                                .show();
 
                     else {
-                    new SweetAlertDialog(ResetpsdActivity.this,SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("修改失败,用户冻结")
+                        new SweetAlertDialog(ResetpsdActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("修改失败,用户冻结")
 
-                            .show();
+                                .show();
 
-                }
+                    }
                 }
 
             }
@@ -163,5 +162,8 @@ public class ResetpsdActivity extends KSimpleBaseActivityImpl implements IBaseAc
         });
 
     }
-    private boolean check(String s) {return s.matches("[a-zA-Z0-9]{8,16}");}
+
+    private boolean check(String s) {
+        return s.matches("[a-zA-Z0-9]{8,16}");
+    }
 }

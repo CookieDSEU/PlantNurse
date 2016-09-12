@@ -9,7 +9,7 @@ import com.plantnurse.plantnurse.MainApplication;
  */
 public class ToastUtil {
     /**
-     *工具类，直接显示Toast
+     * 工具类，直接显示Toast
      */
     public static void showShort(String msg) {
         Toast.makeText(MainApplication.getmAppContext(), msg, Toast.LENGTH_SHORT).show();

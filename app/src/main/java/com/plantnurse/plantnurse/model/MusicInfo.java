@@ -42,11 +42,11 @@ public class MusicInfo {
         this.url = url;
     }
 
-    public void setDuration(long duration){
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 
-    public long getDuration(){
+    public long getDuration() {
         return this.duration;
     }
 

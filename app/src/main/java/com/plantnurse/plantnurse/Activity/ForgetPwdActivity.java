@@ -11,16 +11,13 @@ import android.widget.EditText;
 import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.base.KSimpleBaseActivityImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
 import com.plantnurse.plantnurse.Network.LoginResponse;
 import com.plantnurse.plantnurse.R;
-import com.plantnurse.plantnurse.model.UserInfo;
 import com.plantnurse.plantnurse.utils.Constants;
 
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -36,28 +33,28 @@ public class ForgetPwdActivity extends KSimpleBaseActivityImpl implements IBaseA
 
     @Override
     public int initLocalData() {
-        Intent intent=getIntent();
-        phone=intent.getStringExtra("phone");
+        Intent intent = getIntent();
+        phone = intent.getStringExtra("phone");
         return 0;
     }
 
     @Override
     public void initView(ViewGroup view) {
-        toolbar=(Toolbar)findViewById(R.id.forgetpwd_toolbar) ;
+        toolbar = (Toolbar) findViewById(R.id.forgetpwd_toolbar);
         toolbar.setTitle("重置密码");
         setSupportActionBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        if (actionBar!=null)
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
-        npwd_text=(EditText)findViewById(R.id.fg_newpwd);
-        rnpwd_text=(EditText)findViewById(R.id.fg_rnewpwd);
-        confirm_button=(Button)findViewById(R.id.fg_button_rpwd);
+        npwd_text = (EditText) findViewById(R.id.fg_newpwd);
+        rnpwd_text = (EditText) findViewById(R.id.fg_rnewpwd);
+        confirm_button = (Button) findViewById(R.id.fg_button_rpwd);
         confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String npwd = npwd_text.getText().toString();
                 String rnpwd = rnpwd_text.getText().toString();
-                if (npwd.matches("[a-zA-Z0-9]{8,16}")){
+                if (npwd.matches("[a-zA-Z0-9]{8,16}")) {
                     if (!npwd.equals(rnpwd)) {
                         new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setContentText("两次输入的密码不一样！请重新输入");
@@ -80,17 +77,15 @@ public class ForgetPwdActivity extends KSimpleBaseActivityImpl implements IBaseA
                                                 }
                                             })
                                             .show();
-                                } else if(response.getresponseCode()==2){
+                                } else if (response.getresponseCode() == 2) {
                                     new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
                                             .setTitleText("修改失败,用户冻结")
                                             .show();
-                                }
-                                else if(response.getresponseCode()==4){
+                                } else if (response.getresponseCode() == 4) {
                                     new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
                                             .setTitleText("修改失败,该用户尚未注册")
                                             .show();
-                                }
-                                else{
+                                } else {
                                     new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
                                             .setTitleText("修改失败,未知错误")
                                             .show();
@@ -103,9 +98,8 @@ public class ForgetPwdActivity extends KSimpleBaseActivityImpl implements IBaseA
                             }
                         });
                     }
-            }
-                else{
-                    new SweetAlertDialog(ForgetPwdActivity.this,SweetAlertDialog.WARNING_TYPE)
+                } else {
+                    new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
                             .setContentText("密码输入必须为大小写或数字且在8-16位")
                             .show();
                 }

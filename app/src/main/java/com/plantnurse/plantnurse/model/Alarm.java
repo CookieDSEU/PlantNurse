@@ -6,24 +6,24 @@ package com.plantnurse.plantnurse.model;
 public class Alarm {
 
     //表名
-    public static final String TABLE="Alarms";
+    public static final String TABLE = "Alarms";
 
     //表的各域名
-    public static final String KEY_ID="alarm_id";
-    public static final String KEY_RoleColor="roleColor";
-    public static final String KEY_Content="content";
-    public static final String KEY_Time="time";
-    public static final String KEY_IsAlarm="isAlarm";
-    public static final String KEY_Frequency="frequency";
-    public static final String KEY_PlantName="plantName";
-    public static final String KEY_Water="water";
-    public static final String KEY_Sun="sun";
-    public static final String KEY_TakeBack="takeBack";
-    public static final String KEY_TakeCare="takeCare";
-    public static final String KEY_Fertilization="fertilization";
-    public static final String KEY_Weather="weather";
-    public static final String KEY_Music="music";
-    public static final String KEY_Available="available";
+    public static final String KEY_ID = "alarm_id";
+    public static final String KEY_RoleColor = "roleColor";
+    public static final String KEY_Content = "content";
+    public static final String KEY_Time = "time";
+    public static final String KEY_IsAlarm = "isAlarm";
+    public static final String KEY_Frequency = "frequency";
+    public static final String KEY_PlantName = "plantName";
+    public static final String KEY_Water = "water";
+    public static final String KEY_Sun = "sun";
+    public static final String KEY_TakeBack = "takeBack";
+    public static final String KEY_TakeCare = "takeCare";
+    public static final String KEY_Fertilization = "fertilization";
+    public static final String KEY_Weather = "weather";
+    public static final String KEY_Music = "music";
+    public static final String KEY_Available = "available";
 
     //属性
     public int alarm_id;

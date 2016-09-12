@@ -30,7 +30,7 @@ import cn.smssdk.gui.RegisterPage;
 /**
  * Created by Cookie_D on 2016/8/12.
  */
-public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction{
+public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseAction {
     private Toolbar toolbar;
     private TextView button_signup;
     private TextView button_forget;
@@ -38,6 +38,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     private TextView text;
     private TextView text2;
     private HashMap<String, String> loginParams;
+
     @Override
     public int initLocalData() {
         loginParams = new HashMap<>();
@@ -47,22 +48,21 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
     @Override
     public void initView(ViewGroup view) {
         button_signup = (TextView) findViewById(R.id.register_button);
-        button_forget=(TextView)findViewById(R.id.forget_button);
+        button_forget = (TextView) findViewById(R.id.forget_button);
         button_login = (Button) findViewById(R.id.login_button);
-        text= (TextView) view.findViewById(R.id.userID);
-        text2=  (TextView) view.findViewById(R.id.pwd);
-        toolbar =(Toolbar)findViewById(R.id.signin_toolbar);
+        text = (TextView) view.findViewById(R.id.userID);
+        text2 = (TextView) view.findViewById(R.id.pwd);
+        toolbar = (Toolbar) findViewById(R.id.signin_toolbar);
         toolbar.setTitle("登录");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -71,20 +71,19 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     @Override
     public void initController() {
-        button_signup.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v)
-            {
+        button_signup.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 RegisterPage registerPage = new RegisterPage();
                 registerPage.setRegisterCallback(new EventHandler() {
                     public void afterEvent(int event, int result, Object data) {
                         // 解析注册结果
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             @SuppressWarnings("unchecked")
-                            HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                            HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                             String phone = (String) phoneMap.get("phone");
                             // 提交用户信息
                             Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
-                            intent.putExtra("phone",phone);
+                            intent.putExtra("phone", phone);
                             startActivity(intent);
                         }
                     }
@@ -101,11 +100,11 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                         // 解析注册结果
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             @SuppressWarnings("unchecked")
-                            HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                            HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                             String phone = (String) phoneMap.get("phone");
                             // 提交用户信息
                             Intent intent = new Intent(SigninActivity.this, ForgetPwdActivity.class);
-                            intent.putExtra("phone",phone);
+                            intent.putExtra("phone", phone);
                             startActivity(intent);
                         }
                     }
@@ -120,7 +119,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 String password = text2.getText().toString();
                 loginParams.put("userName", username);
                 loginParams.put("password", password);
-                if(check(username)&&check(password)){
+                if (check(username) && check(password)) {
                     SimpleTaskManager.startNewTask(new NetworkTask(getTaskTag(), getApplicationContext(),
                             LoginResponse.class, loginParams, Constants.SIGNIN_URL, NetworkTask.GET) {
                         @Override
@@ -174,9 +173,8 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                         }
 
                     });
-                }
-                else  {
-                    new SweetAlertDialog(SigninActivity.this,SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("帐号密码必须为1-16位英文与数字组合")
                             .show();
                 }
@@ -207,11 +205,14 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
 
     @Override
     public void onBackPressed() {
-        Intent in=getIntent();
-        setResult(RESULT_CANCELED,in);
+        Intent in = getIntent();
+        setResult(RESULT_CANCELED, in);
         finish();
         super.onBackPressed();
     }
-    private boolean check(String s) {return s.matches("[a-zA-Z0-9]{1,16}");}
+
+    private boolean check(String s) {
+        return s.matches("[a-zA-Z0-9]{1,16}");
+    }
 
 }

@@ -21,105 +21,106 @@ import java.util.List;
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
-	//用的是SortModel 的list
-	private List<SortModel> list = null;
-	private Context mContext;
-	public List<SortModel> getlist(){
-		return list;
-	}
+    //用的是SortModel 的list
+    private List<SortModel> list = null;
+    private Context mContext;
 
-	public SortAdapter(Context mContext, List<SortModel> list) {
-		this.mContext = mContext;
-		this.list = list;
-	}
+    public List<SortModel> getlist() {
+        return list;
+    }
 
-	public void updateListView(List<SortModel> list) {
-		this.list = list;
-		notifyDataSetChanged();
-	}
+    public SortAdapter(Context mContext, List<SortModel> list) {
+        this.mContext = mContext;
+        this.list = list;
+    }
 
-	public int getCount() {
-		return this.list.size();
-	}
+    public void updateListView(List<SortModel> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
 
-	public Object getItem(int position) {
-		return list.get(position);
-	}
+    public int getCount() {
+        return this.list.size();
+    }
 
-	public long getItemId(int position) {
-		return position;
-	}
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
-	//Adapter的核心，通过数据实例化view
-	@RequiresApi(api = Build.VERSION_CODES.M)
-	public View getView(final int position, View view, ViewGroup arg2) {
-		ViewHolder viewHolder = null;
-		final SortModel mContent = list.get(position);
-		if (view == null) {
-			viewHolder = new ViewHolder();
-			view = LayoutInflater.from(mContext).inflate(R.layout.item_plant, null);
-			viewHolder.tvTitle = (TextView) view
-					.findViewById(R.id.tv_user_item_name);
-			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
-			viewHolder.icon = (CircleImg) view
-					.findViewById(R.id.iv_user_item_icon);
+    public long getItemId(int position) {
+        return position;
+    }
 
-			view.setTag(viewHolder);
-		} else {
-			viewHolder = (ViewHolder) view.getTag();
-		}
+    //Adapter的核心，通过数据实例化view
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public View getView(final int position, View view, ViewGroup arg2) {
+        ViewHolder viewHolder = null;
+        final SortModel mContent = list.get(position);
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_plant, null);
+            viewHolder.tvTitle = (TextView) view
+                    .findViewById(R.id.tv_user_item_name);
+            viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+            viewHolder.icon = (CircleImg) view
+                    .findViewById(R.id.iv_user_item_icon);
 
-		int section = getSectionForPosition(position);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
 
-		if (position == getPositionForSection(section)) {
-			viewHolder.tvLetter.setVisibility(View.VISIBLE);
-			viewHolder.tvLetter.setText(mContent.getSortLetters());
-		} else {
-			viewHolder.tvLetter.setVisibility(View.GONE);
-		}
-		SortModel model = list.get(position);
-		//设置名字和图片
-		viewHolder.tvTitle.setText(model.getName());
-		Picasso.with(mContext).load(model.getUrl()).into(viewHolder.icon);
-		return view;
-	}
+        int section = getSectionForPosition(position);
 
-	final static class ViewHolder {
-		TextView tvLetter;
-		TextView tvTitle;
-		CircleImg icon;
-	}
+        if (position == getPositionForSection(section)) {
+            viewHolder.tvLetter.setVisibility(View.VISIBLE);
+            viewHolder.tvLetter.setText(mContent.getSortLetters());
+        } else {
+            viewHolder.tvLetter.setVisibility(View.GONE);
+        }
+        SortModel model = list.get(position);
+        //设置名字和图片
+        viewHolder.tvTitle.setText(model.getName());
+        Picasso.with(mContext).load(model.getUrl()).into(viewHolder.icon);
+        return view;
+    }
 
-	/**
-	 * 得到首字母的ascii值
-	 */
-	public int getSectionForPosition(int position) {
-		return list.get(position).getSortLetters().charAt(0);
-	}
+    final static class ViewHolder {
+        TextView tvLetter;
+        TextView tvTitle;
+        CircleImg icon;
+    }
 
-	public int getPositionForSection(int section) {
-		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getSortLetters();
-			char firstChar = sortStr.toUpperCase().charAt(0);
-			if (firstChar == section) {
-				return i;
-			}
-		}
+    /**
+     * 得到首字母的ascii值
+     */
+    public int getSectionForPosition(int position) {
+        return list.get(position).getSortLetters().charAt(0);
+    }
 
-		return -1;
-	}
+    public int getPositionForSection(int section) {
+        for (int i = 0; i < getCount(); i++) {
+            String sortStr = list.get(i).getSortLetters();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == section) {
+                return i;
+            }
+        }
 
-	public String getAlpha(String str) {
-		String sortStr = str.trim().substring(0, 1).toUpperCase();
-		if (sortStr.matches("[A-Z]")) {
-			return sortStr;
-		} else {
-			return "#";
-		}
-	}
+        return -1;
+    }
 
-	@Override
-	public Object[] getSections() {
-		return null;
-	}
+    public String getAlpha(String str) {
+        String sortStr = str.trim().substring(0, 1).toUpperCase();
+        if (sortStr.matches("[A-Z]")) {
+            return sortStr;
+        } else {
+            return "#";
+        }
+    }
+
+    @Override
+    public Object[] getSections() {
+        return null;
+    }
 }

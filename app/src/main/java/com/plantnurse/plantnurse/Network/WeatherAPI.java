@@ -10,5 +10,6 @@ import java.util.List;
  * Created by Cookie_D on 2016/8/23.
  */
 public class WeatherAPI extends BaseResponse {
-    @SerializedName("HeWeather data service 3.0")public List<WeatherResponse> response;
+    @SerializedName("HeWeather data service 3.0")
+    public List<WeatherResponse> response;
 }

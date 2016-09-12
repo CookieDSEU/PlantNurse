@@ -1,10 +1,5 @@
 package com.plantnurse.plantnurse.model;
 
-import android.graphics.Bitmap;
-
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTask;
-import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
-
 import java.io.Serializable;
 
 /**
@@ -14,37 +9,44 @@ import java.io.Serializable;
 
 public class SortModel implements Serializable {
 
-	private String name;
-	private String sortLetters;
-	private int id;
-	private String url;
+    private String name;
+    private String sortLetters;
+    private int id;
+    private String url;
 
-	public SortModel() {
-		super();
-	}
+    public SortModel() {
+        super();
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getName() {
-		return name;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSortLetters() {
-		return sortLetters;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSortLetters(String sortLetters) {
-		this.sortLetters = sortLetters;
-	}
-	public void setId(int _id){this.id=_id;}
-	public int getId(){return id;}
+    public String getSortLetters() {
+        return sortLetters;
+    }
+
+    public void setSortLetters(String sortLetters) {
+        this.sortLetters = sortLetters;
+    }
+
+    public void setId(int _id) {
+        this.id = _id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

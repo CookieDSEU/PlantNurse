@@ -36,8 +36,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Cookie_D on 2016/8/13.
  */
 public class Util {
-    public static int TYPE_AVATAR=1;
-    public static int TYPE_PLANT=2;
+    public static int TYPE_AVATAR = 1;
+    public static int TYPE_PLANT = 2;
+
     public static String getVersion(Context context) {
         try {
             PackageManager manager = context.getPackageManager();
@@ -59,21 +60,21 @@ public class Util {
             return 0;
         }
     }
-    public static void checkVersion(final Context context){
-        HashMap hashMap=new HashMap<String,String>();
-        hashMap.put("Version",getVersionCode(context)+"");
-        SimpleTaskManager.startNewTask(new NetworkTask("Update",context, CheckVersionResponse.class,hashMap,Constants.CHECKVERSION_URL, NetworkTask.GET) {
+
+    public static void checkVersion(final Context context) {
+        HashMap hashMap = new HashMap<String, String>();
+        hashMap.put("Version", getVersionCode(context) + "");
+        SimpleTaskManager.startNewTask(new NetworkTask("Update", context, CheckVersionResponse.class, hashMap, Constants.CHECKVERSION_URL, NetworkTask.GET) {
             @Override
             public void onExecutedMission(NetworkExecutor.NetworkResult result) {
-                CheckVersionResponse res=(CheckVersionResponse)result.resultObject;
-                if(res.getResponseCode()==1){
-                    new SweetAlertDialog(context,SweetAlertDialog.SUCCESS_TYPE)
+                CheckVersionResponse res = (CheckVersionResponse) result.resultObject;
+                if (res.getResponseCode() == 1) {
+                    new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("检测更新")
                             .setContentText("已经是最新版本！")
                             .show();
-                }
-                else if(res.getResponseCode()==0){
-                    new SweetAlertDialog(context,SweetAlertDialog.WARNING_TYPE)
+                } else if (res.getResponseCode() == 0) {
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText(res.getUpdateLogTitle())
                             .setContentText(res.getUpdateLogTitle())
                             .setConfirmText("更新")
@@ -98,18 +99,20 @@ public class Util {
             }
         });
     }
+
     public static void copyToClipboard(String info, Context context) {
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("msg", info);
         manager.setPrimaryClip(clipData);
         ToastUtil.showShort("已经复制到剪切板啦");
     }
+
     public static Bitmap getHttpBitmap(String url) {
         URL myFileUrl = null;
         Bitmap bitmap = null;
         try {
             myFileUrl = new URL(url);
-            Log.e("tag",url);
+            Log.e("tag", url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -126,19 +129,18 @@ public class Util {
         }
         return bitmap;
     }
-    public static String uploadAvatar(String usn,int type){
+
+    public static String uploadAvatar(String usn, int type) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "******";
-        String srcPath= Environment.getExternalStorageDirectory() + "/avatar/"+usn+".png";
-        String result="fail";
-        try
-        {
+        String srcPath = Environment.getExternalStorageDirectory() + "/avatar/" + usn + ".png";
+        String result = "fail";
+        try {
             URL url;
-            if(type==TYPE_AVATAR){
+            if (type == TYPE_AVATAR) {
                 url = new URL(Constants.AVATAR_UPLOAD_URL);
-            }
-            else {
+            } else {
                 url = new URL(Constants.PLANT_UPLOAD_URL);
             }
             HttpURLConnection httpURLConnection = (HttpURLConnection) url
@@ -170,8 +172,7 @@ public class Util {
             byte[] buffer = new byte[8192]; // 8k
             int count = 0;
             // 读取文件
-            while ((count = fis.read(buffer)) != -1)
-            {
+            while ((count = fis.read(buffer)) != -1) {
                 dos.write(buffer, 0, count);
             }
             fis.close();
@@ -188,8 +189,7 @@ public class Util {
             is.close();
 
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return (result);

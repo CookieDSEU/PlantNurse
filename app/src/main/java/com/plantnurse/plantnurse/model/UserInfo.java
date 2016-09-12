@@ -3,7 +3,7 @@ package com.plantnurse.plantnurse.model;
 import com.kot32.ksimplelibrary.model.domain.BaseUserModel;
 
 /**
- * Created by Eason_Tao on 2016/8/12.
+ * Created by Cookie_D on 2016/8/12.
  */
 public class UserInfo implements BaseUserModel {
     private String userName;
@@ -32,23 +32,23 @@ public class UserInfo implements BaseUserModel {
         return token;
     }
 
-    public void setuserName(String n){
+    public void setuserName(String n) {
         userName = n;
     }
 
-    public void setProvince(String p){
+    public void setProvince(String p) {
         province = p;
     }
 
-    public void setcity(String c){
+    public void setcity(String c) {
         city = c;
     }
 
-    public void setcareer(String n){
+    public void setcareer(String n) {
         career = n;
     }
 
-    public void settoken(String n){
-        token= n;
+    public void settoken(String n) {
+        token = n;
     }
 }

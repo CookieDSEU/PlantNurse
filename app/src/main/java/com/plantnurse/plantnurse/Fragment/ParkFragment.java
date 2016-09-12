@@ -19,7 +19,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -47,6 +46,7 @@ import com.plantnurse.plantnurse.utils.DataManager;
 import com.plantnurse.plantnurse.utils.ListDialog;
 import com.plantnurse.plantnurse.utils.PlantListAdapter;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Eason_Tao on 2016/8/26.
  */
 
-public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction,ITabPageAction{
+public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction, ITabPageAction {
     //view
     private LinearLayout layout_Weather;
     private TextView text_Hum;
@@ -85,7 +85,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     private String city;
     private int now_Cond;
     private MainApplication mApp;
-    private  List<Map<String,Object>> mData;
+    private List<Map<String, Object>> mData;
     private List<String> plantList_Data;//添加植物的图片列表
     private Context mContext;
     private WeatherListAdapter adapter;
@@ -93,8 +93,8 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     @Override
     public int initLocalData() {
-        mApp=(MainApplication)getActivity().getApplication();
-        mContext=getActivity();
+        mApp = (MainApplication) getActivity().getApplication();
+        mContext = getActivity();
         return 0;
     }
 
@@ -115,16 +115,15 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         text_Weather = (TextView) view.findViewById(R.id.text_weather);
         text_Hum = (TextView) view.findViewById(R.id.text_hum);
 
-        float_menu= (FloatingActionsMenu) view.findViewById(R.id.floatingmenu_park);
+        float_menu = (FloatingActionsMenu) view.findViewById(R.id.floatingmenu_park);
         float_Addplant = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant);
         float_Plantlist = (FloatingActionButton) view.findViewById(R.id.minifloat_plantlist);
         float_Plantlist2 = (FloatingActionButton) view.findViewById(R.id.minifloat_addplant2);
         //添加floating
 
-        if (DataManager.isFirstEnterParkFragment){
+        if (DataManager.isFirstEnterParkFragment) {
             button_tips.setBackgroundResource(R.drawable.bubblebutton_red);
-        }
-        else {
+        } else {
             button_tips.setBackgroundResource(R.drawable.bubblebutton);
         }
 
@@ -132,7 +131,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                MainActivity ma = (MainActivity)getActivity();
+                MainActivity ma = (MainActivity) getActivity();
                 ma.getContainer().setCurrentItem(1);
             }
         });
@@ -144,12 +143,12 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("请先登录!")
                             .show();
+                } else {
+                    Intent intent = new Intent(getActivity(), AddplantActivity.class);
+                    startActivity(intent);
                 }
-                else{
-                Intent intent = new Intent(getActivity(), AddplantActivity.class);
-                startActivity(intent);
             }
-        }});
+        });
 
         //植物列表floating
         float_Plantlist.setOnClickListener(new View.OnClickListener() {
@@ -199,10 +198,10 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
 
     //初始化plantlist
-    private void initDatas()
-    {
+    private void initDatas() {
         DataAnalysis da;
     }
+
     @Override
     public void initController() {
         now_Tmp = DataManager.getWeatherInfo().now.tmp;
@@ -211,13 +210,12 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         now_Weather = DataManager.getWeatherInfo().now.cond.txt;
 
         city = DataManager.getWeatherInfo().basic.city;
-        MainActivity mainActivity=(MainActivity)getActivity();
-        if(DataManager.getMyPlant().response.size() == 0){
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (DataManager.getMyPlant().response.size() == 0) {
             image_Plant.setImageResource(R.drawable.logo2);
-        }
-        else {
-            if(mainActivity.getSimpleApplicationContext().isLogined())
-                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
+        } else {
+            if (mainActivity.getSimpleApplicationContext().isLogined())
+                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL + plantList_Data.get(0)).into(image_Plant);
             else
                 image_Plant.setImageResource(R.drawable.logo2);
         }
@@ -228,8 +226,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
             @Override
             public void onClick(View v) {
-                if(DataManager.getMyPlant().response.size() >0 )
-                {
+                if (DataManager.getMyPlant().response.size() > 0) {
                     Intent intent = new Intent(getActivity(), MyPlantActivity.class);
                     intent.putExtra("id", nowPosition);
                     startActivity(intent); // 启动Activity
@@ -283,9 +280,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
     }
 
-    private int getWeatherImage(int n){
+    private int getWeatherImage(int n) {
         int mimg = R.drawable.overcast;
-        switch (n){
+        switch (n) {
             case 100:
                 mimg = R.drawable.sunny;
                 break;
@@ -305,7 +302,7 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 mimg = R.drawable.showerrain;
                 break;
             case 301:
-                mimg =  R.drawable.heavryrain;
+                mimg = R.drawable.heavryrain;
                 break;
             case 302:
                 mimg = R.drawable.thundershower;
@@ -356,21 +353,20 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         return mimg;
     }
 
-    private int getDialogbackground(int cond,int tmp){
+    private int getDialogbackground(int cond, int tmp) {
         int mimg = R.drawable.dialogblue;
-        if( cond == 100){
-            if(tmp > 30)
+        if (cond == 100) {
+            if (tmp > 30)
                 mimg = R.drawable.dialogyellow;
-            else if(tmp > 25)
-                mimg =  R.drawable.dialogorange;
+            else if (tmp > 25)
+                mimg = R.drawable.dialogorange;
             else
                 mimg = R.drawable.dialogblue;
-        }
-        else if(cond == 104)
+        } else if (cond == 104)
             mimg = R.drawable.dialogpurple;
-        else if(cond >=300 && cond <= 312)
+        else if (cond >= 300 && cond <= 312)
             mimg = R.drawable.dialoggrey;
-        else if(cond >= 400 && cond <=407)
+        else if (cond >= 400 && cond <= 407)
             mimg = R.drawable.dialogwhite;
         return mimg;
     }
@@ -388,19 +384,19 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             map.put("date", DataManager.getWeatherInfo().dailyForecast.get(i).date);
             map.put("tmp_min", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.min);
             map.put("tmp_max", DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
-            map.put("cond",DataManager.getWeatherInfo().dailyForecast.get(i).cond.txtD);
+            map.put("cond", DataManager.getWeatherInfo().dailyForecast.get(i).cond.txtD);
             image_code = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).cond.codeD);
             image_picid = getWeatherImage(image_code);
-            map.put("img",image_picid);
+            map.put("img", image_picid);
             tmax = Integer.parseInt(DataManager.getWeatherInfo().dailyForecast.get(i).tmp.max);
             bc = getDialogbackground(image_code, tmax);
-            map.put("background",bc);
+            map.put("background", bc);
             list.add(map);
         }
         return list;
     }
 
-    public String StringData(String data){
+    public String StringData(String data) {
         String a[] = data.split("-");
         String mMonth = a[1];
         String mDay = a[2];
@@ -409,74 +405,74 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
         int month = Integer.parseInt(mMonth);
         int way = 1;
-        switch (way){
+        switch (way) {
             case 1:
-                mWay ="Sun";
+                mWay = "Sun";
                 break;
             case 2:
-                mWay ="Mon";
+                mWay = "Mon";
                 break;
             case 3:
-                mWay ="Tue";
+                mWay = "Tue";
                 break;
             case 4:
-                mWay ="Wed";
+                mWay = "Wed";
                 break;
             case 5:
-                mWay ="Thu";
+                mWay = "Thu";
                 break;
             case 6:
-                mWay ="Fri";
+                mWay = "Fri";
                 break;
             case 7:
-                mWay ="Sat";
+                mWay = "Sat";
                 break;
         }
-        switch (month){
+        switch (month) {
             case 1:
-                mMonth ="Jan";
+                mMonth = "Jan";
                 break;
             case 2:
-                mMonth ="Feb";
+                mMonth = "Feb";
                 break;
             case 3:
-                mMonth ="Mar";
+                mMonth = "Mar";
                 break;
             case 4:
-                mMonth ="Apr";
+                mMonth = "Apr";
                 break;
             case 5:
-                mMonth ="May";
+                mMonth = "May";
                 break;
             case 6:
-                mMonth ="Jun";
+                mMonth = "Jun";
                 break;
             case 7:
-                mMonth ="Jul";
+                mMonth = "Jul";
                 break;
             case 8:
-                mMonth ="Aug";
+                mMonth = "Aug";
                 break;
             case 9:
-                mMonth ="Sep";
+                mMonth = "Sep";
                 break;
             case 10:
-                mMonth ="Oct";
+                mMonth = "Oct";
                 break;
             case 11:
-                mMonth ="Nov";
+                mMonth = "Nov";
                 break;
             case 12:
-                mMonth ="Dec";
+                mMonth = "Dec";
                 break;
         }
 
-        return mMonth+"."+mDay;
+        return mMonth + "." + mDay;
     }
 
     @Override
     public void onPageSelected() {
-        if(DataManager.isMyPlantChanged) {
+        if (DataManager.isMyPlantChanged) {
 
             HashMap param = new HashMap<>();
             if (mApp.isLogined()) {
@@ -500,10 +496,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 //            plantList_Data.add("default1");
                     }
                     mAdapter.updatelist(plantList_Data);
-                    if(DataManager.getMyPlant().response.size() == 0){
+                    if (DataManager.getMyPlant().response.size() == 0) {
                         image_Plant.setImageResource(R.drawable.logo2);
-                    }
-                    else {
+                    } else {
                         Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL + plantList_Data.get(0)).into(image_Plant);
                     }
                 }
@@ -513,9 +508,9 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
                 }
             });
-            DataManager.isMyPlantChanged=false;
+            DataManager.isMyPlantChanged = false;
         }
-        if(DataManager.isCityChanged){
+        if (DataManager.isCityChanged) {
             HashMap<String, String> params = new HashMap<String, String>();
             if (mApp.isLogined()) {
                 UserInfo userInfo = (UserInfo) mApp.getUserModel();
@@ -550,20 +545,20 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
             });
 
 
-            DataManager.isCityChanged=false;
+            DataManager.isCityChanged = false;
         }
-        if(DataManager.isMyPlantPicChanged){
-            for(int i=0;i<DataManager.getMyPlant().response.size();i++) {
+        if (DataManager.isMyPlantPicChanged) {
+            for (int i = 0; i < DataManager.getMyPlant().response.size(); i++) {
                 String temp = Constants.MYPLANTPIC_URL + DataManager.getMyPlant().response.get(i).pic;
                 Picasso.with(getActivity()).invalidate(temp);
                 onLoadedNetworkData(getContentView());
-                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL+plantList_Data.get(0)).into(image_Plant);
+                Picasso.with(getActivity()).load(Constants.MYPLANTPIC_URL + plantList_Data.get(0)).into(image_Plant);
             }
-            DataManager.isMyPlantPicChanged=false;
+            DataManager.isMyPlantPicChanged = false;
         }
     }
 
-    public final class ViewHolder{
+    public final class ViewHolder {
         public LinearLayout weather_layout;
         public ImageView weather_image;
         public TextView weather_date;
@@ -575,13 +570,13 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
 
         private LayoutInflater mInflater;
 
-        public  WeatherListAdapter(Context context){
+        public WeatherListAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
         }
 
         @Override
         public int getCount() {
-            return mData!=null?mData.size():0;
+            return mData != null ? mData.size() : 0;
         }
 
         @Override
@@ -597,22 +592,22 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
-            if (convertView == null){
+            if (convertView == null) {
                 holder = new ViewHolder();
 
-                convertView = mInflater.inflate(R.layout.listview_weather,null);
+                convertView = mInflater.inflate(R.layout.listview_weather, null);
                 holder.weather_layout = (LinearLayout) convertView.findViewById(R.id.list_dialog);
                 holder.weather_image = (ImageView) convertView.findViewById(R.id.list_image);
                 holder.weather_cond = (TextView) convertView.findViewById(R.id.list_weatger);
                 holder.weather_date = (TextView) convertView.findViewById(R.id.list_date);
                 holder.weather_tmp = (TextView) convertView.findViewById(R.id.list_tmp);
                 convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
             holder.weather_image.setBackgroundResource((Integer) mData.get(position).get("img"));
             holder.weather_date.setText(StringData((String) mData.get(position).get("date")));
-            holder.weather_tmp.setText(mData.get(position).get("tmp_min")+"~"+mData.get(position).get("tmp_max")+"℃");
+            holder.weather_tmp.setText(mData.get(position).get("tmp_min") + "~" + mData.get(position).get("tmp_max") + "℃");
             holder.weather_cond.setText((String) mData.get(position).get("cond"));
             holder.weather_layout.setBackgroundResource((Integer) mData.get(position).get("background"));
             return convertView;
@@ -628,12 +623,11 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
     @Override
     public void onLoadedNetworkData(View contentView) {
         plantList_Data = new ArrayList<String>();
-        if(DataManager.getMyPlant().response.size()!= 0){
-            for (int i =0;i<DataManager.getMyPlant().response.size();i++) {
+        if (DataManager.getMyPlant().response.size() != 0) {
+            for (int i = 0; i < DataManager.getMyPlant().response.size(); i++) {
                 plantList_Data.add(DataManager.getMyPlant().response.get(i).pic);
             }
-        }
-        else {
+        } else {
 //            plantList_Data.add("default1");
         }
 

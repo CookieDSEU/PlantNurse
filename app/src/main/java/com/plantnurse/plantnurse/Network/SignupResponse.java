@@ -9,9 +9,16 @@ import com.plantnurse.plantnurse.model.UserInfo;
 public class SignupResponse extends BaseResponse {
     private int responseCode;
     private UserInfo userInfo;
+
     public int getresponseCode() {
         return responseCode;
     }
-    public String getuserName() {return userInfo.getuserName();}
-    public String gettoken() {return userInfo.gettoken();}
+
+    public String getuserName() {
+        return userInfo.getuserName();
+    }
+
+    public String gettoken() {
+        return userInfo.gettoken();
+    }
 }

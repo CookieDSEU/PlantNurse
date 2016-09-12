@@ -7,15 +7,9 @@ import com.kot32.ksimplelibrary.activity.i.IBaseAction;
 import com.kot32.ksimplelibrary.activity.t.KSplashActivity;
 import com.plantnurse.plantnurse.R;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-import android.util.Log;
 /**
  * Created by Cookie_D on 2016/8/25.
  */
-
 public class SplashActivity extends KSplashActivity implements IBaseAction {
 
     public int getLogoImageResource() {
@@ -33,16 +27,20 @@ public class SplashActivity extends KSplashActivity implements IBaseAction {
     }
 
     @Override
-    public void initView(ViewGroup view) {}
+    public void initView(ViewGroup view) {
+    }
 
     @Override
-    public void initController() {}
+    public void initController() {
+    }
 
     @Override
-    public void onLoadingNetworkData() {}
+    public void onLoadingNetworkData() {
+    }
 
     @Override
-    public void onLoadedNetworkData(View contentView) {}
+    public void onLoadedNetworkData(View contentView) {
+    }
 
     @Override
     public int getContentLayoutID() {
@@ -50,6 +48,7 @@ public class SplashActivity extends KSplashActivity implements IBaseAction {
     }
 
     @Override
-    public void init() {}
+    public void init() {
+    }
 
 }

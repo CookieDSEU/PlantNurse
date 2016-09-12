@@ -16,16 +16,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * This is a Assets Database Manager Use it, you can use a assets database file
  * in you application It will copy the database file to
  * "/data/data/[your application package name]/database" when you first time you
  * use it Then you can get a SQLiteDatabase object by the assets database file
- *
+ * <p/>
  * How to use: 1. Initialize AssetsDatabaseManager 2. Get AssetsDatabaseManager
  * 3. Get a SQLiteDatabase object through database file 4. Use this database
  * object
- *
+ * <p/>
  * Using example: AssetsDatabaseManager.initManager(getApplication()); // this
  * method is only need call one time AssetsDatabaseManager mg =
  * AssetsDatabaseManager.getManager(); // get a AssetsDatabaseManager object
@@ -60,7 +61,7 @@ public class AssetsDatabaseManager {
      * Get a AssetsDatabaseManager object
      *
      * @return, if success return a AssetsDatabaseManager object, else return
-     *          null
+     * null
      */
     public static AssetsDatabaseManager getManager() {
         return mInstance;
@@ -74,8 +75,7 @@ public class AssetsDatabaseManager {
      * Get a assets database, if this database is opened this method is only
      * return a copy of the opened database
      *
-     * @param dbfile
-     *            , the assets file which will be opened for a database
+     * @param dbfile , the assets file which will be opened for a database
      * @return, if success it return a SQLiteDatabase object else return null
      */
     public SQLiteDatabase getDatabase(String dbfile) {
@@ -161,8 +161,7 @@ public class AssetsDatabaseManager {
     /**
      * Close assets database
      *
-     * @param dbfile
-     *            , the assets file which will be closed soon
+     * @param dbfile , the assets file which will be closed soon
      * @return, the status of this operating
      */
     public boolean closeDatabase(String dbfile) {

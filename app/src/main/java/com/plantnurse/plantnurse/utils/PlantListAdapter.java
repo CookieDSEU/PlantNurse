@@ -17,37 +17,31 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.ViewHolder>
-{
+public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.ViewHolder> {
 
     private Context mcontext;
 
-    public interface OnItemClickLitener
-    {
+    public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
 
     private OnItemClickLitener mOnItemClickLitener;
 
-    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
-    {
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
     private LayoutInflater mInflater;
     private List<String> mDatas;
 
-    public PlantListAdapter(Context context, List<String> datats)
-    {
+    public PlantListAdapter(Context context, List<String> datats) {
         mInflater = LayoutInflater.from(context);
         mcontext = context;
         mDatas = datats;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        public ViewHolder(View arg0)
-        {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View arg0) {
             super(arg0);
         }
 
@@ -56,20 +50,20 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.View
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return mDatas.size();
     }
-    public void updatelist(List<String> a){
-        mDatas=a;
+
+    public void updatelist(List<String> a) {
+        mDatas = a;
         notifyDataSetChanged();
     }
+
     /**
      * 创建ViewHolder
      */
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
-    {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_addplant2, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
@@ -82,18 +76,14 @@ public class PlantListAdapter extends RecyclerView.Adapter<PlantListAdapter.View
      * 设置值
      */
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int i)
-    {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 //        viewHolder.mImg.setImageResource(mDatas.get(i));
-        Picasso.with(mcontext).load(Constants.MYPLANTPIC_URL+mDatas.get(i)).into(viewHolder.mImg);
+        Picasso.with(mcontext).load(Constants.MYPLANTPIC_URL + mDatas.get(i)).into(viewHolder.mImg);
         //如果设置了回调，则设置点击事件
-        if (mOnItemClickLitener != null)
-        {
-            viewHolder.itemView.setOnClickListener(new OnClickListener()
-            {
+        if (mOnItemClickLitener != null) {
+            viewHolder.itemView.setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     mOnItemClickLitener.onItemClick(viewHolder.itemView, i);
                 }
             });
