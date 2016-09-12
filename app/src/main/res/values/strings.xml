@@ -5,7 +5,7 @@
     <string name="alipay">1633470001@qq.com</string>
     <string name="share_txt">欢迎使用PlantNurse\n下载地址：plantnurse.top/download/PlantNurse.apk</string>
     <string name="share_app">分享-PlantNurse</string>
-    <string name="open_source">• 和风天气提供数据支持\n• SeeWeather：github.com/xcc3641/SeeWeather\n• KSimpleLibrary: github.com/kot32go/KSimpleLibrary\n• datetimepicker：github.com/flavienlaurent/datetimepicker\n• MaterialSpinner：github.com/ganfra/MaterialSpinner\n• sweet-alert-dialog：github.com/pedant/sweet-alert-dialog\n• picasso：github.com/square/picasso\n• android-floating-action-button：github.com/futuresimple/android-floating-action-button\n• floatingsearchview：github.com/arimorty/floatingsearchview\n• TinyPinyin：github.com/promeG/TinyPinyin\n</string>
+    <string name="open_source">• 和风天气提供天气数据支持\n• 讯飞开放平台提供语音识别和推送服务\n• 掌淘科技提供短信验证码服务\n• SeeWeather：github.com/xcc3641/SeeWeather\n• KSimpleLibrary: github.com/kot32go/KSimpleLibrary\n• datetimepicker：github.com/flavienlaurent/datetimepicker\n• MaterialSpinner：github.com/ganfra/MaterialSpinner\n• sweet-alert-dialog：github.com/pedant/sweet-alert-dialog\n• picasso：github.com/square/picasso\n• android-floating-action-button：github.com/futuresimple/android-floating-action-button\n• floatingsearchview：github.com/arimorty/floatingsearchview\n• TinyPinyin：github.com/promeG/TinyPinyin\n</string>
     <string name="aboutContent">东南大学软件学院大三实训作品\n本APP由Eason_Tao（71114315）构想并提出，在暑假期间与好友Cookie_D（71114324）完成了构架工作并于实训期间成立小组，与组员韩雪琛（71114302），陈钰璇（71114307），尹志超（71114328）共同完成开发任务，历时一个月。</string>
 
     <!-- Strings related to login -->
