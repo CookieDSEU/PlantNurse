@@ -10,8 +10,8 @@
     http://www.plantnurse.top/download/PlantNurse.apk
 # 鸣谢
 ·[和风天气](http://www.heweather.com/):天气数据支持  
-·[讯飞](http://www.xfyun.cn/):语音识别以及推送服务支持
-·[掌淘科技](http://www.mob.com/):短信验证服务
+·[讯飞](http://www.xfyun.cn/):语音识别以及推送服务支持  
+·[掌淘科技](http://www.mob.com/):短信验证服务  
 ·kot32go:[KSimpleLibrary](https://github.com/kot32go/KSimpleLibrary)  
 ·flavienlaurent:[DateTimePicker](https://github.com/flavienlaurent/datetimepicker)  
 ·ganfra:[MaterialSpinner](https://github.com/ganfra/MaterialSpinner)  
