@@ -10,6 +10,7 @@ public class DataAnalysis {
     private int mpop[];//降水概率
     private int mtmp_min;
     private int mtmp_max;
+    private boolean needAlarm = false;
     //today
     private int todayDayCond;
     private int todayNightCond;

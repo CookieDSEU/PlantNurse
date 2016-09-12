@@ -30,6 +30,7 @@ import com.kot32.ksimplelibrary.fragment.t.base.KSimpleBaseFragmentImpl;
 import com.kot32.ksimplelibrary.manager.task.base.NetworkTask;
 import com.kot32.ksimplelibrary.manager.task.base.SimpleTaskManager;
 import com.kot32.ksimplelibrary.network.NetworkExecutor;
+import com.plantnurse.plantnurse.Activity.AddAlarmActivity;
 import com.plantnurse.plantnurse.Activity.AddplantActivity;
 import com.plantnurse.plantnurse.Activity.MainActivity;
 import com.plantnurse.plantnurse.Activity.MyPlantActivity;
@@ -176,12 +177,22 @@ public class ParkFragment extends KSimpleBaseFragmentImpl implements IBaseAction
                 button_tips.setBackgroundResource(R.drawable.bubblebutton);
                 DataManager.isFirstEnterParkFragment = false;
                 new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText("小提示：")
+                        .setTitleText("小提示")
                         .setContentText(tips)
+                        .setConfirmText("我知道了")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .setCancelText("设置闹钟")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                Intent intent = new Intent(getActivity(), AddAlarmActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .show();
