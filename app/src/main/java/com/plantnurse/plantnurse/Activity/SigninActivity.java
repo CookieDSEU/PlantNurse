@@ -137,7 +137,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                                 PreferenceManager.setLocalUserModel(ui);
                                 getSimpleApplicationContext().setUserModel(ui);
                                 new SweetAlertDialog(SigninActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                                        .setTitleText("登陆成功")
+                                        .setTitleText("登录成功")
                                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -177,7 +177,7 @@ public class SigninActivity extends KSimpleBaseActivityImpl implements IBaseActi
                 }
                 else  {
                     new SweetAlertDialog(SigninActivity.this,SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("账号密码不能为空")
+                            .setTitleText("帐号密码必须为1-16位英文与数字组合")
                             .show();
                 }
 

@@ -29,7 +29,6 @@
             android:orientation="horizontal"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:id="@+id/info_container"
             android:layout_marginTop="5dp"
             android:weightSum="1">
 
@@ -40,14 +39,12 @@
                 android:layout_width="190dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="top|left"
-                android:id="@+id/alarm_info"
                 android:layout_marginLeft="5dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="35dp"
-                    android:id="@+id/dateAndTime"
                     android:layout_marginLeft="35dp">
 
                     <TextView
@@ -70,7 +67,6 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="30dp"
-                    android:id="@+id/plants"
                     android:layout_marginTop="3dp"
                     android:layout_marginLeft="30dp">
 
@@ -121,7 +117,6 @@
                 android:orientation="vertical"
                 android:layout_width="30dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/alarm_action"
                 android:layout_marginTop="3dp">
 
                 <ImageView

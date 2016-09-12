@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/empty_cart_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ffefebe7">
@@ -16,7 +15,6 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/top_relative"
                 android:layout_width="fill_parent"
                 android:layout_height="150.0dip"
                 android:background="@mipmap/myfragmenttitle2">
@@ -64,7 +62,6 @@
                     android:layout_height="wrap_content">
 
                     <TableLayout
-                        android:id="@+id/MorePageTableLayout_Favorite"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:shrinkColumns="0"
@@ -117,7 +114,6 @@
                     android:layout_height="wrap_content">
 
                     <TableLayout
-                        android:id="@+id/MorePageTableLayout_Follow"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="1.0dip"
@@ -228,7 +224,6 @@
                     android:layout_height="wrap_content">
 
                     <TableLayout
-                        android:id="@+id/MorePageTableLayout_Client"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="1.0dip"

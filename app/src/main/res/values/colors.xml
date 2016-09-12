@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#87e07f</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#ff4081</color>
     <color name="color_Grey">#c9c9c9</color>
     <color name="Indigo_color_teal">#01c6b2</color>
-    <color name="Indigo_color_teal_darker">#01c6b2</color>
     <color name="aboutIcon">#01c6b2</color>
     <color name="lineColor">#60d3d3d3</color>
     <color name="defaultTextColor">#6f6f6f</color>
@@ -13,11 +10,9 @@
     <color name="white">#ffffff</color>
     <color name="ic_color">#333333</color>
     <color name="flowerborder">#6aded2</color>
-    <color name="citycolor">#d7d7d7</color>
     <color name="greenborder">#6aded1</color>
     <color name="pinkborder">#fcc2e8</color>
     <color name="blueborder">#b7f0ff</color>
-    <color name="yellowborder">#f9e481</color>
     <color name="nocolor">#006ADED2</color>
     <color name="textcolor">#4b4b4b</color>
     <color name="colorblue">#44b5df</color>

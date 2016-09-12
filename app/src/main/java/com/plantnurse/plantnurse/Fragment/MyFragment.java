@@ -269,7 +269,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
             @Override
             public void onClick(View v) {
                 deleteData = new DeleteData();
-                File file=(File)mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
+                File file= mApp.getExternalFilesDir("SDCard/Android/data/com.plantnurse.plantnurse/files/");
                 new SweetAlertDialog(getActivity(),SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("是否清除所有闹钟？")
                         .showCancelButton(true)
@@ -278,7 +278,7 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                deleteData.cleanApplicationData(mApp);
+                                DeleteData.cleanApplicationData(mApp);
                                 new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();
@@ -288,9 +288,9 @@ public class MyFragment extends KSimpleBaseFragmentImpl implements IBaseAction,I
                         .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                deleteData.cleanInternalCache(mApp);
-                                deleteData.cleanExternalCache(mApp);
-                                deleteData.cleanSharedPreference(mApp);
+                                DeleteData.cleanInternalCache(mApp);
+                                DeleteData.cleanExternalCache(mApp);
+                                DeleteData.cleanSharedPreference(mApp);
                                 new  SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
                                         .setTitleText("已完成")
                                         .show();

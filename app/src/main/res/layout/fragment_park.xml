@@ -83,7 +83,6 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/hum_image"
-                    android:id="@+id/image_hum"
                     android:layout_gravity="center|right"/>
                 <TextView
                     android:layout_width="wrap_content"

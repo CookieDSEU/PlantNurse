@@ -1,8 +1,7 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/email_login_form"
-        android:layout_width="180dp"
+    android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 

@@ -80,9 +80,19 @@ public class ForgetPwdActivity extends KSimpleBaseActivityImpl implements IBaseA
                                                 }
                                             })
                                             .show();
-                                } else {
+                                } else if(response.getresponseCode()==2){
                                     new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
                                             .setTitleText("修改失败,用户冻结")
+                                            .show();
+                                }
+                                else if(response.getresponseCode()==4){
+                                    new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("修改失败,该用户尚未注册")
+                                            .show();
+                                }
+                                else{
+                                    new SweetAlertDialog(ForgetPwdActivity.this, SweetAlertDialog.WARNING_TYPE)
+                                            .setTitleText("修改失败,未知错误")
                                             .show();
                                 }
                             }

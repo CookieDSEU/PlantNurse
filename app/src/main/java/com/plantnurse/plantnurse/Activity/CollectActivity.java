@@ -68,8 +68,8 @@ public class CollectActivity extends KSimpleBaseActivityImpl implements IBaseAct
             collectPlantModel.setName(DataManager.getMyStar().response.get(i).name);
             collectPlantModel.setUrl(Constants.PLANTICON_URL+DataManager.getMyStar().response.get(i).plant_id);
             collectPlantModel.setAddtime("收藏于 "+DataManager.getMyStar().response.get(i).date.substring(0,4)+"."
-            +DataManager.getMyStar().response.get(i).date.substring(5,6)+"."+DataManager.getMyStar().
-                    response.get(i).date.substring(7,8));
+            +DataManager.getMyStar().response.get(i).date.substring(4,6)+"."+DataManager.getMyStar().
+                    response.get(i).date.substring(6,8));
             collectPlantModel.setId(DataManager.getMyStar().response.get(i).plant_id);
             sourceDateList.add(collectPlantModel);
         }

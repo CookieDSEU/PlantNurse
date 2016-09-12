@@ -150,7 +150,6 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/nicnameicon"
-                        android:id="@+id/imageView5"
                         android:layout_gravity="center"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -181,7 +180,6 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView4"
                         android:background="@drawable/birthdayicon"
                         android:layout_gravity="center"/>
 

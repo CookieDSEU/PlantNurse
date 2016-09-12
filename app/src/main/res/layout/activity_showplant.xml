@@ -8,13 +8,11 @@
 
     <android.support.design.widget.CoordinatorLayout
 
-    android:id="@+id/coord"
-    android:layout_width="match_parent"
+        android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
@@ -88,8 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_species"
-                        android:layout_gravity="center"
-                        android:id="@+id/imageView_species" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -123,8 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_difficulty"
-                        android:layout_gravity="center"
-                        android:id="@+id/imageView_difficulty" />
+                        android:layout_gravity="center" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -157,8 +153,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_index"
-                        android:id="@+id/imageView_index" />
+                        android:background="@drawable/ic_index" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -170,7 +165,6 @@
                         <TextView
                             android:text="日照"
                             android:layout_width="match_parent"
-                            android:id="@+id/text_sun"
                             android:textColor="@color/ic_color"
                             android:textSize="20dp"
                             android:gravity="center"
@@ -184,7 +178,6 @@
                             android:gravity="center"
                             android:textSize="20dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/text_water"
                             android:layout_marginTop="28dp" />
 
                         <TextView
@@ -194,7 +187,6 @@
                             android:textSize="20dp"
                             android:gravity="center"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView"
                             android:layout_marginTop="26dp" />
 
 
@@ -263,8 +255,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/ic_introduction"
-                        android:id="@+id/imageView_introdution" />
+                        android:background="@drawable/ic_introduction" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -296,12 +287,10 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/ic_comment"
-                        android:id="@+id/imageView_commment" />
+                        android:background="@drawable/ic_comment" />
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:id="@+id/name_comment"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="评论区"

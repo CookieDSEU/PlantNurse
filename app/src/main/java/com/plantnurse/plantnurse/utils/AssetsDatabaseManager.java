@@ -81,7 +81,7 @@ public class AssetsDatabaseManager {
     public SQLiteDatabase getDatabase(String dbfile) {
         if (databases.get(dbfile) != null) {
             Log.i(tag, String.format("Return a database copy of %s", dbfile));
-            return (SQLiteDatabase) databases.get(dbfile);
+            return databases.get(dbfile);
         }
         if (context == null)
             return null;
@@ -167,7 +167,7 @@ public class AssetsDatabaseManager {
      */
     public boolean closeDatabase(String dbfile) {
         if (databases.get(dbfile) != null) {
-            SQLiteDatabase db = (SQLiteDatabase) databases.get(dbfile);
+            SQLiteDatabase db = databases.get(dbfile);
             db.close();
             databases.remove(dbfile);
             return true;

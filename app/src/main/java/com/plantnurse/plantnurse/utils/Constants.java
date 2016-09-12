@@ -28,4 +28,6 @@ public class Constants {
     public static final String ADDCOMMENT_URL="http://www.plantnurse.top/appops/newcomment.php";
     public static final String DELETEPLANT_URL="http://www.plantnurse.top/myplant/deleteplant.php";
     public static final String FORGETPWD_URL="http://www.plantnurse.top/appops/forgetpwd.php";
+    public static final String CHANGEPLANTPIC_URL="http://www.plantnurse.top/myplant/changeplantpic.php";
+    public static final String CHANGEPLANTINFO_URL="http://www.plantnurse.top/myplant/changeplantinfo.php";
 }

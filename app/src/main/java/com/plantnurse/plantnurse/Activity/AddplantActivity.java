@@ -93,7 +93,6 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private String birth;
     private int birthday;
     private int birthmonth;
-    private int birthyear;
     private String name;
     private String nicname;
     private String other;
@@ -111,11 +110,6 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
     private static final int REQUESTCODE_CUTTING = 2;	// 图片裁切标记
     private String urlpath;			// 图片本地路径
     private Uri uritempFile;
-
-
-    SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    String mNowDate = sDateFormat.format(new java.util.Date());
-
     Calendar c = Calendar.getInstance();
     int myear = c.get(Calendar.YEAR);
     int mmonth = c.get(Calendar.MONTH);
@@ -217,8 +211,8 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 500);
-        intent.putExtra("outputY", 500);
+        intent.putExtra("outputX", 350);
+        intent.putExtra("outputY", 350);
         //MIUI无法直接返回DATA。故将图片保存在Uri中，
         // 调用时将Uri转换为Bitmap，
         //intent.putExtra("return-data", true);
@@ -271,13 +265,8 @@ public class AddplantActivity extends KSimpleBaseActivityImpl implements IBaseAc
             int top = leftTop[1];
             int bottom = top + v.getHeight();
             int right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                // 点击的是输入框区域，保留点击EditText的事件
-                return false;
-            } else {
-                return true;
-            }
+            return !(event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom);
         }
         return false;
     }

@@ -18,6 +18,7 @@ public class DataManager {
     public static boolean isMyPlantChanged=false;
     public static boolean isFirstEnterParkFragment = true;
     public static boolean isCityChanged=false;
+    public static boolean isMyPlantPicChanged=false;
 
     public static GetMyStarResponse getMyStar(){return myStarResponse;}
     public static void setMyStar(GetMyStarResponse a){myStarResponse=a;}

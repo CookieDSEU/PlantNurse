@@ -25,8 +25,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.83"
         android:scrollbars="none"
-        android:clickable="true"
-        android:id="@+id/setAlam">
+        android:clickable="true">
 
 
 
@@ -38,8 +37,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/selectRole">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -63,7 +61,6 @@
                         android:includeFontPadding="false"
                         android:textColor="@color/textcolor"
                         android:textSize="20.0sp"
-                        android:id="@+id/selecColor"
                         android:layout_gravity="center" />
 
                 </LinearLayout>
@@ -122,8 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="1"
-                android:background="@color/white"
-                android:id="@+id/selectPlants">
+                android:background="@color/white">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -147,7 +143,6 @@
                         android:includeFontPadding="false"
                         android:textColor="@color/textcolor"
                         android:textSize="20.0sp"
-                        android:id="@+id/selecPlant"
                         android:layout_gravity="center" />
                 </LinearLayout>
 
@@ -173,8 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.40"
-                android:layout_marginTop="5dp"
-                android:id="@+id/selectTime">
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -264,8 +258,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="10dp"
-                android:id="@+id/selectFrequency">
+                android:layout_marginTop="10dp">
 
 
                     <LinearLayout
@@ -401,8 +394,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/white"
-                android:layout_marginTop="5dp"
-                android:id="@+id/selectAction">
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

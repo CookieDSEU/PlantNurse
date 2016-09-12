@@ -71,6 +71,7 @@ public class MainApplication extends KSimpleApplication  {
                 @Override
                 public void onConnectFailed(NetworkExecutor.NetworkResult result) {
                        Toast.makeText(getApplicationContext(),"自动登录失败",Toast.LENGTH_LONG).show();
+                    logout();
                 }
 
             };

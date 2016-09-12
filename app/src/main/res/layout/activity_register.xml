@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/editText_pwd_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="确认密码："
